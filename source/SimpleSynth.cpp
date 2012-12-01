@@ -1,22 +1,25 @@
-#ifndef __SimpleSynth_H
 #include "SimpleSynth.h"
-#endif
+#include <cstdio>
 
 AudioEffect* createEffectInstance(audioMasterCallback audioMaster) {
 	return new SimpleSynth(audioMaster);
 }
 
 SimpleSynth::SimpleSynth(audioMasterCallback audioMaster)
-: AudioEffectX(audioMaster, kNumPrograms, kNumParameters) {
-  if(audioMaster != NULL) {
-    setNumInputs(kNumInputs);
-    setNumOutputs(kNumOutputs);
-    setUniqueID(kUniqueId);
-    canProcessReplacing();
-    isSynth();
-  }
-  
-  suspend();
+:   AudioEffectX(audioMaster, kNumPrograms, kNumParameters),
+    sampleRate_(44100.0f),
+    velocity_(0.0f),
+    phase_(0.0f),
+    noteCount_(0),
+    note_(0) {
+    if(audioMaster != NULL) {
+        setNumInputs(kNumInputs);
+        setNumOutputs(kNumOutputs);
+        setUniqueID(kUniqueId);
+        canProcessReplacing();
+        isSynth();
+    }
+    suspend();
 }
 
 SimpleSynth::~SimpleSynth() {
@@ -165,6 +168,6 @@ void SimpleSynth::setProgramName(char *name) {
 }
 
 void SimpleSynth::setSampleRate(float sampleRate) {
-  // TODO: Handle this call if necessary
 	AudioEffectX::setSampleRate(sampleRate);
+    sampleRate_ = sampleRate;
 }
