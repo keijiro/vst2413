@@ -20,6 +20,10 @@ SimpleSynth::SimpleSynth(audioMasterCallback audioMaster)
         isSynth();
     }
     suspend();
+
+    OPLL_init(3579540, sampleRate_);
+    opll_ = OPLL_new();
+    OPLL_writeReg(opll_, 0x30, 0x30);
 }
 
 SimpleSynth::~SimpleSynth() {

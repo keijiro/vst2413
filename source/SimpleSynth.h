@@ -2,6 +2,7 @@
 #define __SimpleSynth_H
 
 #include "audioeffectx.h"
+#include "emu2413.h"
 
 // TODO: Add your parameters to this list
 enum {
@@ -59,6 +60,7 @@ private:
     float phase_;
     int noteCount_;
     int note_;
+    OPLL* opll_;
 };
 
 #endif

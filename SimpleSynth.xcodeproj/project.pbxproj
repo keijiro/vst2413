@@ -13,6 +13,8 @@
 		0F6348B7166A066D00379899 /* audioeffectx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348B1166A066D00379899 /* audioeffectx.cpp */; };
 		0F6348B8166A066D00379899 /* audioeffectx.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F6348B2166A066D00379899 /* audioeffectx.h */; };
 		0F6348B9166A066D00379899 /* vstplugmain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348B3166A066D00379899 /* vstplugmain.cpp */; };
+		0F83D66B166A276300CFEE8A /* emu2413.c in Sources */ = {isa = PBXBuildFile; fileRef = 0F83D669166A276300CFEE8A /* emu2413.c */; };
+		0F83D66C166A276300CFEE8A /* emu2413.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F83D66A166A276300CFEE8A /* emu2413.h */; };
 		2407DEB9089929BA00EB68BF /* SimpleSynth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407DEB6089929BA00EB68BF /* SimpleSynth.cpp */; };
 		2407DEBA089929BA00EB68BF /* SimpleSynth.h in Headers */ = {isa = PBXBuildFile; fileRef = 2407DEB7089929BA00EB68BF /* SimpleSynth.h */; };
 		2454624909915C1400464AD3 /* SimpleSynthProc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2454624809915C1400464AD3 /* SimpleSynthProc.cpp */; };
@@ -29,6 +31,8 @@
 		0F6348B1166A066D00379899 /* audioeffectx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = audioeffectx.cpp; sourceTree = "<group>"; };
 		0F6348B2166A066D00379899 /* audioeffectx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = audioeffectx.h; sourceTree = "<group>"; };
 		0F6348B3166A066D00379899 /* vstplugmain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vstplugmain.cpp; sourceTree = "<group>"; };
+		0F83D669166A276300CFEE8A /* emu2413.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = emu2413.c; sourceTree = "<group>"; };
+		0F83D66A166A276300CFEE8A /* emu2413.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = emu2413.h; sourceTree = "<group>"; };
 		2407DE920899296600EB68BF /* SimpleSynth.vst */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleSynth.vst; sourceTree = BUILT_PRODUCTS_DIR; };
 		2407DEB6089929BA00EB68BF /* SimpleSynth.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SimpleSynth.cpp; path = source/SimpleSynth.cpp; sourceTree = "<group>"; };
 		2407DEB7089929BA00EB68BF /* SimpleSynth.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SimpleSynth.h; path = source/SimpleSynth.h; sourceTree = "<group>"; };
@@ -83,6 +87,8 @@
 		08FB77ADFE841716C02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				0F83D669166A276300CFEE8A /* emu2413.c */,
+				0F83D66A166A276300CFEE8A /* emu2413.h */,
 				2407DEB6089929BA00EB68BF /* SimpleSynth.cpp */,
 				2454624809915C1400464AD3 /* SimpleSynthProc.cpp */,
 				2407DEB7089929BA00EB68BF /* SimpleSynth.h */,
@@ -124,6 +130,7 @@
 				0F6348B4166A066D00379899 /* aeffeditor.h in Headers */,
 				0F6348B6166A066D00379899 /* audioeffect.h in Headers */,
 				0F6348B8166A066D00379899 /* audioeffectx.h in Headers */,
+				0F83D66C166A276300CFEE8A /* emu2413.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,6 +245,7 @@
 				0F6348B5166A066D00379899 /* audioeffect.cpp in Sources */,
 				0F6348B7166A066D00379899 /* audioeffectx.cpp in Sources */,
 				0F6348B9166A066D00379899 /* vstplugmain.cpp in Sources */,
+				0F83D66B166A276300CFEE8A /* emu2413.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
