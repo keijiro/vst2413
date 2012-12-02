@@ -25,13 +25,8 @@ Driver::Driver(unsigned int sampleRate)
 :   sampleRate_(sampleRate),
     opll_(0)
 {
-    // Initialize the emulator.
     OPLL_init(kMsxClock, sampleRate_);
     opll_ = OPLL_new();
-    // Set default program.
-    for (int i = 0; i < 9; i++) {
-        OPLL_writeReg(opll_, 0x30 + i, 0x30);
-    }
 }
 
 Driver::~Driver() {
@@ -42,6 +37,35 @@ Driver::~Driver() {
 void Driver::SetSampleRate(unsigned int sampleRate) {
     sampleRate_ = sampleRate;
     OPLL_setClock(kMsxClock, sampleRate_);
+}
+
+void Driver::SetProgram(int number) {
+    int data = (number & 0xf) << 4;
+    for (int i = 0; i < 9; i++) {
+        OPLL_writeReg(opll_, 0x30 + i, data);
+    }
+}
+
+const char* Driver::GetProgramName(int number) {
+    static const char* names[] = {
+        "User Program",
+        "Violin",
+        "Guitar",
+        "Piano",
+        "Flute",
+        "Clarinet",
+        "Oboe",
+        "Trumpet",
+        "Organ",
+        "Horn",
+        "Synthesizer",
+        "Harpsichord",
+        "Vibraphone",
+        "Synthesizer Bass",
+        "Acoustic Bass",
+        "Electric Guitar"
+    };
+    return names[number & 0xf];
 }
 
 void Driver::KeyOn(int noteNumber, int velocity) {

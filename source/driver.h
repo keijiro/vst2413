@@ -9,10 +9,15 @@ class Driver {
 public:
     Driver(unsigned int sampleRate);
     ~Driver();
+    
     void SetSampleRate(unsigned int sampleRate);
+    void SetProgram(int number);
+    const char* GetProgramName(int number);
+    
     void KeyOn(int noteNumber, int velocity);
     void KeyOff(int noteNumber);
     void KeyOffAll();
+    
     float Step();
     
 private:

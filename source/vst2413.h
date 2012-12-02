@@ -4,18 +4,6 @@
 #include "audioeffectx.h"
 #include "driver.h"
 
-// TODO: Add your parameters to this list
-enum {
-  // kFirstParameter = 0,
-  kNumParameters
-};
-
-// TODO: Change these values to reflect your plugin's configuration
-const int kNumPrograms = 0;
-const int kNumInputs = 0;
-const int kNumOutputs = 1;
-const unsigned long kUniqueId = 'dAzy';
-
 class Vst2413 : public AudioEffectX {
 public:
     Vst2413(audioMasterCallback audioMaster);
@@ -56,6 +44,7 @@ public:
 
 private:
     Driver driver_;
+    int program_;
 };
 
 #endif
