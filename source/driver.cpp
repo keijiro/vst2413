@@ -1,4 +1,4 @@
-#include "SynthDriver.h"
+#include "driver.h"
 #include "emu2413.h"
 
 namespace {
@@ -21,7 +21,7 @@ namespace {
     }
 }
 
-SynthDriver::SynthDriver(unsigned int sampleRate)
+Driver::Driver(unsigned int sampleRate)
 :   sampleRate_(sampleRate),
     opll_(0)
 {
@@ -34,17 +34,17 @@ SynthDriver::SynthDriver(unsigned int sampleRate)
     }
 }
 
-SynthDriver::~SynthDriver() {
+Driver::~Driver() {
     OPLL_delete(opll_);
     OPLL_close();
 }
 
-void SynthDriver::SetSampleRate(unsigned int sampleRate) {
+void Driver::SetSampleRate(unsigned int sampleRate) {
     sampleRate_ = sampleRate;
     OPLL_setClock(kMsxClock, sampleRate_);
 }
 
-void SynthDriver::KeyOn(int noteNumber, int velocity) {
+void Driver::KeyOn(int noteNumber, int velocity) {
     for (int i = 0; i < 9; i++) {
         NoteInfo& note = notes_[i];
         if (!note.active_) {
@@ -57,7 +57,7 @@ void SynthDriver::KeyOn(int noteNumber, int velocity) {
     }
 }
 
-void SynthDriver::KeyOff(int noteNumber) {
+void Driver::KeyOff(int noteNumber) {
     for (int i = 0; i < 9; i++) {
         NoteInfo& note = notes_[i];
         if (note.active_ && note.noteNumber_ == noteNumber) {
@@ -68,12 +68,12 @@ void SynthDriver::KeyOff(int noteNumber) {
     }
 }
 
-void SynthDriver::KeyOffAll() {
+void Driver::KeyOffAll() {
     for (int i = 0; i < 9; i++) {
         notes_[i].active_ = false;
     }
 }
 
-float SynthDriver::Step() {
+float Driver::Step() {
     return (4.0f / 32767) * OPLL_calc(opll_);
 }

@@ -1,8 +1,8 @@
-#ifndef __SimpleSynth_H
-#define __SimpleSynth_H
+#ifndef __vst2413__
+#define __vst2413__
 
 #include "audioeffectx.h"
-#include "SynthDriver.h"
+#include "driver.h"
 
 // TODO: Add your parameters to this list
 enum {
@@ -16,10 +16,10 @@ const int kNumInputs = 0;
 const int kNumOutputs = 1;
 const unsigned long kUniqueId = 'dAzy';
 
-class SimpleSynth : public AudioEffectX {
+class Vst2413 : public AudioEffectX {
 public:
-    SimpleSynth(audioMasterCallback audioMaster);
-    ~SimpleSynth();
+    Vst2413(audioMasterCallback audioMaster);
+    ~Vst2413();
 
     virtual VstInt32 canDo(char *text);
     virtual bool copyProgram(long destination);
@@ -55,7 +55,7 @@ public:
     virtual void setBlockSize(VstInt32 blockSize);
 
 private:
-    SynthDriver driver_;
+    Driver driver_;
 };
 
 #endif

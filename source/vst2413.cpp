@@ -1,11 +1,11 @@
-#include "SimpleSynth.h"
+#include "vst2413.h"
 #include <cstdio>
 
 AudioEffect* createEffectInstance(audioMasterCallback audioMaster) {
-	return new SimpleSynth(audioMaster);
+	return new Vst2413(audioMaster);
 }
 
-SimpleSynth::SimpleSynth(audioMasterCallback audioMaster)
+Vst2413::Vst2413(audioMasterCallback audioMaster)
 :   AudioEffectX(audioMaster, kNumPrograms, kNumParameters),
     driver_(44100)
 {
@@ -19,10 +19,10 @@ SimpleSynth::SimpleSynth(audioMasterCallback audioMaster)
     suspend();
 }
 
-SimpleSynth::~SimpleSynth() {
+Vst2413::~Vst2413() {
 }
 
-VstInt32 SimpleSynth::canDo(char *text) {
+VstInt32 Vst2413::canDo(char *text) {
   // TODO: Fill in according to your plugin's capabilities
   if(!strcmp(text, "receiveVstEvents")) {
 		return 1;
@@ -38,23 +38,23 @@ VstInt32 SimpleSynth::canDo(char *text) {
 	return 0;
 }
 
-bool SimpleSynth::copyProgram(long destination) {
+bool Vst2413::copyProgram(long destination) {
   // TODO: Copy program to destination
   return false;
 }
 
-VstInt32 SimpleSynth::getCurrentMidiProgram(VstInt32 channel, MidiProgramName *mpn) {
+VstInt32 Vst2413::getCurrentMidiProgram(VstInt32 channel, MidiProgramName *mpn) {
 	VstInt32 prg = 0;
   // TODO: Look up your current MIDI program and fill the MidiProgramName with it
 	return prg;
 }
 
-bool SimpleSynth::getEffectName(char* name) {
-  strncpy(name, "SimpleSynth", kVstMaxProductStrLen);
+bool Vst2413::getEffectName(char* name) {
+  strncpy(name, "Vst2413", kVstMaxProductStrLen);
   return true;
 }
 
-bool SimpleSynth::getMidiKeyName(VstInt32 channel, MidiKeyName *key) {
+bool Vst2413::getMidiKeyName(VstInt32 channel, MidiKeyName *key) {
 	// TODO: Fill in this information
   // key->thisProgramIndex;		// >= 0. fill struct for this program index.
 	// key->thisKeyNumber;			// 0 - 127. fill struct for this key number.
@@ -64,27 +64,27 @@ bool SimpleSynth::getMidiKeyName(VstInt32 channel, MidiKeyName *key) {
 	return true;
 }
 
-VstInt32 SimpleSynth::getMidiProgramCategory(VstInt32 channel, MidiProgramCategory *category) {
+VstInt32 Vst2413::getMidiProgramCategory(VstInt32 channel, MidiProgramCategory *category) {
   // TODO: Get the MIDI program category
 	return 0;
 }
 
-VstInt32 SimpleSynth::getMidiProgramName(VstInt32 channel, MidiProgramName *mpn) {
+VstInt32 Vst2413::getMidiProgramName(VstInt32 channel, MidiProgramName *mpn) {
   // TODO: Return the MIDI program name
   return 0;
 }
 
-VstInt32 SimpleSynth::getNumMidiInputChannels() {
+VstInt32 Vst2413::getNumMidiInputChannels() {
   // TODO: Change this value for polyphonic synths
   return 1;
 }
 
-VstInt32 SimpleSynth::getNumMidiOutputChannels() {
+VstInt32 Vst2413::getNumMidiOutputChannels() {
   // TODO: Change this value if you are sending MIDI output back to the host
   return 0;
 }
 
-bool SimpleSynth::getOutputProperties(VstInt32 index, VstPinProperties *properties) {
+bool Vst2413::getOutputProperties(VstInt32 index, VstPinProperties *properties) {
   if(index < kNumOutputs) {
     sprintf(properties->label, "%1d Out", index + 1);
 		properties->flags = kVstPinIsActive;
@@ -96,75 +96,75 @@ bool SimpleSynth::getOutputProperties(VstInt32 index, VstPinProperties *properti
   return false;
 }
 
-float SimpleSynth::getParameter(VstInt32 index) {
+float Vst2413::getParameter(VstInt32 index) {
   // TODO: Get parameter value for index
   return 0.0;
 }
 
-void SimpleSynth::getParameterDisplay(VstInt32 index, char *text) {
+void Vst2413::getParameterDisplay(VstInt32 index, char *text) {
   // TODO: Get parameter display for index
 }
 
-void SimpleSynth::getParameterLabel(VstInt32 index, char *text) {
+void Vst2413::getParameterLabel(VstInt32 index, char *text) {
   // TODO: Get parameter label for index
 }
 
-void SimpleSynth::getParameterName(VstInt32 index, char *text) {
+void Vst2413::getParameterName(VstInt32 index, char *text) {
   // TODO: Get parameter name for index
 }
 
-VstPlugCategory SimpleSynth::getPlugCategory() { 
+VstPlugCategory Vst2413::getPlugCategory() { 
   return kPlugCategSynth;
 }
 
-bool SimpleSynth::getProductString(char* text) {
+bool Vst2413::getProductString(char* text) {
   // TODO: Replace with actual description of your synth
-  strncpy(text, "SimpleSynth", kVstMaxProductStrLen);
+  strncpy(text, "Vst2413", kVstMaxProductStrLen);
   return true;
 }
 
-void SimpleSynth::getProgramName(char *name) {
+void Vst2413::getProgramName(char *name) {
   // TODO: Copy active program name into "name" string
 }
 
-bool SimpleSynth::getProgramNameIndexed(VstInt32 category, VstInt32 index, char *text) {
+bool Vst2413::getProgramNameIndexed(VstInt32 category, VstInt32 index, char *text) {
   // TODO: Return program name for index
   return false;
 }
 
-bool SimpleSynth::getVendorString(char* text) {
+bool Vst2413::getVendorString(char* text) {
   strncpy(text, "RadiumSoftware", kVstMaxVendorStrLen);
   return true;
 }
 
-VstInt32 SimpleSynth::getVendorVersion() {
+VstInt32 Vst2413::getVendorVersion() {
   // TODO: Return actual version of this plugin
   return 1000;
 }
 
-bool SimpleSynth::hasMidiProgramsChanged(VstInt32 channel) {
+bool Vst2413::hasMidiProgramsChanged(VstInt32 channel) {
   // TODO: Return true/false if the MIDI programs have changed
   return false;
 }
 
-void SimpleSynth::setBlockSize(VstInt32 blockSize) {
+void Vst2413::setBlockSize(VstInt32 blockSize) {
   // TODO: Handle this call if necessary
 	AudioEffectX::setBlockSize(blockSize);
 }
 
-void SimpleSynth::setParameter(VstInt32 index, float value) {
+void Vst2413::setParameter(VstInt32 index, float value) {
   // TODO: Set parameter value for index
 }
 
-void SimpleSynth::setProgram(VstInt32 index) {
+void Vst2413::setProgram(VstInt32 index) {
   // TOOD: Set local variables based on program parameters
 }
 
-void SimpleSynth::setProgramName(char *name) {
+void Vst2413::setProgramName(char *name) {
   // TODO: Set program name
 }
 
-void SimpleSynth::setSampleRate(float sampleRate) {
+void Vst2413::setSampleRate(float sampleRate) {
 	AudioEffectX::setSampleRate(sampleRate);
     driver_.SetSampleRate(sampleRate);
 }

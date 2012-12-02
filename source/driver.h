@@ -1,14 +1,14 @@
-#ifndef __SimpleSynth__SynthDriver__
-#define __SimpleSynth__SynthDriver__
+#ifndef __driver__
+#define __driver__
 
 extern "C" {
     struct OPLL;
 }
 
-class SynthDriver {
+class Driver {
 public:
-    SynthDriver(unsigned int sampleRate);
-    ~SynthDriver();
+    Driver(unsigned int sampleRate);
+    ~Driver();
     void SetSampleRate(unsigned int sampleRate);
     void KeyOn(int noteNumber, int velocity);
     void KeyOff(int noteNumber);

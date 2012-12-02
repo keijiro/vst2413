@@ -20,5 +20,3 @@
 
 #define MAC_OS_X_VERSION_MIN_REQUIRED   1020
 #define MAC_OS_X_VERSION_MAX_ALLOWED	1030
-
-//#include <AvailabilityMacros.h>

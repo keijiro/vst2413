@@ -1,6 +1,6 @@
-#include "SimpleSynth.h"
+#include "Vst2413.h"
 
-VstInt32 SimpleSynth::processEvents(VstEvents* events) {
+VstInt32 Vst2413::processEvents(VstEvents* events) {
 	for (VstInt32 i = 0; i < events->numEvents; i++) {
 		if ((events->events[i])->type != kVstMidiType) continue;
         
@@ -21,6 +21,6 @@ VstInt32 SimpleSynth::processEvents(VstEvents* events) {
 	return 1;
 }
 
-void SimpleSynth::processReplacing(float **inputs, float **outputs, VstInt32 sampleFrames) {
+void Vst2413::processReplacing(float **inputs, float **outputs, VstInt32 sampleFrames) {
     for (VstInt32 i = 0; i < sampleFrames; i++) outputs[0][i] = driver_.Step();
 }
