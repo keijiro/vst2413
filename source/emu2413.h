@@ -90,7 +90,7 @@ typedef struct {
 #define OPLL_MASK_RYTHM ( OPLL_MASK_HH | OPLL_MASK_CYM | OPLL_MASK_TOM | OPLL_MASK_SD | OPLL_MASK_BD )
 
 /* opll */
-typedef struct {
+typedef struct OPLL {
 
   e_uint32 adr ;
 

@@ -7,11 +7,8 @@ AudioEffect* createEffectInstance(audioMasterCallback audioMaster) {
 
 SimpleSynth::SimpleSynth(audioMasterCallback audioMaster)
 :   AudioEffectX(audioMaster, kNumPrograms, kNumParameters),
-    sampleRate_(44100.0f),
-    velocity_(0.0f),
-    phase_(0.0f),
-    noteCount_(0),
-    note_(0) {
+    driver_(44100)
+{
     if(audioMaster != NULL) {
         setNumInputs(kNumInputs);
         setNumOutputs(kNumOutputs);
@@ -20,10 +17,6 @@ SimpleSynth::SimpleSynth(audioMasterCallback audioMaster)
         isSynth();
     }
     suspend();
-
-    OPLL_init(3579540, sampleRate_);
-    opll_ = OPLL_new();
-    OPLL_writeReg(opll_, 0x30, 0x30);
 }
 
 SimpleSynth::~SimpleSynth() {
@@ -173,5 +166,5 @@ void SimpleSynth::setProgramName(char *name) {
 
 void SimpleSynth::setSampleRate(float sampleRate) {
 	AudioEffectX::setSampleRate(sampleRate);
-    sampleRate_ = sampleRate;
+    driver_.SetSampleRate(sampleRate);
 }

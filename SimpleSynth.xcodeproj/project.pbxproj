@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F2FA10D166AE6F900EEA696 /* SynthDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F2FA10B166AE6F900EEA696 /* SynthDriver.cpp */; };
+		0F2FA10E166AE6F900EEA696 /* SynthDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F2FA10C166AE6F900EEA696 /* SynthDriver.h */; };
 		0F6348B4166A066D00379899 /* aeffeditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F6348AE166A066D00379899 /* aeffeditor.h */; };
 		0F6348B5166A066D00379899 /* audioeffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348AF166A066D00379899 /* audioeffect.cpp */; };
 		0F6348B6166A066D00379899 /* audioeffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F6348B0166A066D00379899 /* audioeffect.h */; };
@@ -25,6 +27,8 @@
 
 /* Begin PBXFileReference section */
 		08EA7FFBFE8413EDC02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		0F2FA10B166AE6F900EEA696 /* SynthDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SynthDriver.cpp; path = source/SynthDriver.cpp; sourceTree = "<group>"; };
+		0F2FA10C166AE6F900EEA696 /* SynthDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynthDriver.h; path = source/SynthDriver.h; sourceTree = "<group>"; };
 		0F6348AE166A066D00379899 /* aeffeditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aeffeditor.h; sourceTree = "<group>"; };
 		0F6348AF166A066D00379899 /* audioeffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = audioeffect.cpp; sourceTree = "<group>"; };
 		0F6348B0166A066D00379899 /* audioeffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = audioeffect.h; sourceTree = "<group>"; };
@@ -92,6 +96,8 @@
 				2407DEB6089929BA00EB68BF /* SimpleSynth.cpp */,
 				2454624809915C1400464AD3 /* SimpleSynthProc.cpp */,
 				2407DEB7089929BA00EB68BF /* SimpleSynth.h */,
+				0F2FA10B166AE6F900EEA696 /* SynthDriver.cpp */,
+				0F2FA10C166AE6F900EEA696 /* SynthDriver.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -131,6 +137,7 @@
 				0F6348B6166A066D00379899 /* audioeffect.h in Headers */,
 				0F6348B8166A066D00379899 /* audioeffectx.h in Headers */,
 				0F83D66C166A276300CFEE8A /* emu2413.h in Headers */,
+				0F2FA10E166AE6F900EEA696 /* SynthDriver.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +253,7 @@
 				0F6348B7166A066D00379899 /* audioeffectx.cpp in Sources */,
 				0F6348B9166A066D00379899 /* vstplugmain.cpp in Sources */,
 				0F83D66B166A276300CFEE8A /* emu2413.c in Sources */,
+				0F2FA10D166AE6F900EEA696 /* SynthDriver.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

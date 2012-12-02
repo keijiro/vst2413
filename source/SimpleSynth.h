@@ -2,7 +2,7 @@
 #define __SimpleSynth_H
 
 #include "audioeffectx.h"
-#include "emu2413.h"
+#include "SynthDriver.h"
 
 // TODO: Add your parameters to this list
 enum {
@@ -55,12 +55,7 @@ public:
     virtual void setBlockSize(VstInt32 blockSize);
 
 private:
-    float sampleRate_;
-    float velocity_;
-    float phase_;
-    int noteCount_;
-    int note_;
-    OPLL* opll_;
+    SynthDriver driver_;
 };
 
 #endif
