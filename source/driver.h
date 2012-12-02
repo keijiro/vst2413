@@ -2,7 +2,7 @@
 #define __driver__
 
 extern "C" {
-    struct OPLL;
+    struct __OPLL;
 }
 
 class Driver {
@@ -31,7 +31,7 @@ private:
     
     unsigned int sampleRate_;
     NoteInfo notes_[9];
-    struct OPLL* opll_;
+    struct __OPLL* opll_;
 };
 
 #endif

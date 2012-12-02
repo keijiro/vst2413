@@ -17,7 +17,6 @@ namespace {
         void KeyOff(OPLL *opll, int channel) {
             OPLL_writeReg(opll, 0x20 + channel, 0);;
         }
-        
     }
 }
 
@@ -25,18 +24,17 @@ Driver::Driver(unsigned int sampleRate)
 :   sampleRate_(sampleRate),
     opll_(0)
 {
-    OPLL_init(kMsxClock, sampleRate_);
-    opll_ = OPLL_new();
+    opll_ = OPLL_new(kMsxClock, sampleRate_);
 }
 
 Driver::~Driver() {
     OPLL_delete(opll_);
-    OPLL_close();
 }
 
 void Driver::SetSampleRate(unsigned int sampleRate) {
     sampleRate_ = sampleRate;
-    OPLL_setClock(kMsxClock, sampleRate_);
+    OPLL_delete(opll_);
+    opll_ = OPLL_new(kMsxClock, sampleRate_);
 }
 
 void Driver::SetProgram(int number) {
