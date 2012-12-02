@@ -25,6 +25,11 @@ Driver::Driver(unsigned int sampleRate)
     opll_(0)
 {
     opll_ = OPLL_new(kMsxClock, sampleRate_);
+    // Reset with 3rd program.
+    OPLL_PATCH patch[2];
+    OPLL_getDefaultPatch(OPLL_2413_TONE, 3, patch);
+    OPLL_patch2dump(patch, dump_);
+    OPLL_setPatch(opll_, dump_);
 }
 
 Driver::~Driver() {
@@ -35,6 +40,7 @@ void Driver::SetSampleRate(unsigned int sampleRate) {
     sampleRate_ = sampleRate;
     OPLL_delete(opll_);
     opll_ = OPLL_new(kMsxClock, sampleRate_);
+    OPLL_setPatch(opll_, dump_);
 }
 
 void Driver::SetProgram(int number) {

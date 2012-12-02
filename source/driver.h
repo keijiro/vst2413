@@ -32,6 +32,7 @@ private:
     unsigned int sampleRate_;
     NoteInfo notes_[9];
     struct __OPLL* opll_;
+    unsigned char dump_[16];
 };
 
 #endif
