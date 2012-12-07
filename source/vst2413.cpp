@@ -11,7 +11,7 @@ AudioEffect* createEffectInstance(audioMasterCallback audioMaster) {
 }
 
 Vst2413::Vst2413(audioMasterCallback audioMaster)
-:   AudioEffectX(audioMaster, kNumPrograms, Driver::kParameterMax),
+:   AudioEffectX(audioMaster, kNumPrograms, Driver::kParamMax),
     driver_(44100),
     program_(0)
 {

@@ -16,23 +16,35 @@ namespace {
         
         void SendARDR(OPLL* opll, float* parameters, int op) {
             unsigned int data =
-                (static_cast<unsigned int>((1.0f - parameters[Driver::kParameterAR0 + op]) * 255) & 0xf0) +
-                 static_cast<unsigned int>((1.0f - parameters[Driver::kParameterDR0 + op]) * 15);
+                (static_cast<unsigned int>((1.0f - parameters[Driver::kParamAR0 + op]) * 255) & 0xf0) +
+                 static_cast<unsigned int>((1.0f - parameters[Driver::kParamDR0 + op]) * 15);
             OPLL_writeReg(opll, 4 + op, data);
         }
 
         void SendSLRR(OPLL* opll, float* parameters, int op) {
             unsigned int data =
-                (static_cast<unsigned int>((1.0f - parameters[Driver::kParameterSL0 + op]) * 255) & 0xf0) +
-                 static_cast<unsigned int>((1.0f - parameters[Driver::kParameterRR0 + op]) * 15);
+                (static_cast<unsigned int>((1.0f - parameters[Driver::kParamSL0 + op]) * 255) & 0xf0) +
+                 static_cast<unsigned int>((1.0f - parameters[Driver::kParamRR0 + op]) * 15);
             OPLL_writeReg(opll, 6 + op, data);
         }
 
         void SendMUL(OPLL* opll, float* parameters, int op) {
             unsigned int data =
                 0x20 +
-                static_cast<unsigned int>(parameters[Driver::kParameterMUL0 + op] * 15);
+                static_cast<unsigned int>(parameters[Driver::kParamMUL0 + op] * 15);
             OPLL_writeReg(opll, op, data);
+        }
+
+        void SendFB(OPLL* opll, float* parameters) {
+            unsigned int data =
+                static_cast<unsigned int>(parameters[Driver::kParamFB] * 7);
+            OPLL_writeReg(opll, 3, data);
+        }
+
+        void SendTL(OPLL* opll, float* parameters) {
+            unsigned int data =
+                static_cast<unsigned int>((1.0f - parameters[Driver::kParamTL]) * 63);
+            OPLL_writeReg(opll, 2, data);
         }
     }
 }
@@ -42,7 +54,7 @@ Driver::Driver(unsigned int sampleRate)
     opll_(0)
 {
     opll_ = OPLL_new(kMsxClock, sampleRate_);
-    for (int i = 0; i < kParameterMax; i++) {
+    for (int i = 0; i < kParamMax; i++) {
         parameters_[i] = 0.0f;
     }
 }
@@ -118,27 +130,33 @@ void Driver::KeyOffAll() {
 void Driver::SetParameter(int index, float value) {
     parameters_[index] = value;
     switch (index) {
-        case kParameterAR0:
-        case kParameterDR0:
+        case kParamAR0:
+        case kParamDR0:
             OPLLC::SendARDR(opll_, parameters_, 0);
             break;
-        case kParameterAR1:
-        case kParameterDR1:
+        case kParamAR1:
+        case kParamDR1:
             OPLLC::SendARDR(opll_, parameters_, 1);
             break;
-        case kParameterSL0:
-        case kParameterRR0:
+        case kParamSL0:
+        case kParamRR0:
             OPLLC::SendSLRR(opll_, parameters_, 0);
             break;
-        case kParameterSL1:
-        case kParameterRR1:
+        case kParamSL1:
+        case kParamRR1:
             OPLLC::SendSLRR(opll_, parameters_, 1);
             break;
-        case kParameterMUL0:
+        case kParamMUL0:
             OPLLC::SendMUL(opll_, parameters_, 0);
             break;
-        case kParameterMUL1:
+        case kParamMUL1:
             OPLLC::SendMUL(opll_, parameters_, 1);
+            break;
+        case kParamFB:
+            OPLLC::SendFB(opll_, parameters_);
+            break;
+        case kParamTL:
+            OPLLC::SendTL(opll_, parameters_);
             break;
     }
 }
@@ -148,7 +166,7 @@ float Driver::GetParameter(int index) {
 }
 
 const char* Driver::GetParameterName(int index) {
-    static const char *names[kParameterMax] = {
+    static const char *names[kParamMax] = {
         "AR 0",
         "AR 1",
         "DR 0",
@@ -158,7 +176,9 @@ const char* Driver::GetParameterName(int index) {
         "RR 0",
         "RR 1",
         "MUL 0",
-        "MUL 1"
+        "MUL 1",
+        "FB",
+        "TL"
     };
     return names[index];
 }

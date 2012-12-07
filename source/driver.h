@@ -10,17 +10,19 @@ extern "C" {
 class Driver {
 public:
     enum {
-        kParameterAR0,
-        kParameterAR1,
-        kParameterDR0,
-        kParameterDR1,
-        kParameterSL0,
-        kParameterSL1,
-        kParameterRR0,
-        kParameterRR1,
-        kParameterMUL0,
-        kParameterMUL1,
-        kParameterMax
+        kParamAR0,
+        kParamAR1,
+        kParamDR0,
+        kParamDR1,
+        kParamSL0,
+        kParamSL1,
+        kParamRR0,
+        kParamRR1,
+        kParamMUL0,
+        kParamMUL1,
+        kParamFB,
+        kParamTL,
+        kParamMax
     };
     
     Driver(unsigned int sampleRate);
@@ -53,7 +55,7 @@ private:
     unsigned int sampleRate_;
     NoteInfo notes_[9];
     struct __OPLL* opll_;
-    float parameters_[kParameterMax];
+    float parameters_[kParamMax];
 };
 
 #endif
