@@ -54,7 +54,6 @@ private:
     NoteInfo notes_[9];
     struct __OPLL* opll_;
     float parameters_[kParameterMax];
-    unsigned char dump_[16];
 };
 
 #endif

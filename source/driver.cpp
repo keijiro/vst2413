@@ -5,35 +5,32 @@ namespace {
     const unsigned int kMsxClock = 3579540;
     
     namespace OPLLC {
-        void KeyOn(OPLL *opll, int channel, int noteNumber) {
+        void SendKey(OPLL *opll, int channel, int noteNumber, bool keyOn) {
             static const int fnums[] = { 181, 192, 204, 216, 229, 242, 257, 272, 288, 305, 323, 343 };
             int fnum = fnums[(noteNumber - 37) % 12];
             int block = (noteNumber - 37) / 12;
             block = block < 0 ? 0 : (block > 7) ? 7 : block;
             OPLL_writeReg(opll, 0x10 + channel, fnum & 0xff);
-            OPLL_writeReg(opll, 0x20 + channel, 0x30 + (fnum >> 8) + (block << 1));
-        }
-        
-        void KeyOff(OPLL *opll, int channel) {
-            OPLL_writeReg(opll, 0x20 + channel, 0);;
+            OPLL_writeReg(opll, 0x20 + channel, (keyOn ? 0x10 : 0) + (fnum >> 8) + (block << 1));
         }
         
         void SendARDR(OPLL* opll, float* parameters, int op) {
             unsigned int data =
-                (static_cast<unsigned int>(parameters[Driver::kParameterAR0 + op] * 255) & 0xf0) +
-                 static_cast<unsigned int>(parameters[Driver::kParameterDR0 + op] * 15);
+                (static_cast<unsigned int>((1.0f - parameters[Driver::kParameterAR0 + op]) * 255) & 0xf0) +
+                 static_cast<unsigned int>((1.0f - parameters[Driver::kParameterDR0 + op]) * 15);
             OPLL_writeReg(opll, 4 + op, data);
         }
 
         void SendSLRR(OPLL* opll, float* parameters, int op) {
             unsigned int data =
-                (static_cast<unsigned int>(parameters[Driver::kParameterSL0 + op] * 255) & 0xf0) +
-                 static_cast<unsigned int>(parameters[Driver::kParameterRR0 + op] * 15);
+                (static_cast<unsigned int>((1.0f - parameters[Driver::kParameterSL0 + op]) * 255) & 0xf0) +
+                 static_cast<unsigned int>((1.0f - parameters[Driver::kParameterRR0 + op]) * 15);
             OPLL_writeReg(opll, 6 + op, data);
         }
 
         void SendMUL(OPLL* opll, float* parameters, int op) {
             unsigned int data =
+                0x20 +
                 static_cast<unsigned int>(parameters[Driver::kParameterMUL0 + op] * 15);
             OPLL_writeReg(opll, op, data);
         }
@@ -56,9 +53,7 @@ Driver::~Driver() {
 
 void Driver::SetSampleRate(unsigned int sampleRate) {
     sampleRate_ = sampleRate;
-    OPLL_delete(opll_);
-    opll_ = OPLL_new(kMsxClock, sampleRate_);
-    OPLL_setPatch(opll_, dump_);
+    OPLL_set_rate(opll_, sampleRate_);
 }
 
 void Driver::SetProgram(int number) {
@@ -94,7 +89,7 @@ void Driver::KeyOn(int noteNumber, int velocity) {
     for (int i = 0; i < 9; i++) {
         NoteInfo& note = notes_[i];
         if (!note.active_) {
-            OPLLC::KeyOn(opll_, i, noteNumber);
+            OPLLC::SendKey(opll_, i, noteNumber, true);
             note.noteNumber_ = noteNumber;
             note.velocity_ = velocity;
             note.active_ = true;
@@ -107,7 +102,7 @@ void Driver::KeyOff(int noteNumber) {
     for (int i = 0; i < 9; i++) {
         NoteInfo& note = notes_[i];
         if (note.active_ && note.noteNumber_ == noteNumber) {
-            OPLLC::KeyOff(opll_, i);
+            OPLLC::SendKey(opll_, i, noteNumber, false);
             note.active_ = false;
             break;
         }
