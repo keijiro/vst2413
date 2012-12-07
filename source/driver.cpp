@@ -18,6 +18,10 @@ namespace {
             OPLL_writeReg(opll, 0x20 + channel, 0);;
         }
     }
+    
+    int clamp(float value, int max) {
+        return (value > 1.0f ? 1.0 : (value < 0.0f ? 0.0f : value)) * max;
+    }
 }
 
 Driver::Driver(unsigned int sampleRate)
@@ -101,6 +105,68 @@ void Driver::KeyOffAll() {
         notes_[i].active_ = false;
     }
 }
+
+void Driver::SetParameter(int index, float value) {
+    parameters_[index] = value;
+}
+
+float Driver::GetParameter(int index) {
+    return parameters_[index];
+}
+
+const char* Driver::GetParameterName(int index) {
+    static const char *names[kMaxParameterIndex] = {
+        "AR 0",
+        "AR 1",
+        "DR 0",
+        "DR 1",
+        "SL 0",
+        "SL 1",
+        "RR 0",
+        "RR 1",
+        "MULTI 0",
+        "MULTI 1"
+    };
+    return names[index];
+}
+
+std::string Driver::GetParameterText(int index) {
+    char buffer[32];
+    snprintf(buffer, sizeof buffer, "%.1f", parameters_[index]);
+    return std::string(buffer);
+}
+
+#if 0
+void Driver::SetAttack(int op, float value) {
+    int addr = 4 + (op & 1);
+    dump_[addr] = (dump_[addr] & 0xf) + (clamp(value, 15) << 4);
+    OPLL_writeReg(opll_, addr, dump_[addr]);
+}
+
+void Driver::SetDecay(int op, float value) {
+    int addr = 4 + (op & 1);
+    dump_[addr] = (dump_[addr] & 0xf0) + clamp(value, 15);
+    OPLL_writeReg(opll_, addr, dump_[addr]);
+}
+
+void Driver::SetSustain(int op, float value) {
+    int addr = 5 + (op & 1);
+    dump_[addr] = (dump_[addr] & 0xf) + (clamp(value, 15) << 4);
+    OPLL_writeReg(opll_, addr, dump_[addr]);
+}
+
+void Driver::SetRelease(int op, float value) {
+    int addr = 5 + (op & 1);
+    dump_[addr] = (dump_[addr] & 0xf0) + clamp(value, 15);
+    OPLL_writeReg(opll_, addr, dump_[addr]);
+}
+
+void Driver::SetMultiplier(int op, float value) {
+    int addr = op & 1;
+    dump_[addr] = (dump_[addr] & 0xf8) + clamp(value, 7);
+    OPLL_writeReg(opll_, addr, dump_[addr]);
+}
+#endif
 
 float Driver::Step() {
     return (4.0f / 32767) * OPLL_calc(opll_);

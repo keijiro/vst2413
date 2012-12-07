@@ -11,7 +11,7 @@ AudioEffect* createEffectInstance(audioMasterCallback audioMaster) {
 }
 
 Vst2413::Vst2413(audioMasterCallback audioMaster)
-:   AudioEffectX(audioMaster, kNumPrograms, 0),
+:   AudioEffectX(audioMaster, kNumPrograms, Driver::kMaxParameterIndex),
     driver_(44100),
     program_(0)
 {
@@ -83,23 +83,26 @@ bool Vst2413::getOutputProperties(VstInt32 index, VstPinProperties *properties) 
 }
 
 float Vst2413::getParameter(VstInt32 index) {
-    // TODO: Get parameter value for index
-    return 0.0;
+    return driver_.GetParameter(index);
 }
 
 void Vst2413::getParameterDisplay(VstInt32 index, char *text) {
-    // TODO: Get parameter display for index
+    strncpy(text, driver_.GetParameterText(index).c_str(), kVstMaxParamStrLen);
 }
 
 void Vst2413::getParameterLabel(VstInt32 index, char *text) {
-    // TODO: Get parameter label for index
+    strncpy(text, "value", kVstMaxParamStrLen);
 }
 
 void Vst2413::getParameterName(VstInt32 index, char *text) {
-    // TODO: Get parameter name for index
+    strncpy(text, driver_.GetParameterName(index), kVstMaxParamStrLen);
 }
 
-VstPlugCategory Vst2413::getPlugCategory() { 
+void Vst2413::setParameter(VstInt32 index, float value) {
+    driver_.SetParameter(index, value);
+}
+
+VstPlugCategory Vst2413::getPlugCategory() {
     return kPlugCategSynth;
 }
 
@@ -132,10 +135,6 @@ bool Vst2413::hasMidiProgramsChanged(VstInt32 channel) {
 
 void Vst2413::setBlockSize(VstInt32 blockSize) {
     AudioEffectX::setBlockSize(blockSize);
-}
-
-void Vst2413::setParameter(VstInt32 index, float value) {
-    // TODO: Set parameter value for index
 }
 
 void Vst2413::setProgram(VstInt32 index) {
