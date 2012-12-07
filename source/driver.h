@@ -22,6 +22,18 @@ public:
         kParamMUL1,
         kParamFB,
         kParamTL,
+        kParamDM,
+        kParamDC,
+        kParamKSL0,
+        kParamKSL1,
+        kParamKSR0,
+        kParamKSR1,
+        kParamEG0,
+        kParamEG1,
+        kParamAM0,
+        kParamAM1,
+        kParamVIB0,
+        kParamVIB1,
         kParamMax
     };
     
