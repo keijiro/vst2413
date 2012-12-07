@@ -9,7 +9,19 @@ extern "C" {
 
 class Driver {
 public:
-    static const int kMaxParameterIndex = 10;
+    enum {
+        kParameterAR0,
+        kParameterAR1,
+        kParameterDR0,
+        kParameterDR1,
+        kParameterSL0,
+        kParameterSL1,
+        kParameterRR0,
+        kParameterRR1,
+        kParameterMUL0,
+        kParameterMUL1,
+        kParameterMax
+    };
     
     Driver(unsigned int sampleRate);
     ~Driver();
@@ -41,7 +53,7 @@ private:
     unsigned int sampleRate_;
     NoteInfo notes_[9];
     struct __OPLL* opll_;
-    float parameters_[kMaxParameterIndex];
+    float parameters_[kParameterMax];
     unsigned char dump_[16];
 };
 

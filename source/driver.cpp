@@ -17,10 +17,26 @@ namespace {
         void KeyOff(OPLL *opll, int channel) {
             OPLL_writeReg(opll, 0x20 + channel, 0);;
         }
-    }
-    
-    int clamp(float value, int max) {
-        return (value > 1.0f ? 1.0 : (value < 0.0f ? 0.0f : value)) * max;
+        
+        void SendARDR(OPLL* opll, float* parameters, int op) {
+            unsigned int data =
+                (static_cast<unsigned int>(parameters[Driver::kParameterAR0 + op] * 255) & 0xf0) +
+                 static_cast<unsigned int>(parameters[Driver::kParameterDR0 + op] * 15);
+            OPLL_writeReg(opll, 4 + op, data);
+        }
+
+        void SendSLRR(OPLL* opll, float* parameters, int op) {
+            unsigned int data =
+                (static_cast<unsigned int>(parameters[Driver::kParameterSL0 + op] * 255) & 0xf0) +
+                 static_cast<unsigned int>(parameters[Driver::kParameterRR0 + op] * 15);
+            OPLL_writeReg(opll, 6 + op, data);
+        }
+
+        void SendMUL(OPLL* opll, float* parameters, int op) {
+            unsigned int data =
+                static_cast<unsigned int>(parameters[Driver::kParameterMUL0 + op] * 15);
+            OPLL_writeReg(opll, op, data);
+        }
     }
 }
 
@@ -29,11 +45,9 @@ Driver::Driver(unsigned int sampleRate)
     opll_(0)
 {
     opll_ = OPLL_new(kMsxClock, sampleRate_);
-    // Reset with 3rd program.
-    OPLL_PATCH patch[2];
-    OPLL_getDefaultPatch(OPLL_2413_TONE, 3, patch);
-    OPLL_patch2dump(patch, dump_);
-    OPLL_setPatch(opll_, dump_);
+    for (int i = 0; i < kParameterMax; i++) {
+        parameters_[i] = 0.0f;
+    }
 }
 
 Driver::~Driver() {
@@ -108,6 +122,30 @@ void Driver::KeyOffAll() {
 
 void Driver::SetParameter(int index, float value) {
     parameters_[index] = value;
+    switch (index) {
+        case kParameterAR0:
+        case kParameterDR0:
+            OPLLC::SendARDR(opll_, parameters_, 0);
+            break;
+        case kParameterAR1:
+        case kParameterDR1:
+            OPLLC::SendARDR(opll_, parameters_, 1);
+            break;
+        case kParameterSL0:
+        case kParameterRR0:
+            OPLLC::SendSLRR(opll_, parameters_, 0);
+            break;
+        case kParameterSL1:
+        case kParameterRR1:
+            OPLLC::SendSLRR(opll_, parameters_, 1);
+            break;
+        case kParameterMUL0:
+            OPLLC::SendMUL(opll_, parameters_, 0);
+            break;
+        case kParameterMUL1:
+            OPLLC::SendMUL(opll_, parameters_, 1);
+            break;
+    }
 }
 
 float Driver::GetParameter(int index) {
@@ -115,7 +153,7 @@ float Driver::GetParameter(int index) {
 }
 
 const char* Driver::GetParameterName(int index) {
-    static const char *names[kMaxParameterIndex] = {
+    static const char *names[kParameterMax] = {
         "AR 0",
         "AR 1",
         "DR 0",
@@ -124,8 +162,8 @@ const char* Driver::GetParameterName(int index) {
         "SL 1",
         "RR 0",
         "RR 1",
-        "MULTI 0",
-        "MULTI 1"
+        "MUL 0",
+        "MUL 1"
     };
     return names[index];
 }
@@ -135,38 +173,6 @@ std::string Driver::GetParameterText(int index) {
     snprintf(buffer, sizeof buffer, "%.1f", parameters_[index]);
     return std::string(buffer);
 }
-
-#if 0
-void Driver::SetAttack(int op, float value) {
-    int addr = 4 + (op & 1);
-    dump_[addr] = (dump_[addr] & 0xf) + (clamp(value, 15) << 4);
-    OPLL_writeReg(opll_, addr, dump_[addr]);
-}
-
-void Driver::SetDecay(int op, float value) {
-    int addr = 4 + (op & 1);
-    dump_[addr] = (dump_[addr] & 0xf0) + clamp(value, 15);
-    OPLL_writeReg(opll_, addr, dump_[addr]);
-}
-
-void Driver::SetSustain(int op, float value) {
-    int addr = 5 + (op & 1);
-    dump_[addr] = (dump_[addr] & 0xf) + (clamp(value, 15) << 4);
-    OPLL_writeReg(opll_, addr, dump_[addr]);
-}
-
-void Driver::SetRelease(int op, float value) {
-    int addr = 5 + (op & 1);
-    dump_[addr] = (dump_[addr] & 0xf0) + clamp(value, 15);
-    OPLL_writeReg(opll_, addr, dump_[addr]);
-}
-
-void Driver::SetMultiplier(int op, float value) {
-    int addr = op & 1;
-    dump_[addr] = (dump_[addr] & 0xf8) + clamp(value, 7);
-    OPLL_writeReg(opll_, addr, dump_[addr]);
-}
-#endif
 
 float Driver::Step() {
     return (4.0f / 32767) * OPLL_calc(opll_);
