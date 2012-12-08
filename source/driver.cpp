@@ -216,7 +216,37 @@ const char* Driver::GetParameterName(int index) {
 
 std::string Driver::GetParameterText(int index) {
     char buffer[32];
-    snprintf(buffer, sizeof buffer, "%.1f", parameters_[index]);
+    switch (index) {
+        case kParamAR0:
+        case kParamAR1:
+        case kParamDR0:
+        case kParamDR1:
+        case kParamSL0:
+        case kParamSL1:
+        case kParamRR0:
+        case kParamRR1:
+            snprintf(buffer, sizeof buffer, "%d", static_cast<int>(parameters_[index] * 15));
+            break;
+        case kParamMUL0:
+        case kParamMUL1:
+            static const char* muls[] = {"1/2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "10", "12", "12", "15", "15"};
+            strcpy(buffer, muls[static_cast<int>(parameters_[index] * 15)]);
+            break;
+        case kParamFB:
+            snprintf(buffer, sizeof buffer, "%d", static_cast<int>(parameters_[index] * 7));
+            break;
+        case kParamTL:
+            snprintf(buffer, sizeof buffer, "%d", static_cast<int>(parameters_[index] * 63));
+            break;
+        case kParamDM:
+        case kParamDC:
+        case kParamVIB0:
+        case kParamVIB1:
+        case kParamAM0:
+        case kParamAM1:
+            strcpy(buffer, parameters_[index] < 0.5f ? "off" : "on");
+            break;
+    }
     return std::string(buffer);
 }
 
