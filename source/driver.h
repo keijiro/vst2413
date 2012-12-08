@@ -45,6 +45,7 @@ public:
     void SetParameter(int index, float value);
     float GetParameter(int index);
     const char* GetParameterName(int index);
+    const char* GetParameterLabel(int index);
     std::string GetParameterText(int index);
     
     float Step();

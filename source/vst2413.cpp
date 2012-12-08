@@ -91,6 +91,7 @@ void Vst2413::getParameterDisplay(VstInt32 index, char *text) {
 }
 
 void Vst2413::getParameterLabel(VstInt32 index, char *text) {
+    strncpy(text, driver_.GetParameterLabel(index), kVstMaxParamStrLen);
 }
 
 void Vst2413::getParameterName(VstInt32 index, char *text) {

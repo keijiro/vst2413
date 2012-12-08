@@ -214,40 +214,69 @@ const char* Driver::GetParameterName(int index) {
     return names[index];
 }
 
-std::string Driver::GetParameterText(int index) {
-    char buffer[32];
+const char* Driver::GetParameterLabel(int index) {
     switch (index) {
         case kParamAR0:
         case kParamAR1:
         case kParamDR0:
         case kParamDR1:
-        case kParamSL0:
-        case kParamSL1:
         case kParamRR0:
         case kParamRR1:
-            snprintf(buffer, sizeof buffer, "%d", static_cast<int>(parameters_[index] * 15));
-            break;
-        case kParamMUL0:
-        case kParamMUL1:
-            static const char* muls[] = {"1/2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "10", "12", "12", "15", "15"};
-            strcpy(buffer, muls[static_cast<int>(parameters_[index] * 15)]);
-            break;
-        case kParamFB:
-            snprintf(buffer, sizeof buffer, "%d", static_cast<int>(parameters_[index] * 7));
-            break;
+            return "msec";
+        case kParamSL0:
+        case kParamSL1:
         case kParamTL:
-            snprintf(buffer, sizeof buffer, "%d", static_cast<int>(parameters_[index] * 63));
-            break;
-        case kParamDM:
-        case kParamDC:
-        case kParamVIB0:
-        case kParamVIB1:
-        case kParamAM0:
-        case kParamAM1:
-            strcpy(buffer, parameters_[index] < 0.5f ? "off" : "on");
-            break;
+            return "db";
     }
-    return std::string(buffer);
+    return "";
+}
+
+std::string Driver::GetParameterText(int index) {
+    // Attack rates
+    if (index == kParamAR0 || index == kParamAR1) {
+        static const char* texts[16] = {
+            "0", "0.28", "0.50", "0.84",
+            "1.69", "3.30", "6.76", "13.52",
+            "27.03", "54.87", "108.13", "216.27",
+            "432.54", "865.88", "1730.15", "inf"
+        };
+        return texts[static_cast<int>(parameters_[index] * 15)];
+    }
+    // Decay-like rates
+    if (index == kParamDR0 || index == kParamDR1 || index == kParamRR0 || index == kParamRR1) {
+        static const char* texts[16] = {
+            "1.27", "2.55", "5.11", "10.22",
+            "20.44", "40.07", "81.74", "163.49",
+            "326.98", "653.95", "1307.91", "2615.82",
+            "5231.64", "10463.30", "20926.60", "inf"
+        };
+        return texts[static_cast<int>(parameters_[index] * 15)];
+    }
+    // Levels
+    if (index == kParamSL0 || index == kParamSL1 || index == kParamTL) {
+        char buffer[32];
+        snprintf(buffer, sizeof buffer, "%d", static_cast<int>((1.0f - parameters_[index]) * 45));
+        return std::string(buffer);
+    }
+    // Multipliers
+    if (index == kParamMUL0 || index == kParamMUL1) {
+        static const char* texts[16] = {
+            "1/2", "1", "2", "3",
+            "4", "5", "6", "7",
+            "8", "9", "10", "10",
+            "12", "12", "15", "15"
+        };
+        return texts[static_cast<int>(parameters_[index] * 15)];
+    }
+    // Feedback
+    if (index == kParamFB) {
+        static const char* texts[8] = {
+            "0", "n/16", "n/8", "n/4", "n/2", "n", "2n", "4n"
+        };
+        return texts[static_cast<int>(parameters_[index] * 7)];
+    }
+    // Switches
+    return parameters_[index] < 0.5f ? "off" : "on";
 }
 
 float Driver::Step() {
