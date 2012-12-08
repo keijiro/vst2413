@@ -58,9 +58,24 @@ Driver::Driver(unsigned int sampleRate)
     opll_(0)
 {
     opll_ = OPLL_new(kMsxClock, sampleRate_);
+
     for (int i = 0; i < kParamMax; i++) {
         parameters_[i] = 0.0f;
     }
+    
+    parameters_[kParamSL0] = 1.0f;
+    parameters_[kParamSL1] = 1.0f;
+    parameters_[kParamMUL0] = 1.0f / 15;
+    parameters_[kParamMUL1] = 1.0f / 15;
+    
+    OPLLC::SendARDR(opll_, parameters_, 0);
+    OPLLC::SendARDR(opll_, parameters_, 1);
+    OPLLC::SendSLRR(opll_, parameters_, 0);
+    OPLLC::SendSLRR(opll_, parameters_, 1);
+    OPLLC::SendMUL(opll_, parameters_, 0);
+    OPLLC::SendMUL(opll_, parameters_, 1);
+    OPLLC::SendFB(opll_, parameters_);
+    OPLLC::SendTL(opll_, parameters_);
 }
 
 Driver::~Driver() {
