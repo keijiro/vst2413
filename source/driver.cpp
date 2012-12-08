@@ -33,14 +33,12 @@ namespace {
                 (parameters[Driver::kParamAM0  + op] < 0.5f ? 0 : 0x80) +
                 (parameters[Driver::kParamVIB0 + op] < 0.5f ? 0 : 0x40) +
                 (parameters[Driver::kParamEG0  + op] < 0.5f ? 0 : 0x20) +
-                (parameters[Driver::kParamKSR0 + op] < 0.5f ? 0 : 0x10) +
                 static_cast<unsigned int>(parameters[Driver::kParamMUL0 + op] * 15);
             OPLL_writeReg(opll, op, data);
         }
 
         void SendFB(OPLL* opll, float* parameters) {
             unsigned int data =
-                (static_cast<unsigned int>(parameters[Driver::kParamKSL1] * 255) & 0xc0) +
                  (parameters[Driver::kParamDC] < 0.5f ? 0 : 0x10) +
                  (parameters[Driver::kParamDM] < 0.5f ? 0 : 0x08) +
                  static_cast<unsigned int>(parameters[Driver::kParamFB] * 7);
@@ -49,7 +47,6 @@ namespace {
 
         void SendTL(OPLL* opll, float* parameters) {
             unsigned int data =
-                (static_cast<unsigned int>(parameters[Driver::kParamKSL0] * 255) & 0xc0) +
                  static_cast<unsigned int>((1.0f - parameters[Driver::kParamTL]) * 63);
             OPLL_writeReg(opll, 2, data);
         }
@@ -154,14 +151,12 @@ void Driver::SetParameter(int index, float value) {
             OPLLC::SendSLRR(opll_, parameters_, 1);
             break;
         case kParamMUL0:
-        case kParamKSR0:
         case kParamEG0:
         case kParamVIB0:
         case kParamAM0:
             OPLLC::SendMUL(opll_, parameters_, 0);
             break;
         case kParamMUL1:
-        case kParamKSR1:
         case kParamEG1:
         case kParamVIB1:
         case kParamAM1:
@@ -170,11 +165,9 @@ void Driver::SetParameter(int index, float value) {
         case kParamFB:
         case kParamDM:
         case kParamDC:
-        case kParamKSL1:
             OPLLC::SendFB(opll_, parameters_);
             break;
         case kParamTL:
-        case kParamKSL0:
             OPLLC::SendTL(opll_, parameters_);
             break;
     }
@@ -200,10 +193,6 @@ const char* Driver::GetParameterName(int index) {
         "TL",
         "DM",
         "DC",
-        "KSL0",
-        "KSL1",
-        "KSR0",
-        "KSR1",
         "EG0",
         "EG1",
         "AM0",
