@@ -24,8 +24,6 @@ public:
         kParamTL,
         kParamDM,
         kParamDC,
-        kParamEG0,
-        kParamEG1,
         kParamAM0,
         kParamAM1,
         kParamVIB0,

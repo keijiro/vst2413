@@ -8,7 +8,7 @@ namespace {
         void SendKey(OPLL *opll, int channel, int noteNumber, bool keyOn) {
             static const int fnums[] = { 181, 192, 204, 216, 229, 242, 257, 272, 288, 305, 323, 343 };
             int fnum = fnums[(noteNumber - 37) % 12];
-            int block = (noteNumber - 37) / 12;
+            int block = (noteNumber - 13) / 12;
             block = block < 0 ? 0 : (block > 7) ? 7 : block;
             OPLL_writeReg(opll, 0x10 + channel, fnum & 0xff);
             OPLL_writeReg(opll, 0x20 + channel, (keyOn ? 0x10 : 0) + (fnum >> 8) + (block << 1));
@@ -32,7 +32,7 @@ namespace {
             unsigned int data =
                 (parameters[Driver::kParamAM0  + op] < 0.5f ? 0 : 0x80) +
                 (parameters[Driver::kParamVIB0 + op] < 0.5f ? 0 : 0x40) +
-                (parameters[Driver::kParamEG0  + op] < 0.5f ? 0 : 0x20) +
+                0x20 +
                 static_cast<unsigned int>(parameters[Driver::kParamMUL0 + op] * 15);
             OPLL_writeReg(opll, op, data);
         }
@@ -65,8 +65,8 @@ Driver::Driver(unsigned int sampleRate)
     
     parameters_[kParamSL0] = 1.0f;
     parameters_[kParamSL1] = 1.0f;
-    parameters_[kParamMUL0] = 1.0f / 15;
-    parameters_[kParamMUL1] = 1.0f / 15;
+    parameters_[kParamMUL0] = 1.1f / 15;
+    parameters_[kParamMUL1] = 1.1f / 15;
     
     OPLLC::SendARDR(opll_, parameters_, 0);
     OPLLC::SendARDR(opll_, parameters_, 1);
@@ -166,13 +166,11 @@ void Driver::SetParameter(int index, float value) {
             OPLLC::SendSLRR(opll_, parameters_, 1);
             break;
         case kParamMUL0:
-        case kParamEG0:
         case kParamVIB0:
         case kParamAM0:
             OPLLC::SendMUL(opll_, parameters_, 0);
             break;
         case kParamMUL1:
-        case kParamEG1:
         case kParamVIB1:
         case kParamAM1:
             OPLLC::SendMUL(opll_, parameters_, 1);
@@ -208,8 +206,6 @@ const char* Driver::GetParameterName(int index) {
         "TL",
         "DM",
         "DC",
-        "EG0",
-        "EG1",
         "AM0",
         "AM1",
         "VIB0",
