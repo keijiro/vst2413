@@ -41,6 +41,7 @@ public:
     void KeyOn(int noteNumber, float velocity);
     void KeyOff(int noteNumber);
     void KeyOffAll();
+    void SetPitchWheel(float value);
     
     void SetParameter(int index, float value);
     float GetParameter(int index);

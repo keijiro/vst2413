@@ -5,8 +5,9 @@ namespace {
     const unsigned int kMsxClock = 3579540;
     
     namespace OPLLC {
+        static const int fnums[] = { 181, 192, 204, 216, 229, 242, 257, 272, 288, 305, 323, 343 };
+
         void SendKey(OPLL *opll, int channel, int program, int noteNumber, float velocity, bool keyOn) {
-            static const int fnums[] = { 181, 192, 204, 216, 229, 242, 257, 272, 288, 305, 323, 343 };
             int fnum = fnums[(noteNumber - 37) % 12];
             int block = (noteNumber - 13) / 12;
             block = block < 0 ? 0 : (block > 7) ? 7 : block;
@@ -15,6 +16,15 @@ namespace {
                 OPLL_writeReg(opll, 0x10 + channel, fnum & 0xff);
                 OPLL_writeReg(opll, 0x30 + channel, (program << 4) + static_cast<int>(15.0f - velocity * 15));
             }
+        }
+        
+        void AdjustPitch(OPLL* opll, int channel, int noteNumber, float velocity, bool keyOn) {
+            int fnum = fnums[(noteNumber - 37) % 12];
+            fnum += velocity * 100;
+            int block = (noteNumber - 13) / 12;
+            block = block < 0 ? 0 : (block > 7) ? 7 : block;
+            OPLL_writeReg(opll, 0x20 + channel, (keyOn ? 0x10 : 0) + (fnum >> 8) + (block << 1));
+            OPLL_writeReg(opll, 0x10 + channel, fnum & 0xff);
         }
         
         void SendARDR(OPLL* opll, float* parameters, int op) {
@@ -144,6 +154,13 @@ void Driver::KeyOff(int noteNumber) {
 void Driver::KeyOffAll() {
     for (int i = 0; i < 9; i++) {
         notes_[i].active_ = false;
+    }
+}
+
+void Driver::SetPitchWheel(float value) {
+    for (int i = 0; i < 9; i++) {
+        NoteInfo& note = notes_[i];
+        OPLLC::AdjustPitch(opll_, i, note.noteNumber_, value, note.active_);
     }
 }
 

@@ -16,6 +16,9 @@ VstInt32 Vst2413::processEvents(VstEvents* events) {
             if (midiData[1] == 0x7e || midiData[1] == 0x7b) {
                 driver_.KeyOffAll();
             }
+        } else if (status == 0xe0) {
+            int value = ((midiData[2] & 0x7f) << 7) + (midiData[1] & 0x7f);
+            driver_.SetPitchWheel((1.0f / 0x2000) * (value - 0x2000));
         }
 	}
 	return 1;
