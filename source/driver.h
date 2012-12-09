@@ -64,6 +64,7 @@ private:
     NoteInfo notes_[9];
     struct __OPLL* opll_;
     int program_;
+    float pitchWheel_;
     float parameters_[kParamMax];
 };
 

@@ -10,31 +10,32 @@ namespace {
     }
     
     namespace OPLLC {
-        int CalcFNum(int note) {
-            int intervalFromA = (note - 21) % 12;
-            return 144.1792f * powf(2.0f, (1.0f / 12) * intervalFromA);
+        int CalcFNum(int note, float wheel) {
+            int intervalFromA = (note - 9) % 12;
+            return 144.1792f * powf(2.0f, (1.0f / 12) * (intervalFromA + wheel * 6));
         }
         
         int CalcBlock(int note) {
             return Clamp((note - 9) / 12, 0, 7);
         }
+        
+        int CalcBlockFNum(int note, float wheel) {
+            return (CalcBlock(note) << 9) + CalcFNum(note, wheel);
+        }
 
-        void SendKey(OPLL *opll, int channel, int program, int noteNumber, float velocity, bool keyOn) {
-            int fnum = CalcFNum(noteNumber);
-            int block = CalcBlock(noteNumber);
-            OPLL_writeReg(opll, 0x20 + channel, (keyOn ? 0x10 : 0) + (fnum >> 8) + (block << 1));
+        void SendKey(OPLL *opll, int channel, int program, int noteNumber, float wheel, float velocity, bool keyOn) {
+            int bfnum = CalcBlockFNum(noteNumber, wheel);
+            OPLL_writeReg(opll, 0x20 + channel, (keyOn ? 0x10 : 0) + (bfnum >> 8));
             if (keyOn) {
-                OPLL_writeReg(opll, 0x10 + channel, fnum & 0xff);
+                OPLL_writeReg(opll, 0x10 + channel, bfnum & 0xff);
                 OPLL_writeReg(opll, 0x30 + channel, (program << 4) + static_cast<int>(15.0f - velocity * 15));
             }
         }
         
-        void AdjustPitch(OPLL* opll, int channel, int noteNumber, float velocity, bool keyOn) {
-            int fnum = CalcFNum(noteNumber);
-            int block = CalcBlock(noteNumber);
-            block = block < 0 ? 0 : (block > 7) ? 7 : block;
-            OPLL_writeReg(opll, 0x20 + channel, (keyOn ? 0x10 : 0) + (fnum >> 8) + (block << 1));
-            OPLL_writeReg(opll, 0x10 + channel, fnum & 0xff);
+        void AdjustPitch(OPLL* opll, int channel, int noteNumber, float wheel, bool keyOn) {
+            int bfnum = CalcBlockFNum(noteNumber, wheel);
+            OPLL_writeReg(opll, 0x20 + channel, (keyOn ? 0x10 : 0) + (bfnum >> 8));
+            OPLL_writeReg(opll, 0x10 + channel, bfnum & 0xff);
         }
         
         void SendARDR(OPLL* opll, float* parameters, int op) {
@@ -79,7 +80,8 @@ namespace {
 Driver::Driver(unsigned int sampleRate)
 :   sampleRate_(sampleRate),
     opll_(0),
-    program_(0)
+    program_(0),
+    pitchWheel_(0)
 {
     opll_ = OPLL_new(kMsxClock, sampleRate_);
 
@@ -141,7 +143,7 @@ void Driver::KeyOn(int noteNumber, float velocity) {
     for (int i = 0; i < 9; i++) {
         NoteInfo& note = notes_[i];
         if (!note.active_) {
-            OPLLC::SendKey(opll_, i, program_, noteNumber, velocity, true);
+            OPLLC::SendKey(opll_, i, program_, noteNumber, pitchWheel_, velocity, true);
             note.noteNumber_ = noteNumber;
             note.velocity_ = velocity;
             note.active_ = true;
@@ -154,7 +156,7 @@ void Driver::KeyOff(int noteNumber) {
     for (int i = 0; i < 9; i++) {
         NoteInfo& note = notes_[i];
         if (note.active_ && note.noteNumber_ == noteNumber) {
-            OPLLC::SendKey(opll_, i, program_, noteNumber, 0, false);
+            OPLLC::SendKey(opll_, i, program_, noteNumber, pitchWheel_, 0, false);
             note.active_ = false;
             break;
         }
@@ -168,9 +170,10 @@ void Driver::KeyOffAll() {
 }
 
 void Driver::SetPitchWheel(float value) {
+    pitchWheel_ = value;
     for (int i = 0; i < 9; i++) {
         NoteInfo& note = notes_[i];
-        OPLLC::AdjustPitch(opll_, i, note.noteNumber_, value, note.active_);
+        OPLLC::AdjustPitch(opll_, i, note.noteNumber_, pitchWheel_, note.active_);
     }
 }
 
