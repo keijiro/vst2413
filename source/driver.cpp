@@ -1,16 +1,27 @@
 #include "driver.h"
 #include "emu2413.h"
+#include <cmath>
 
 namespace {
     const unsigned int kMsxClock = 3579540;
     
+    template <typename T> T Clamp(T value, T min, T max) {
+        return value < min ? min : (value > max ? max : value);
+    }
+    
     namespace OPLLC {
-        static const int fnums[] = { 181, 192, 204, 216, 229, 242, 257, 272, 288, 305, 323, 343 };
+        int CalcFNum(int note) {
+            int intervalFromA = (note - 21) % 12;
+            return 144.1792f * powf(2.0f, (1.0f / 12) * intervalFromA);
+        }
+        
+        int CalcBlock(int note) {
+            return Clamp((note - 9) / 12, 0, 7);
+        }
 
         void SendKey(OPLL *opll, int channel, int program, int noteNumber, float velocity, bool keyOn) {
-            int fnum = fnums[(noteNumber - 37) % 12];
-            int block = (noteNumber - 13) / 12;
-            block = block < 0 ? 0 : (block > 7) ? 7 : block;
+            int fnum = CalcFNum(noteNumber);
+            int block = CalcBlock(noteNumber);
             OPLL_writeReg(opll, 0x20 + channel, (keyOn ? 0x10 : 0) + (fnum >> 8) + (block << 1));
             if (keyOn) {
                 OPLL_writeReg(opll, 0x10 + channel, fnum & 0xff);
@@ -19,9 +30,8 @@ namespace {
         }
         
         void AdjustPitch(OPLL* opll, int channel, int noteNumber, float velocity, bool keyOn) {
-            int fnum = fnums[(noteNumber - 37) % 12];
-            fnum += velocity * 100;
-            int block = (noteNumber - 13) / 12;
+            int fnum = CalcFNum(noteNumber);
+            int block = CalcBlock(noteNumber);
             block = block < 0 ? 0 : (block > 7) ? 7 : block;
             OPLL_writeReg(opll, 0x20 + channel, (keyOn ? 0x10 : 0) + (fnum >> 8) + (block << 1));
             OPLL_writeReg(opll, 0x10 + channel, fnum & 0xff);
