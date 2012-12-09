@@ -2,7 +2,7 @@ VST2413 FM Synthesizer
 ======================
 
 VST2413 is a software FM synthesizer based on YM2413 (OPLL) emulator.
-YM2413 is well known as low-cost FM sound chip, and it was used on
+YM2413 is well known as low-cost FM sound chip, and was used on
 Sega Master System and FM-PAC sound expansion cartridge for MSX.
 VST2413 can resemble that warm texture of sound and may be well
 suited for use in "16-bit style" chiptune music.
