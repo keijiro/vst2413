@@ -38,7 +38,7 @@ public:
     void SetProgram(int number);
     const char* GetProgramName(int number);
     
-    void KeyOn(int noteNumber, int velocity);
+    void KeyOn(int noteNumber, float velocity);
     void KeyOff(int noteNumber);
     void KeyOffAll();
     
@@ -62,6 +62,7 @@ private:
     unsigned int sampleRate_;
     NoteInfo notes_[9];
     struct __OPLL* opll_;
+    int program_;
     float parameters_[kParamMax];
 };
 

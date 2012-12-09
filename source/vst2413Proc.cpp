@@ -9,7 +9,7 @@ VstInt32 Vst2413::processEvents(VstEvents* events) {
 		VstInt32 status = midiData[0] & 0xf0;
         
         if (status == 0x90) {
-            driver_.KeyOn(midiData[1] & 0x7f, midiData[2] & 0x7f);
+            driver_.KeyOn(midiData[1] & 0x7f, 1.0f / 128 * (midiData[2] & 0x7f));
         } else if (status == 0x80) {
             driver_.KeyOff(midiData[1] & 0x7f);
         } else if (status == 0xb0) {

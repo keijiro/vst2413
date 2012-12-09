@@ -5,13 +5,16 @@ namespace {
     const unsigned int kMsxClock = 3579540;
     
     namespace OPLLC {
-        void SendKey(OPLL *opll, int channel, int noteNumber, bool keyOn) {
+        void SendKey(OPLL *opll, int channel, int program, int noteNumber, float velocity, bool keyOn) {
             static const int fnums[] = { 181, 192, 204, 216, 229, 242, 257, 272, 288, 305, 323, 343 };
             int fnum = fnums[(noteNumber - 37) % 12];
             int block = (noteNumber - 13) / 12;
             block = block < 0 ? 0 : (block > 7) ? 7 : block;
-            OPLL_writeReg(opll, 0x10 + channel, fnum & 0xff);
             OPLL_writeReg(opll, 0x20 + channel, (keyOn ? 0x10 : 0) + (fnum >> 8) + (block << 1));
+            if (keyOn) {
+                OPLL_writeReg(opll, 0x10 + channel, fnum & 0xff);
+                OPLL_writeReg(opll, 0x30 + channel, (program << 4) + static_cast<int>(15.0f - velocity * 15));
+            }
         }
         
         void SendARDR(OPLL* opll, float* parameters, int op) {
@@ -55,7 +58,8 @@ namespace {
 
 Driver::Driver(unsigned int sampleRate)
 :   sampleRate_(sampleRate),
-    opll_(0)
+    opll_(0),
+    program_(0)
 {
     opll_ = OPLL_new(kMsxClock, sampleRate_);
 
@@ -88,10 +92,7 @@ void Driver::SetSampleRate(unsigned int sampleRate) {
 }
 
 void Driver::SetProgram(int number) {
-    int data = (number & 0xf) << 4;
-    for (int i = 0; i < 9; i++) {
-        OPLL_writeReg(opll_, 0x30 + i, data);
-    }
+    program_ = number;
 }
 
 const char* Driver::GetProgramName(int number) {
@@ -116,11 +117,11 @@ const char* Driver::GetProgramName(int number) {
     return names[number & 0xf];
 }
 
-void Driver::KeyOn(int noteNumber, int velocity) {
+void Driver::KeyOn(int noteNumber, float velocity) {
     for (int i = 0; i < 9; i++) {
         NoteInfo& note = notes_[i];
         if (!note.active_) {
-            OPLLC::SendKey(opll_, i, noteNumber, true);
+            OPLLC::SendKey(opll_, i, program_, noteNumber, velocity, true);
             note.noteNumber_ = noteNumber;
             note.velocity_ = velocity;
             note.active_ = true;
@@ -133,7 +134,7 @@ void Driver::KeyOff(int noteNumber) {
     for (int i = 0; i < 9; i++) {
         NoteInfo& note = notes_[i];
         if (note.active_ && note.noteNumber_ == noteNumber) {
-            OPLLC::SendKey(opll_, i, noteNumber, false);
+            OPLLC::SendKey(opll_, i, program_, noteNumber, 0, false);
             note.active_ = false;
             break;
         }
