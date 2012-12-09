@@ -14,7 +14,7 @@ VST2413 is currently under development and has many limitations.
 
 - Rhythm mode is not supported yet.
 - Only for OS X. Windows support is in the plan for the future.
-- VST plug-in only. No Audio Units support.
+- VST plug-in only. No Audio Units support, and I don't know whether it should.
 
 Acknowledgement
 ---------------
