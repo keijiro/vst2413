@@ -117,7 +117,7 @@ void Driver::SetProgram(int number) {
     program_ = number;
 }
 
-const char* Driver::GetProgramName(int number) {
+Driver::String Driver::GetProgramName(int number) {
     static const char* names[] = {
         "User Program",
         "Violin",
@@ -223,7 +223,7 @@ float Driver::GetParameter(ParameterID id) {
     return parameters_[id];
 }
 
-const char* Driver::GetParameterName(ParameterID id) {
+Driver::String Driver::GetParameterName(ParameterID id) {
     static const char *names[kParamMax] = {
         "AR 0",
         "AR 1",
@@ -247,7 +247,7 @@ const char* Driver::GetParameterName(ParameterID id) {
     return names[id];
 }
 
-const char* Driver::GetParameterLabel(ParameterID id) {
+Driver::String Driver::GetParameterLabel(ParameterID id) {
     switch (id) {
         case kParamAR0:
         case kParamAR1:
@@ -265,7 +265,7 @@ const char* Driver::GetParameterLabel(ParameterID id) {
     }
 }
 
-std::string Driver::GetParameterText(ParameterID id) {
+Driver::String Driver::GetParameterText(ParameterID id) {
     // Attack rates
     if (id == kParamAR0 || id == kParamAR1) {
         static const char* texts[16] = {
@@ -290,7 +290,7 @@ std::string Driver::GetParameterText(ParameterID id) {
     if (id == kParamSL0 || id == kParamSL1 || id == kParamTL) {
         char buffer[32];
         snprintf(buffer, sizeof buffer, "%d", static_cast<int>((1.0f - parameters_[id]) * 45));
-        return std::string(buffer);
+        return buffer;
     }
     // Multipliers
     if (id == kParamMUL0 || id == kParamMUL1) {

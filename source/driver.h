@@ -9,6 +9,8 @@ extern "C" {
 
 class Driver {
 public:
+    typedef std::string String;
+    
     enum ParameterID {
         kParamAR0,
         kParamAR1,
@@ -36,7 +38,7 @@ public:
     
     void SetSampleRate(unsigned int sampleRate);
     void SetProgram(int number);
-    const char* GetProgramName(int number);
+    String GetProgramName(int number);
     
     void KeyOn(int noteNumber, float velocity);
     void KeyOff(int noteNumber);
@@ -45,9 +47,9 @@ public:
     
     void SetParameter(ParameterID id, float value);
     float GetParameter(ParameterID id);
-    const char* GetParameterName(ParameterID id);
-    const char* GetParameterLabel(ParameterID id);
-    std::string GetParameterText(ParameterID id);
+    String GetParameterName(ParameterID id);
+    String GetParameterLabel(ParameterID id);
+    String GetParameterText(ParameterID id);
     
     float Step();
     

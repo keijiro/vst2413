@@ -87,15 +87,15 @@ float Vst2413::getParameter(VstInt32 index) {
 }
 
 void Vst2413::getParameterDisplay(VstInt32 index, char *text) {
-    strncpy(text, driver_.GetParameterText(static_cast<Driver::ParameterID>(index)).c_str(), kVstMaxParamStrLen);
+    driver_.GetParameterText(static_cast<Driver::ParameterID>(index)).copy(text, kVstMaxParamStrLen, 0);
 }
 
 void Vst2413::getParameterLabel(VstInt32 index, char *text) {
-    strncpy(text, driver_.GetParameterLabel(static_cast<Driver::ParameterID>(index)), kVstMaxParamStrLen);
+    driver_.GetParameterLabel(static_cast<Driver::ParameterID>(index)).copy(text, kVstMaxParamStrLen, 0);
 }
 
 void Vst2413::getParameterName(VstInt32 index, char *text) {
-    strncpy(text, driver_.GetParameterName(static_cast<Driver::ParameterID>(index)), kVstMaxParamStrLen);
+    driver_.GetParameterName(static_cast<Driver::ParameterID>(index)).copy(text, kVstMaxParamStrLen, 0);
 }
 
 void Vst2413::setParameter(VstInt32 index, float value) {
@@ -112,12 +112,16 @@ bool Vst2413::getProductString(char* text) {
 }
 
 void Vst2413::getProgramName(char *name) {
-    strncpy(name, driver_.GetProgramName(program_), kVstMaxProductStrLen);
+    driver_.GetProgramName(program_).copy(name, kVstMaxProgNameLen, 0);
 }
 
 bool Vst2413::getProgramNameIndexed(VstInt32 category, VstInt32 index, char *text) {
-    strncpy(text, driver_.GetProgramName(index), kVstMaxProductStrLen);
-    return false;
+    if (index < kNumPrograms) {
+        driver_.GetProgramName(index).copy(text, kVstMaxProgNameLen, 0);
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool Vst2413::getVendorString(char* text) {
