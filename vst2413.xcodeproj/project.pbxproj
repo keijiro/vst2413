@@ -23,7 +23,6 @@
 		0F0E73CB167C7C07002D1E79 /* audioeffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348AF166A066D00379899 /* audioeffect.cpp */; };
 		0F0E73CC167C7C07002D1E79 /* audioeffectx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348B1166A066D00379899 /* audioeffectx.cpp */; };
 		0F0E73CD167C7C07002D1E79 /* vstplugmain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348B3166A066D00379899 /* vstplugmain.cpp */; };
-		0F0E73CE167C7C07002D1E79 /* SynthDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F2FA10B166AE6F900EEA696 /* SynthDriver.cpp */; };
 		0F0E73CF167C7C07002D1E79 /* emu2413.c in Sources */ = {isa = PBXBuildFile; fileRef = 0F49B2FF166B7C7B008ABB08 /* emu2413.c */; };
 		0F0E73D1167C7C07002D1E79 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EA7FFBFE8413EDC02AAC07 /* Carbon.framework */; };
 		0F0E73DA167C7D37002D1E79 /* Vst2413r.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F0E73B6167C7BC0002D1E79 /* Vst2413r.cpp */; };
@@ -42,6 +41,8 @@
 		0F6348B7166A066D00379899 /* audioeffectx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348B1166A066D00379899 /* audioeffectx.cpp */; };
 		0F6348B8166A066D00379899 /* audioeffectx.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F6348B2166A066D00379899 /* audioeffectx.h */; };
 		0F6348B9166A066D00379899 /* vstplugmain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348B3166A066D00379899 /* vstplugmain.cpp */; };
+		0FF9A45C167C7F9500423440 /* RhythmDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0FF9A45A167C7F9500423440 /* RhythmDriver.cpp */; };
+		0FF9A45D167C7F9500423440 /* RhythmDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 0FF9A45B167C7F9500423440 /* RhythmDriver.h */; };
 		2407DEB9089929BA00EB68BF /* Vst2413s.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407DEB6089929BA00EB68BF /* Vst2413s.cpp */; };
 		2407DEBA089929BA00EB68BF /* Vst2413s.h in Headers */ = {isa = PBXBuildFile; fileRef = 2407DEB7089929BA00EB68BF /* Vst2413s.h */; };
 		24A483930926E8F400DC794C /* PkgInfo in Resources */ = {isa = PBXBuildFile; fileRef = 24A483910926E8F400DC794C /* PkgInfo */; };
@@ -70,6 +71,8 @@
 		0F6348B1166A066D00379899 /* audioeffectx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = audioeffectx.cpp; sourceTree = "<group>"; };
 		0F6348B2166A066D00379899 /* audioeffectx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = audioeffectx.h; sourceTree = "<group>"; };
 		0F6348B3166A066D00379899 /* vstplugmain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vstplugmain.cpp; sourceTree = "<group>"; };
+		0FF9A45A167C7F9500423440 /* RhythmDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RhythmDriver.cpp; path = source/RhythmDriver.cpp; sourceTree = "<group>"; };
+		0FF9A45B167C7F9500423440 /* RhythmDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RhythmDriver.h; path = source/RhythmDriver.h; sourceTree = "<group>"; };
 		2407DE920899296600EB68BF /* vst2413s.vst */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = vst2413s.vst; sourceTree = BUILT_PRODUCTS_DIR; };
 		2407DEB6089929BA00EB68BF /* Vst2413s.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Vst2413s.cpp; path = source/Vst2413s.cpp; sourceTree = "<group>"; };
 		2407DEB7089929BA00EB68BF /* Vst2413s.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Vst2413s.h; path = source/Vst2413s.h; sourceTree = "<group>"; };
@@ -133,6 +136,8 @@
 			isa = PBXGroup;
 			children = (
 				0F49B2FC166B7C7B008ABB08 /* emu2413 */,
+				0FF9A45A167C7F9500423440 /* RhythmDriver.cpp */,
+				0FF9A45B167C7F9500423440 /* RhythmDriver.h */,
 				0F2FA10B166AE6F900EEA696 /* SynthDriver.cpp */,
 				0F2FA10C166AE6F900EEA696 /* SynthDriver.h */,
 				0F0E73B6167C7BC0002D1E79 /* Vst2413r.cpp */,
@@ -199,6 +204,7 @@
 				0F0E73C3167C7C07002D1E79 /* emu2413.h in Headers */,
 				0F0E73C4167C7C07002D1E79 /* emutypes.h in Headers */,
 				0F0E73C5167C7C07002D1E79 /* vrc7tone.h in Headers */,
+				0FF9A45D167C7F9500423440 /* RhythmDriver.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,8 +404,8 @@
 				0F0E73CB167C7C07002D1E79 /* audioeffect.cpp in Sources */,
 				0F0E73CC167C7C07002D1E79 /* audioeffectx.cpp in Sources */,
 				0F0E73CD167C7C07002D1E79 /* vstplugmain.cpp in Sources */,
-				0F0E73CE167C7C07002D1E79 /* SynthDriver.cpp in Sources */,
 				0F0E73CF167C7C07002D1E79 /* emu2413.c in Sources */,
+				0FF9A45C167C7F9500423440 /* RhythmDriver.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

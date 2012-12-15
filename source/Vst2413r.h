@@ -2,11 +2,11 @@
 #define __Vst2413r__
 
 #include "audioeffectx.h"
-#include "SynthDriver.h"
+#include "RhythmDriver.h"
 
 class Vst2413r : public AudioEffectX {
 public:
-    static const unsigned long kUniqueId = 'dAzy';
+    static const unsigned long kUniqueId = 'dAzz';
 
     Vst2413r(audioMasterCallback audioMaster);
     ~Vst2413r();
@@ -46,7 +46,7 @@ public:
 	virtual bool getMidiKeyName (VstInt32 channel, MidiKeyName* keyName);
 
 private:
-    SynthDriver driver_;
+    RhythmDriver driver_;
 };
 
 #endif

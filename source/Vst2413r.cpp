@@ -11,7 +11,7 @@ AudioEffect* createEffectInstance(audioMasterCallback audioMaster) {
 }
 
 Vst2413r::Vst2413r(audioMasterCallback audioMaster)
-:   AudioEffectX(audioMaster, SynthDriver::kPrograms, SynthDriver::kParameters),
+:   AudioEffectX(audioMaster, 0, 0),
     driver_(44100)
 {
     if(audioMaster != NULL) {
@@ -49,12 +49,6 @@ VstInt32 Vst2413r::processEvents(VstEvents* events) {
             case 0xb0:
                 if (data[1] == 0x7e || data[1] == 0x7b) driver_.KeyOffAll();
                 break;
-            // pitch wheel
-            case 0xe0: {
-                int position = ((data[2] & 0x7f) << 7) + (data[1] & 0x7f);
-                driver_.SetPitchWheel((1.0f / 0x2000) * (position - 0x2000));
-                break;
-            }
             default:
                 break;
         }
@@ -70,7 +64,7 @@ void Vst2413r::processReplacing(float** inputs, float** outputs, VstInt32 sample
 #pragma mark Program
 
 void Vst2413r::setProgram(VstInt32 index) {
-    driver_.SetProgram(static_cast<SynthDriver::ProgramID>(index));
+    // not supported
 }
 
 void Vst2413r::setProgramName(char* name) {
@@ -78,39 +72,34 @@ void Vst2413r::setProgramName(char* name) {
 }
 
 void Vst2413r::getProgramName(char* name) {
-    driver_.GetProgramName(driver_.GetProgram()).copy(name, kVstMaxProgNameLen);
+    // not supported
 }
 
 bool Vst2413r::getProgramNameIndexed(VstInt32 category, VstInt32 index, char* text) {
-    if (index < SynthDriver::kPrograms) {
-        driver_.GetProgramName(static_cast<SynthDriver::ProgramID>(index)).copy(text, kVstMaxProgNameLen);
-        return true;
-    } else {
-        return false;
-    }
+    return false;
 }
 
 #pragma mark
 #pragma mark Parameter
 
 void Vst2413r::setParameter(VstInt32 index, float value) {
-    driver_.SetParameter(static_cast<SynthDriver::ParameterID>(index), value);
+    // not supported
 }
 
 float Vst2413r::getParameter(VstInt32 index) {
-    return driver_.GetParameter(static_cast<SynthDriver::ParameterID>(index));
+    return 0.0f;
 }
 
 void Vst2413r::getParameterLabel(VstInt32 index, char* text) {
-    driver_.GetParameterLabel(static_cast<SynthDriver::ParameterID>(index)).copy(text, kVstMaxParamStrLen);
+    // not supported
 }
 
 void Vst2413r::getParameterDisplay(VstInt32 index, char* text) {
-    driver_.GetParameterText(static_cast<SynthDriver::ParameterID>(index)).copy(text, kVstMaxParamStrLen);
+    // not supported
 }
 
 void Vst2413r::getParameterName(VstInt32 index, char* text) {
-    driver_.GetParameterName(static_cast<SynthDriver::ParameterID>(index)).copy(text, kVstMaxParamStrLen);
+    // not supported
 }
 
 #pragma mark
@@ -138,7 +127,7 @@ bool Vst2413r::getOutputProperties(VstInt32 index, VstPinProperties* properties)
 #pragma mark Plug-in properties
 
 bool Vst2413r::getEffectName(char* name) {
-    String("VST2413").copy(name, kVstMaxEffectNameLen);
+    String("VST2413R").copy(name, kVstMaxEffectNameLen);
     return true;
 }
 
@@ -148,7 +137,7 @@ bool Vst2413r::getVendorString(char* text) {
 }
 
 bool Vst2413r::getProductString(char* text) {
-    String("VST2413").copy(text, kVstMaxProductStrLen);
+    String("VST2413R").copy(text, kVstMaxProductStrLen);
     return true;
 }
 

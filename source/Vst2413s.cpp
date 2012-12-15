@@ -138,7 +138,7 @@ bool Vst2413s::getOutputProperties(VstInt32 index, VstPinProperties* properties)
 #pragma mark Plug-in properties
 
 bool Vst2413s::getEffectName(char* name) {
-    String("VST2413").copy(name, kVstMaxEffectNameLen);
+    String("VST2413S").copy(name, kVstMaxEffectNameLen);
     return true;
 }
 
@@ -148,7 +148,7 @@ bool Vst2413s::getVendorString(char* text) {
 }
 
 bool Vst2413s::getProductString(char* text) {
-    String("VST2413").copy(text, kVstMaxProductStrLen);
+    String("VST2413S").copy(text, kVstMaxProductStrLen);
     return true;
 }
 
