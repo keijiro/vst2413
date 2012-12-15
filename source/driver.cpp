@@ -3,86 +3,90 @@
 #include <cmath>
 
 namespace {
-    const unsigned int kMsxClock = 3579540;
+    // OPLL master clock = 3.579545 MHz
+    const unsigned int kMasterClock = 3579545;
+    
+#pragma mark Utility functions
     
     template <typename T> T Clamp(T value, T min, T max) {
         return value < min ? min : (value > max ? max : value);
     }
-    
+
+#pragma mark
+#pragma mark OPLL controller functions
+
     namespace OPLLC {
-        int CalcFNum(int note, float wheel) {
+        int CalculateFNumber(int note, float wheel) {
             int intervalFromA = (note - 9) % 12;
             return 144.1792f * powf(2.0f, (1.0f / 12) * (intervalFromA + wheel * 6));
         }
         
-        int CalcBlock(int note) {
+        int NoteToBlock(int note) {
             return Clamp((note - 9) / 12, 0, 7);
         }
         
-        int CalcBlockFNum(int note, float wheel) {
-            return (CalcBlock(note) << 9) + CalcFNum(note, wheel);
+        int CalculateBlockAndFNumber(int note, float wheel) {
+            return (NoteToBlock(note) << 9) + CalculateFNumber(note, wheel);
         }
 
-        void SendKey(OPLL *opll, int channel, int program, int noteNumber, float wheel, float velocity, bool keyOn) {
-            int bfnum = CalcBlockFNum(noteNumber, wheel);
-            OPLL_writeReg(opll, 0x20 + channel, (keyOn ? 0x10 : 0) + (bfnum >> 8));
+        void SendKey(OPLL* opll, int channel, int program, int note, float wheel, float velocity, bool keyOn) {
+            int bf = CalculateBlockAndFNumber(note, wheel);
+            int vl = 15.0f - velocity * 15;
+            OPLL_writeReg(opll, 0x20 + channel, (keyOn ? 0x10 : 0) + (bf >> 8));
             if (keyOn) {
-                OPLL_writeReg(opll, 0x10 + channel, bfnum & 0xff);
-                OPLL_writeReg(opll, 0x30 + channel, (program << 4) + static_cast<int>(15.0f - velocity * 15));
+                OPLL_writeReg(opll, 0x10 + channel, bf & 0xff);
+                OPLL_writeReg(opll, 0x30 + channel, (program << 4) + vl);
             }
         }
         
-        void AdjustPitch(OPLL* opll, int channel, int noteNumber, float wheel, bool keyOn) {
-            int bfnum = CalcBlockFNum(noteNumber, wheel);
-            OPLL_writeReg(opll, 0x20 + channel, (keyOn ? 0x10 : 0) + (bfnum >> 8));
-            OPLL_writeReg(opll, 0x10 + channel, bfnum & 0xff);
+        void AdjustPitch(OPLL* opll, int channel, int note, float wheel, bool keyOn) {
+            int bf = CalculateBlockAndFNumber(note, wheel);
+            OPLL_writeReg(opll, 0x10 + channel, bf & 0xff);
+            OPLL_writeReg(opll, 0x20 + channel, (keyOn ? 0x10 : 0) + (bf >> 8));
         }
         
-        void SendARDR(OPLL* opll, float* parameters, int op) {
-            unsigned int data =
-                (static_cast<unsigned int>((1.0f - parameters[Driver::kParameterAR0 + op]) * 255) & 0xf0) +
-                 static_cast<unsigned int>((1.0f - parameters[Driver::kParameterDR0 + op]) * 15);
-            OPLL_writeReg(opll, 4 + op, data);
+        void SendARDR(OPLL* opll, const float* parameters, int op) {
+            int ar = (1.0f - parameters[Driver::kParameterAR0 + op]) * 15;
+            int dr = (1.0f - parameters[Driver::kParameterDR0 + op]) * 15;
+            OPLL_writeReg(opll, 4 + op, (ar << 4) + dr);
         }
 
-        void SendSLRR(OPLL* opll, float* parameters, int op) {
-            unsigned int data =
-                (static_cast<unsigned int>((1.0f - parameters[Driver::kParameterSL0 + op]) * 255) & 0xf0) +
-                 static_cast<unsigned int>((1.0f - parameters[Driver::kParameterRR0 + op]) * 15);
-            OPLL_writeReg(opll, 6 + op, data);
+        void SendSLRR(OPLL* opll, const float* parameters, int op) {
+            int sl = (1.0f - parameters[Driver::kParameterSL0 + op]) * 15;
+            int rr = (1.0f - parameters[Driver::kParameterRR0 + op]) * 15;
+            OPLL_writeReg(opll, 6 + op, (sl << 4) + rr);
         }
 
-        void SendMUL(OPLL* opll, float* parameters, int op) {
-            unsigned int data =
-                (parameters[Driver::kParameterAM0  + op] < 0.5f ? 0 : 0x80) +
-                (parameters[Driver::kParameterVIB0 + op] < 0.5f ? 0 : 0x40) +
-                0x20 +
-                static_cast<unsigned int>(parameters[Driver::kParameterMUL0 + op] * 15);
-            OPLL_writeReg(opll, op, data);
+        void SendMUL(OPLL* opll, const float* parameters, int op) {
+            int am  = parameters[Driver::kParameterAM0  + op] < 0.5f ? 0 : 0x80;
+            int vib = parameters[Driver::kParameterVIB0 + op] < 0.5f ? 0 : 0x40;
+            int mul = parameters[Driver::kParameterMUL0 + op] * 15;
+            OPLL_writeReg(opll, op, am + vib + 0x20 + mul);
         }
 
-        void SendFB(OPLL* opll, float* parameters) {
-            unsigned int data =
-                 (parameters[Driver::kParameterDC] < 0.5f ? 0 : 0x10) +
-                 (parameters[Driver::kParameterDM] < 0.5f ? 0 : 0x08) +
-                 static_cast<unsigned int>(parameters[Driver::kParameterFB] * 7);
-            OPLL_writeReg(opll, 3, data);
+        void SendFB(OPLL* opll, const float* parameters) {
+            int dc = parameters[Driver::kParameterDC] < 0.5f ? 0 : 0x10;
+            int dm = parameters[Driver::kParameterDM] < 0.5f ? 0 : 0x08;
+            int fb = parameters[Driver::kParameterFB] * 7;
+            OPLL_writeReg(opll, 3, dc + dm + fb);
         }
 
-        void SendTL(OPLL* opll, float* parameters) {
-            unsigned int data =
-                 static_cast<unsigned int>((1.0f - parameters[Driver::kParameterTL]) * 63);
-            OPLL_writeReg(opll, 2, data);
+        void SendTL(OPLL* opll, const float* parameters) {
+            int tl = (1.0f - parameters[Driver::kParameterTL]) * 63;
+            OPLL_writeReg(opll, 2, tl);
         }
     }
 }
+
+#pragma mark
+#pragma mark Creation and destruction
 
 Driver::Driver(unsigned int sampleRate)
 :   opll_(0),
     program_(kProgramUser),
     pitchWheel_(0)
 {
-    opll_ = OPLL_new(kMsxClock, sampleRate);
+    opll_ = OPLL_new(kMasterClock, sampleRate);
 
     for (int i = 0; i < kParameters; i++) {
         parameters_[i] = 0.0f;
