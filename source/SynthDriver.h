@@ -1,5 +1,5 @@
-#ifndef __driver__
-#define __driver__
+#ifndef __SynthDriver__
+#define __SynthDriver__
 
 #include <string>
 
