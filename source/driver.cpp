@@ -40,38 +40,38 @@ namespace {
         
         void SendARDR(OPLL* opll, float* parameters, int op) {
             unsigned int data =
-                (static_cast<unsigned int>((1.0f - parameters[Driver::kParamAR0 + op]) * 255) & 0xf0) +
-                 static_cast<unsigned int>((1.0f - parameters[Driver::kParamDR0 + op]) * 15);
+                (static_cast<unsigned int>((1.0f - parameters[Driver::kParameterAR0 + op]) * 255) & 0xf0) +
+                 static_cast<unsigned int>((1.0f - parameters[Driver::kParameterDR0 + op]) * 15);
             OPLL_writeReg(opll, 4 + op, data);
         }
 
         void SendSLRR(OPLL* opll, float* parameters, int op) {
             unsigned int data =
-                (static_cast<unsigned int>((1.0f - parameters[Driver::kParamSL0 + op]) * 255) & 0xf0) +
-                 static_cast<unsigned int>((1.0f - parameters[Driver::kParamRR0 + op]) * 15);
+                (static_cast<unsigned int>((1.0f - parameters[Driver::kParameterSL0 + op]) * 255) & 0xf0) +
+                 static_cast<unsigned int>((1.0f - parameters[Driver::kParameterRR0 + op]) * 15);
             OPLL_writeReg(opll, 6 + op, data);
         }
 
         void SendMUL(OPLL* opll, float* parameters, int op) {
             unsigned int data =
-                (parameters[Driver::kParamAM0  + op] < 0.5f ? 0 : 0x80) +
-                (parameters[Driver::kParamVIB0 + op] < 0.5f ? 0 : 0x40) +
+                (parameters[Driver::kParameterAM0  + op] < 0.5f ? 0 : 0x80) +
+                (parameters[Driver::kParameterVIB0 + op] < 0.5f ? 0 : 0x40) +
                 0x20 +
-                static_cast<unsigned int>(parameters[Driver::kParamMUL0 + op] * 15);
+                static_cast<unsigned int>(parameters[Driver::kParameterMUL0 + op] * 15);
             OPLL_writeReg(opll, op, data);
         }
 
         void SendFB(OPLL* opll, float* parameters) {
             unsigned int data =
-                 (parameters[Driver::kParamDC] < 0.5f ? 0 : 0x10) +
-                 (parameters[Driver::kParamDM] < 0.5f ? 0 : 0x08) +
-                 static_cast<unsigned int>(parameters[Driver::kParamFB] * 7);
+                 (parameters[Driver::kParameterDC] < 0.5f ? 0 : 0x10) +
+                 (parameters[Driver::kParameterDM] < 0.5f ? 0 : 0x08) +
+                 static_cast<unsigned int>(parameters[Driver::kParameterFB] * 7);
             OPLL_writeReg(opll, 3, data);
         }
 
         void SendTL(OPLL* opll, float* parameters) {
             unsigned int data =
-                 static_cast<unsigned int>((1.0f - parameters[Driver::kParamTL]) * 63);
+                 static_cast<unsigned int>((1.0f - parameters[Driver::kParameterTL]) * 63);
             OPLL_writeReg(opll, 2, data);
         }
     }
@@ -85,14 +85,14 @@ Driver::Driver(unsigned int sampleRate)
 {
     opll_ = OPLL_new(kMsxClock, sampleRate_);
 
-    for (int i = 0; i < kParamMax; i++) {
+    for (int i = 0; i < kParameterMax; i++) {
         parameters_[i] = 0.0f;
     }
     
-    parameters_[kParamSL0] = 1.0f;
-    parameters_[kParamSL1] = 1.0f;
-    parameters_[kParamMUL0] = 1.1f / 15;
-    parameters_[kParamMUL1] = 1.1f / 15;
+    parameters_[kParameterSL0] = 1.0f;
+    parameters_[kParameterSL1] = 1.0f;
+    parameters_[kParameterMUL0] = 1.1f / 15;
+    parameters_[kParameterMUL1] = 1.1f / 15;
     
     OPLLC::SendARDR(opll_, parameters_, 0);
     OPLLC::SendARDR(opll_, parameters_, 1);
@@ -180,38 +180,38 @@ void Driver::SetPitchWheel(float value) {
 void Driver::SetParameter(ParameterID id, float value) {
     parameters_[id] = value;
     switch (id) {
-        case kParamAR0:
-        case kParamDR0:
+        case kParameterAR0:
+        case kParameterDR0:
             OPLLC::SendARDR(opll_, parameters_, 0);
             break;
-        case kParamAR1:
-        case kParamDR1:
+        case kParameterAR1:
+        case kParameterDR1:
             OPLLC::SendARDR(opll_, parameters_, 1);
             break;
-        case kParamSL0:
-        case kParamRR0:
+        case kParameterSL0:
+        case kParameterRR0:
             OPLLC::SendSLRR(opll_, parameters_, 0);
             break;
-        case kParamSL1:
-        case kParamRR1:
+        case kParameterSL1:
+        case kParameterRR1:
             OPLLC::SendSLRR(opll_, parameters_, 1);
             break;
-        case kParamMUL0:
-        case kParamVIB0:
-        case kParamAM0:
+        case kParameterMUL0:
+        case kParameterVIB0:
+        case kParameterAM0:
             OPLLC::SendMUL(opll_, parameters_, 0);
             break;
-        case kParamMUL1:
-        case kParamVIB1:
-        case kParamAM1:
+        case kParameterMUL1:
+        case kParameterVIB1:
+        case kParameterAM1:
             OPLLC::SendMUL(opll_, parameters_, 1);
             break;
-        case kParamFB:
-        case kParamDM:
-        case kParamDC:
+        case kParameterFB:
+        case kParameterDM:
+        case kParameterDC:
             OPLLC::SendFB(opll_, parameters_);
             break;
-        case kParamTL:
+        case kParameterTL:
             OPLLC::SendTL(opll_, parameters_);
             break;
         default:
@@ -224,7 +224,7 @@ float Driver::GetParameter(ParameterID id) {
 }
 
 Driver::String Driver::GetParameterName(ParameterID id) {
-    static const char *names[kParamMax] = {
+    static const char *names[kParameterMax] = {
         "AR 0",
         "AR 1",
         "DR 0",
@@ -249,16 +249,16 @@ Driver::String Driver::GetParameterName(ParameterID id) {
 
 Driver::String Driver::GetParameterLabel(ParameterID id) {
     switch (id) {
-        case kParamAR0:
-        case kParamAR1:
-        case kParamDR0:
-        case kParamDR1:
-        case kParamRR0:
-        case kParamRR1:
+        case kParameterAR0:
+        case kParameterAR1:
+        case kParameterDR0:
+        case kParameterDR1:
+        case kParameterRR0:
+        case kParameterRR1:
             return "msec";
-        case kParamSL0:
-        case kParamSL1:
-        case kParamTL:
+        case kParameterSL0:
+        case kParameterSL1:
+        case kParameterTL:
             return "db";
         default:
             return "";
@@ -267,7 +267,7 @@ Driver::String Driver::GetParameterLabel(ParameterID id) {
 
 Driver::String Driver::GetParameterText(ParameterID id) {
     // Attack rates
-    if (id == kParamAR0 || id == kParamAR1) {
+    if (id == kParameterAR0 || id == kParameterAR1) {
         static const char* texts[16] = {
             "0", "0.28", "0.50", "0.84",
             "1.69", "3.30", "6.76", "13.52",
@@ -277,7 +277,7 @@ Driver::String Driver::GetParameterText(ParameterID id) {
         return texts[static_cast<int>(parameters_[id] * 15)];
     }
     // Decay-like rates
-    if (id == kParamDR0 || id == kParamDR1 || id == kParamRR0 || id == kParamRR1) {
+    if (id == kParameterDR0 || id == kParameterDR1 || id == kParameterRR0 || id == kParameterRR1) {
         static const char* texts[16] = {
             "1.27", "2.55", "5.11", "10.22",
             "20.44", "40.07", "81.74", "163.49",
@@ -287,13 +287,13 @@ Driver::String Driver::GetParameterText(ParameterID id) {
         return texts[static_cast<int>(parameters_[id] * 15)];
     }
     // Levels
-    if (id == kParamSL0 || id == kParamSL1 || id == kParamTL) {
+    if (id == kParameterSL0 || id == kParameterSL1 || id == kParameterTL) {
         char buffer[32];
         snprintf(buffer, sizeof buffer, "%d", static_cast<int>((1.0f - parameters_[id]) * 45));
         return buffer;
     }
     // Multipliers
-    if (id == kParamMUL0 || id == kParamMUL1) {
+    if (id == kParameterMUL0 || id == kParameterMUL1) {
         static const char* texts[16] = {
             "1/2", "1", "2", "3",
             "4", "5", "6", "7",
@@ -303,7 +303,7 @@ Driver::String Driver::GetParameterText(ParameterID id) {
         return texts[static_cast<int>(parameters_[id] * 15)];
     }
     // Feedback
-    if (id == kParamFB) {
+    if (id == kParameterFB) {
         static const char* texts[8] = {
             "0", "n/16", "n/8", "n/4", "n/2", "n", "2n", "4n"
         };

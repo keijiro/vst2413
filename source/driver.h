@@ -17,25 +17,25 @@ public:
     };
     
     enum ParameterID {
-        kParamAR0,
-        kParamAR1,
-        kParamDR0,
-        kParamDR1,
-        kParamSL0,
-        kParamSL1,
-        kParamRR0,
-        kParamRR1,
-        kParamMUL0,
-        kParamMUL1,
-        kParamFB,
-        kParamTL,
-        kParamDM,
-        kParamDC,
-        kParamAM0,
-        kParamAM1,
-        kParamVIB0,
-        kParamVIB1,
-        kParamMax
+        kParameterAR0,
+        kParameterAR1,
+        kParameterDR0,
+        kParameterDR1,
+        kParameterSL0,
+        kParameterSL1,
+        kParameterRR0,
+        kParameterRR1,
+        kParameterMUL0,
+        kParameterMUL1,
+        kParameterFB,
+        kParameterTL,
+        kParameterDM,
+        kParameterDC,
+        kParameterAM0,
+        kParameterAM1,
+        kParameterVIB0,
+        kParameterVIB1,
+        kParameterMax
     };
     
     Driver(unsigned int sampleRate);
@@ -73,7 +73,7 @@ private:
     struct __OPLL* opll_;
     ProgramID program_;
     float pitchWheel_;
-    float parameters_[kParamMax];
+    float parameters_[kParameterMax];
 };
 
 #endif
