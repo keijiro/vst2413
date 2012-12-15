@@ -45,7 +45,7 @@ public:
     
     void SetSampleRate(unsigned int sampleRate);
     
-    void SetProgram(ProgramID id);
+    void SetProgram(ProgramID id) { program_ = id; }
     ProgramID GetProgram() { return program_; }
     String GetProgramName(ProgramID id);
     
@@ -64,11 +64,11 @@ public:
     float Step();
     
 private:
-    struct NoteInfo {
+    struct ChannelInfo {
         bool active_;
-        int noteNumber_;
+        int note_;
         int velocity_;
-        NoteInfo() : active_(false) {}
+        ChannelInfo() : active_(false) {}
     };
     
     struct __OPLL* opll_;
@@ -76,8 +76,8 @@ private:
     ProgramID program_;
     float parameters_[kParameters];
     
-    NoteInfo notes_[kChannels];
-    float pitchWheel_;
+    ChannelInfo channels_[kChannels];
+    float wheel_;
 };
 
 #endif

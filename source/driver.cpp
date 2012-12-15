@@ -84,19 +84,18 @@ namespace {
 Driver::Driver(unsigned int sampleRate)
 :   opll_(0),
     program_(kProgramUser),
-    pitchWheel_(0)
+    wheel_(0)
 {
     opll_ = OPLL_new(kMasterClock, sampleRate);
-
+    // Initialize all the parameters.
     for (int i = 0; i < kParameters; i++) {
         parameters_[i] = 0.0f;
     }
-    
     parameters_[kParameterSL0] = 1.0f;
     parameters_[kParameterSL1] = 1.0f;
     parameters_[kParameterMUL0] = 1.1f / 15;
     parameters_[kParameterMUL1] = 1.1f / 15;
-    
+    // Initialize the program on the OPLL.
     OPLLC::SendARDR(opll_, parameters_, 0);
     OPLLC::SendARDR(opll_, parameters_, 1);
     OPLLC::SendSLRR(opll_, parameters_, 0);
@@ -111,13 +110,15 @@ Driver::~Driver() {
     OPLL_delete(opll_);
 }
 
+#pragma mark
+#pragma mark Output setting
+
 void Driver::SetSampleRate(unsigned int sampleRate) {
     OPLL_set_rate(opll_, sampleRate);
 }
 
-void Driver::SetProgram(ProgramID id) {
-    program_ = id;
-}
+#pragma mark
+#pragma mark Program
 
 Driver::String Driver::GetProgramName(ProgramID id) {
     static const char* names[] = {
@@ -141,43 +142,56 @@ Driver::String Driver::GetProgramName(ProgramID id) {
     return names[id];
 }
 
-void Driver::KeyOn(int noteNumber, float velocity) {
-    for (int i = 0; i < 9; i++) {
-        NoteInfo& note = notes_[i];
-        if (!note.active_) {
-            OPLLC::SendKey(opll_, i, program_, noteNumber, pitchWheel_, velocity, true);
-            note.noteNumber_ = noteNumber;
-            note.velocity_ = velocity;
-            note.active_ = true;
+#pragma mark
+#pragma mark Key on and off
+
+void Driver::KeyOn(int note, float velocity) {
+    for (int i = 0; i < kChannels; i++) {
+        ChannelInfo& info = channels_[i];
+        if (!info.active_) {
+            OPLLC::SendKey(opll_, i, program_, note, wheel_, velocity, true);
+            info.note_ = note;
+            info.velocity_ = velocity;
+            info.active_ = true;
             break;
         }
     }
 }
 
-void Driver::KeyOff(int noteNumber) {
-    for (int i = 0; i < 9; i++) {
-        NoteInfo& note = notes_[i];
-        if (note.active_ && note.noteNumber_ == noteNumber) {
-            OPLLC::SendKey(opll_, i, program_, noteNumber, pitchWheel_, 0, false);
-            note.active_ = false;
+void Driver::KeyOff(int note) {
+    for (int i = 0; i < kChannels; i++) {
+        ChannelInfo& info = channels_[i];
+        if (info.active_ && info.note_ == note) {
+            OPLLC::SendKey(opll_, i, program_, note, wheel_, 0, false);
+            info.active_ = false;
             break;
         }
     }
 }
 
 void Driver::KeyOffAll() {
-    for (int i = 0; i < 9; i++) {
-        notes_[i].active_ = false;
+    for (int i = 0; i < kChannels; i++) {
+        ChannelInfo& info = channels_[i];
+        if (info.active_) {
+            OPLLC::SendKey(opll_, i, program_, info.note_, wheel_, 0, false);
+            info.active_ = false;
+        }
     }
 }
 
+#pragma mark
+#pragma mark Modifiers
+
 void Driver::SetPitchWheel(float value) {
-    pitchWheel_ = value;
-    for (int i = 0; i < 9; i++) {
-        NoteInfo& note = notes_[i];
-        OPLLC::AdjustPitch(opll_, i, note.noteNumber_, pitchWheel_, note.active_);
+    wheel_ = value;
+    for (int i = 0; i < kChannels; i++) {
+        ChannelInfo& info = channels_[i];
+        OPLLC::AdjustPitch(opll_, i, info.note_, wheel_, info.active_);
     }
 }
+
+#pragma mark
+#pragma mark Parameters
 
 void Driver::SetParameter(ParameterID id, float value) {
     parameters_[id] = value;
@@ -216,7 +230,7 @@ void Driver::SetParameter(ParameterID id, float value) {
         case kParameterTL:
             OPLLC::SendTL(opll_, parameters_);
             break;
-        default:
+        case kParameters:
             break;
     }
 }
@@ -226,7 +240,7 @@ float Driver::GetParameter(ParameterID id) {
 }
 
 Driver::String Driver::GetParameterName(ParameterID id) {
-    static const char *names[kParameters] = {
+    static const char* names[kParameters] = {
         "AR 0",
         "AR 1",
         "DR 0",
@@ -314,6 +328,9 @@ Driver::String Driver::GetParameterText(ParameterID id) {
     // Switches
     return parameters_[id] < 0.5f ? "off" : "on";
 }
+
+#pragma mark
+#pragma mark Output processing
 
 float Driver::Step() {
     return (4.0f / 32767) * OPLL_calc(opll_);
