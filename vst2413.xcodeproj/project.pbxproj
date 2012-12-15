@@ -22,8 +22,8 @@
 		0F6348B7166A066D00379899 /* audioeffectx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348B1166A066D00379899 /* audioeffectx.cpp */; };
 		0F6348B8166A066D00379899 /* audioeffectx.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F6348B2166A066D00379899 /* audioeffectx.h */; };
 		0F6348B9166A066D00379899 /* vstplugmain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348B3166A066D00379899 /* vstplugmain.cpp */; };
-		2407DEB9089929BA00EB68BF /* vst2413.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407DEB6089929BA00EB68BF /* vst2413.cpp */; };
-		2407DEBA089929BA00EB68BF /* vst2413.h in Headers */ = {isa = PBXBuildFile; fileRef = 2407DEB7089929BA00EB68BF /* vst2413.h */; };
+		2407DEB9089929BA00EB68BF /* Vst2413s.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407DEB6089929BA00EB68BF /* Vst2413s.cpp */; };
+		2407DEBA089929BA00EB68BF /* Vst2413s.h in Headers */ = {isa = PBXBuildFile; fileRef = 2407DEB7089929BA00EB68BF /* Vst2413s.h */; };
 		24A483930926E8F400DC794C /* PkgInfo in Resources */ = {isa = PBXBuildFile; fileRef = 24A483910926E8F400DC794C /* PkgInfo */; };
 		24D8290609A91ECA0093AEF8 /* xcode_vst_prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D8290509A91ECA0093AEF8 /* xcode_vst_prefix.h */; };
 		8D01CCCE0486CAD60068D4B7 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EA7FFBFE8413EDC02AAC07 /* Carbon.framework */; };
@@ -46,9 +46,9 @@
 		0F6348B1166A066D00379899 /* audioeffectx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = audioeffectx.cpp; sourceTree = "<group>"; };
 		0F6348B2166A066D00379899 /* audioeffectx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = audioeffectx.h; sourceTree = "<group>"; };
 		0F6348B3166A066D00379899 /* vstplugmain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vstplugmain.cpp; sourceTree = "<group>"; };
-		2407DE920899296600EB68BF /* vst2413.vst */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = vst2413.vst; sourceTree = BUILT_PRODUCTS_DIR; };
-		2407DEB6089929BA00EB68BF /* vst2413.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = vst2413.cpp; path = source/vst2413.cpp; sourceTree = "<group>"; };
-		2407DEB7089929BA00EB68BF /* vst2413.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = vst2413.h; path = source/vst2413.h; sourceTree = "<group>"; };
+		2407DE920899296600EB68BF /* vst2413s.vst */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = vst2413s.vst; sourceTree = BUILT_PRODUCTS_DIR; };
+		2407DEB6089929BA00EB68BF /* Vst2413s.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Vst2413s.cpp; path = source/Vst2413s.cpp; sourceTree = "<group>"; };
+		2407DEB7089929BA00EB68BF /* Vst2413s.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Vst2413s.h; path = source/Vst2413s.h; sourceTree = "<group>"; };
 		24A483900926E8F400DC794C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = Info.plist; path = mac/Info.plist; sourceTree = SOURCE_ROOT; };
 		24A483910926E8F400DC794C /* PkgInfo */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = PkgInfo; path = mac/PkgInfo; sourceTree = SOURCE_ROOT; };
 		24D8290509A91ECA0093AEF8 /* xcode_vst_prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = xcode_vst_prefix.h; path = mac/xcode_vst_prefix.h; sourceTree = SOURCE_ROOT; };
@@ -100,8 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				0F49B2FC166B7C7B008ABB08 /* emu2413 */,
-				2407DEB6089929BA00EB68BF /* vst2413.cpp */,
-				2407DEB7089929BA00EB68BF /* vst2413.h */,
+				2407DEB6089929BA00EB68BF /* Vst2413s.cpp */,
+				2407DEB7089929BA00EB68BF /* Vst2413s.h */,
 				0F2FA10B166AE6F900EEA696 /* SynthDriver.cpp */,
 				0F2FA10C166AE6F900EEA696 /* SynthDriver.h */,
 			);
@@ -140,7 +140,7 @@
 		19C28FB4FE9D528D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2407DE920899296600EB68BF /* vst2413.vst */,
+				2407DE920899296600EB68BF /* vst2413s.vst */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -152,7 +152,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2407DEBA089929BA00EB68BF /* vst2413.h in Headers */,
+				2407DEBA089929BA00EB68BF /* Vst2413s.h in Headers */,
 				24D8290609A91ECA0093AEF8 /* xcode_vst_prefix.h in Headers */,
 				0F6348B4166A066D00379899 /* aeffeditor.h in Headers */,
 				0F6348B6166A066D00379899 /* audioeffect.h in Headers */,
@@ -169,9 +169,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8D01CCC60486CAD60068D4B7 /* vst2413 */ = {
+		8D01CCC60486CAD60068D4B7 /* vst2413s */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 24BEAAED08919AE700E695F9 /* Build configuration list for PBXNativeTarget "vst2413" */;
+			buildConfigurationList = 24BEAAED08919AE700E695F9 /* Build configuration list for PBXNativeTarget "vst2413s" */;
 			buildPhases = (
 				8D01CCC70486CAD60068D4B7 /* Headers */,
 				8D01CCC90486CAD60068D4B7 /* Resources */,
@@ -185,10 +185,10 @@
 			);
 			dependencies = (
 			);
-			name = vst2413;
+			name = vst2413s;
 			productInstallPath = "$(HOME)/Library/Bundles";
 			productName = "FM-Chopper";
-			productReference = 2407DE920899296600EB68BF /* vst2413.vst */;
+			productReference = 2407DE920899296600EB68BF /* vst2413s.vst */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -210,7 +210,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D01CCC60486CAD60068D4B7 /* vst2413 */,
+				8D01CCC60486CAD60068D4B7 /* vst2413s */,
 			);
 		};
 /* End PBXProject section */
@@ -273,7 +273,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2407DEB9089929BA00EB68BF /* vst2413.cpp in Sources */,
+				2407DEB9089929BA00EB68BF /* Vst2413s.cpp in Sources */,
 				0F6348B5166A066D00379899 /* audioeffect.cpp in Sources */,
 				0F6348B7166A066D00379899 /* audioeffectx.cpp in Sources */,
 				0F6348B9166A066D00379899 /* vstplugmain.cpp in Sources */,
@@ -305,7 +305,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = vst2413;
+				PRODUCT_NAME = vst2413s;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -333,7 +333,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = vst2413;
+				PRODUCT_NAME = vst2413s;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -363,7 +363,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		24BEAAED08919AE700E695F9 /* Build configuration list for PBXNativeTarget "vst2413" */ = {
+		24BEAAED08919AE700E695F9 /* Build configuration list for PBXNativeTarget "vst2413s" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				24BEAAEE08919AE700E695F9 /* Debug */,
