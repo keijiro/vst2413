@@ -11,9 +11,11 @@ class Driver {
 public:
     typedef std::string String;
     
+    static const int kChannels = 9;
+    
     enum ProgramID {
         kProgramUser,
-        kProgramMax = 16
+        kPrograms = 16
     };
     
     enum ParameterID {
@@ -35,20 +37,22 @@ public:
         kParameterAM1,
         kParameterVIB0,
         kParameterVIB1,
-        kParameterMax
+        kParameters
     };
     
     Driver(unsigned int sampleRate);
     ~Driver();
     
     void SetSampleRate(unsigned int sampleRate);
+    
     void SetProgram(ProgramID id);
     ProgramID GetProgram() { return program_; }
     String GetProgramName(ProgramID id);
     
-    void KeyOn(int noteNumber, float velocity);
-    void KeyOff(int noteNumber);
+    void KeyOn(int note, float velocity);
+    void KeyOff(int note);
     void KeyOffAll();
+    
     void SetPitchWheel(float value);
     
     void SetParameter(ParameterID id, float value);
@@ -64,16 +68,16 @@ private:
         bool active_;
         int noteNumber_;
         int velocity_;
-        
         NoteInfo() : active_(false) {}
     };
     
-    unsigned int sampleRate_;
-    NoteInfo notes_[9];
     struct __OPLL* opll_;
+
     ProgramID program_;
+    float parameters_[kParameters];
+    
+    NoteInfo notes_[kChannels];
     float pitchWheel_;
-    float parameters_[kParameterMax];
 };
 
 #endif

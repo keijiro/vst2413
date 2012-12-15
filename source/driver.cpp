@@ -78,14 +78,13 @@ namespace {
 }
 
 Driver::Driver(unsigned int sampleRate)
-:   sampleRate_(sampleRate),
-    opll_(0),
+:   opll_(0),
     program_(kProgramUser),
     pitchWheel_(0)
 {
-    opll_ = OPLL_new(kMsxClock, sampleRate_);
+    opll_ = OPLL_new(kMsxClock, sampleRate);
 
-    for (int i = 0; i < kParameterMax; i++) {
+    for (int i = 0; i < kParameters; i++) {
         parameters_[i] = 0.0f;
     }
     
@@ -109,8 +108,7 @@ Driver::~Driver() {
 }
 
 void Driver::SetSampleRate(unsigned int sampleRate) {
-    sampleRate_ = sampleRate;
-    OPLL_set_rate(opll_, sampleRate_);
+    OPLL_set_rate(opll_, sampleRate);
 }
 
 void Driver::SetProgram(ProgramID id) {
@@ -224,7 +222,7 @@ float Driver::GetParameter(ParameterID id) {
 }
 
 Driver::String Driver::GetParameterName(ParameterID id) {
-    static const char *names[kParameterMax] = {
+    static const char *names[kParameters] = {
         "AR 0",
         "AR 1",
         "DR 0",

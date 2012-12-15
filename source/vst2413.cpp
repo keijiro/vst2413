@@ -7,7 +7,7 @@ AudioEffect* createEffectInstance(audioMasterCallback audioMaster) {
 }
 
 Vst2413::Vst2413(audioMasterCallback audioMaster)
-:   AudioEffectX(audioMaster, Driver::kProgramMax, Driver::kParameterMax),
+:   AudioEffectX(audioMaster, Driver::kPrograms, Driver::kParameters),
     driver_(44100)
 {
     if(audioMaster != NULL) {
@@ -78,7 +78,7 @@ void Vst2413::getProgramName(char* name) {
 }
 
 bool Vst2413::getProgramNameIndexed(VstInt32 category, VstInt32 index, char* text) {
-    if (index < Driver::kProgramMax) {
+    if (index < Driver::kPrograms) {
         driver_.GetProgramName(static_cast<Driver::ProgramID>(index)).copy(text, kVstMaxProgNameLen);
         return true;
     } else {
