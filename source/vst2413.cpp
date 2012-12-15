@@ -83,23 +83,23 @@ bool Vst2413::getOutputProperties(VstInt32 index, VstPinProperties *properties) 
 }
 
 float Vst2413::getParameter(VstInt32 index) {
-    return driver_.GetParameter(index);
+    return driver_.GetParameter(static_cast<Driver::ParameterID>(index));
 }
 
 void Vst2413::getParameterDisplay(VstInt32 index, char *text) {
-    strncpy(text, driver_.GetParameterText(index).c_str(), kVstMaxParamStrLen);
+    strncpy(text, driver_.GetParameterText(static_cast<Driver::ParameterID>(index)).c_str(), kVstMaxParamStrLen);
 }
 
 void Vst2413::getParameterLabel(VstInt32 index, char *text) {
-    strncpy(text, driver_.GetParameterLabel(index), kVstMaxParamStrLen);
+    strncpy(text, driver_.GetParameterLabel(static_cast<Driver::ParameterID>(index)), kVstMaxParamStrLen);
 }
 
 void Vst2413::getParameterName(VstInt32 index, char *text) {
-    strncpy(text, driver_.GetParameterName(index), kVstMaxParamStrLen);
+    strncpy(text, driver_.GetParameterName(static_cast<Driver::ParameterID>(index)), kVstMaxParamStrLen);
 }
 
 void Vst2413::setParameter(VstInt32 index, float value) {
-    driver_.SetParameter(index, value);
+    driver_.SetParameter(static_cast<Driver::ParameterID>(index), value);
 }
 
 VstPlugCategory Vst2413::getPlugCategory() {

@@ -9,7 +9,7 @@ extern "C" {
 
 class Driver {
 public:
-    enum {
+    enum ParameterID {
         kParamAR0,
         kParamAR1,
         kParamDR0,
@@ -43,11 +43,11 @@ public:
     void KeyOffAll();
     void SetPitchWheel(float value);
     
-    void SetParameter(int index, float value);
-    float GetParameter(int index);
-    const char* GetParameterName(int index);
-    const char* GetParameterLabel(int index);
-    std::string GetParameterText(int index);
+    void SetParameter(ParameterID id, float value);
+    float GetParameter(ParameterID id);
+    const char* GetParameterName(ParameterID id);
+    const char* GetParameterLabel(ParameterID id);
+    std::string GetParameterText(ParameterID id);
     
     float Step();
     

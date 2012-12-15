@@ -177,9 +177,9 @@ void Driver::SetPitchWheel(float value) {
     }
 }
 
-void Driver::SetParameter(int index, float value) {
-    parameters_[index] = value;
-    switch (index) {
+void Driver::SetParameter(ParameterID id, float value) {
+    parameters_[id] = value;
+    switch (id) {
         case kParamAR0:
         case kParamDR0:
             OPLLC::SendARDR(opll_, parameters_, 0);
@@ -214,14 +214,16 @@ void Driver::SetParameter(int index, float value) {
         case kParamTL:
             OPLLC::SendTL(opll_, parameters_);
             break;
+        default:
+            break;
     }
 }
 
-float Driver::GetParameter(int index) {
-    return parameters_[index];
+float Driver::GetParameter(ParameterID id) {
+    return parameters_[id];
 }
 
-const char* Driver::GetParameterName(int index) {
+const char* Driver::GetParameterName(ParameterID id) {
     static const char *names[kParamMax] = {
         "AR 0",
         "AR 1",
@@ -242,11 +244,11 @@ const char* Driver::GetParameterName(int index) {
         "VIB0",
         "VIB1"
     };
-    return names[index];
+    return names[id];
 }
 
-const char* Driver::GetParameterLabel(int index) {
-    switch (index) {
+const char* Driver::GetParameterLabel(ParameterID id) {
+    switch (id) {
         case kParamAR0:
         case kParamAR1:
         case kParamDR0:
@@ -258,56 +260,57 @@ const char* Driver::GetParameterLabel(int index) {
         case kParamSL1:
         case kParamTL:
             return "db";
+        default:
+            return "";
     }
-    return "";
 }
 
-std::string Driver::GetParameterText(int index) {
+std::string Driver::GetParameterText(ParameterID id) {
     // Attack rates
-    if (index == kParamAR0 || index == kParamAR1) {
+    if (id == kParamAR0 || id == kParamAR1) {
         static const char* texts[16] = {
             "0", "0.28", "0.50", "0.84",
             "1.69", "3.30", "6.76", "13.52",
             "27.03", "54.87", "108.13", "216.27",
             "432.54", "865.88", "1730.15", "inf"
         };
-        return texts[static_cast<int>(parameters_[index] * 15)];
+        return texts[static_cast<int>(parameters_[id] * 15)];
     }
     // Decay-like rates
-    if (index == kParamDR0 || index == kParamDR1 || index == kParamRR0 || index == kParamRR1) {
+    if (id == kParamDR0 || id == kParamDR1 || id == kParamRR0 || id == kParamRR1) {
         static const char* texts[16] = {
             "1.27", "2.55", "5.11", "10.22",
             "20.44", "40.07", "81.74", "163.49",
             "326.98", "653.95", "1307.91", "2615.82",
             "5231.64", "10463.30", "20926.60", "inf"
         };
-        return texts[static_cast<int>(parameters_[index] * 15)];
+        return texts[static_cast<int>(parameters_[id] * 15)];
     }
     // Levels
-    if (index == kParamSL0 || index == kParamSL1 || index == kParamTL) {
+    if (id == kParamSL0 || id == kParamSL1 || id == kParamTL) {
         char buffer[32];
-        snprintf(buffer, sizeof buffer, "%d", static_cast<int>((1.0f - parameters_[index]) * 45));
+        snprintf(buffer, sizeof buffer, "%d", static_cast<int>((1.0f - parameters_[id]) * 45));
         return std::string(buffer);
     }
     // Multipliers
-    if (index == kParamMUL0 || index == kParamMUL1) {
+    if (id == kParamMUL0 || id == kParamMUL1) {
         static const char* texts[16] = {
             "1/2", "1", "2", "3",
             "4", "5", "6", "7",
             "8", "9", "10", "10",
             "12", "12", "15", "15"
         };
-        return texts[static_cast<int>(parameters_[index] * 15)];
+        return texts[static_cast<int>(parameters_[id] * 15)];
     }
     // Feedback
-    if (index == kParamFB) {
+    if (id == kParamFB) {
         static const char* texts[8] = {
             "0", "n/16", "n/8", "n/4", "n/2", "n", "2n", "4n"
         };
-        return texts[static_cast<int>(parameters_[index] * 7)];
+        return texts[static_cast<int>(parameters_[id] * 7)];
     }
     // Switches
-    return parameters_[index] < 0.5f ? "off" : "on";
+    return parameters_[id] < 0.5f ? "off" : "on";
 }
 
 float Driver::Step() {
