@@ -24,7 +24,8 @@ public:
     
 private:
     struct __OPLL* opll_;
-    int state;
+    int state_;
+    float volumes_[6];
 };
 
 #endif
