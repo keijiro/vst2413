@@ -1,12 +1,10 @@
 #include "vst2413.h"
 #include <cstdio>
 
+#pragma mark Creation and destruction
+
 AudioEffect* createEffectInstance(audioMasterCallback audioMaster) {
 	return new Vst2413(audioMaster);
-}
-
-namespace {
-    const unsigned long kUniqueId = 'dAzy';
 }
 
 Vst2413::Vst2413(audioMasterCallback audioMaster)
@@ -26,6 +24,96 @@ Vst2413::Vst2413(audioMasterCallback audioMaster)
 Vst2413::~Vst2413() {
 }
 
+#pragma mark
+#pragma mark Program
+
+void Vst2413::setProgram(VstInt32 index) {
+    driver_.SetProgram(static_cast<Driver::ProgramID>(index));
+}
+
+void Vst2413::setProgramName(char* name) {
+    // not supported
+}
+
+void Vst2413::getProgramName(char* name) {
+    driver_.GetProgramName(driver_.GetProgram()).copy(name, kVstMaxProgNameLen, 0);
+}
+
+bool Vst2413::getProgramNameIndexed(VstInt32 category, VstInt32 index, char* text) {
+    if (index < Driver::kProgramMax) {
+        driver_.GetProgramName(static_cast<Driver::ProgramID>(index)).copy(text, kVstMaxProgNameLen, 0);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+#pragma mark
+#pragma mark Parameter
+
+void Vst2413::setParameter(VstInt32 index, float value) {
+    driver_.SetParameter(static_cast<Driver::ParameterID>(index), value);
+}
+
+float Vst2413::getParameter(VstInt32 index) {
+    return driver_.GetParameter(static_cast<Driver::ParameterID>(index));
+}
+
+void Vst2413::getParameterLabel(VstInt32 index, char* text) {
+    driver_.GetParameterLabel(static_cast<Driver::ParameterID>(index)).copy(text, kVstMaxParamStrLen, 0);
+}
+
+void Vst2413::getParameterDisplay(VstInt32 index, char* text) {
+    driver_.GetParameterText(static_cast<Driver::ParameterID>(index)).copy(text, kVstMaxParamStrLen, 0);
+}
+
+void Vst2413::getParameterName(VstInt32 index, char* text) {
+    driver_.GetParameterName(static_cast<Driver::ParameterID>(index)).copy(text, kVstMaxParamStrLen, 0);
+}
+
+#pragma mark
+#pragma mark Output settings
+
+void Vst2413::setSampleRate(float sampleRate) {
+	AudioEffectX::setSampleRate(sampleRate);
+    driver_.SetSampleRate(sampleRate);
+}
+
+void Vst2413::setBlockSize(VstInt32 blockSize) {
+    AudioEffectX::setBlockSize(blockSize);
+}
+
+bool Vst2413::getOutputProperties(VstInt32 index, VstPinProperties* properties) {
+    if (index == 0) {
+        strncpy(properties->label, "1 Out", kVstMaxLabelLen);
+        properties->flags = kVstPinIsActive;
+        return true;
+    }
+    return false;
+}
+
+#pragma mark
+#pragma mark Plug-in properties
+
+bool Vst2413::getEffectName(char* name) {
+    strncpy(name, "VST2413", kVstMaxProductStrLen);
+    return true;
+}
+
+bool Vst2413::getVendorString(char* text) {
+    strncpy(text, "RadiumSoftware", kVstMaxVendorStrLen);
+    return true;
+}
+
+bool Vst2413::getProductString(char* text) {
+    strncpy(text, "VST2413", kVstMaxProductStrLen);
+    return true;
+}
+
+VstInt32 Vst2413::getVendorVersion() {
+    return 1000;
+}
+
 VstInt32 Vst2413::canDo(char *text) {
     if(!strcmp(text, "receiveVstEvents")) return 1;
     if(!strcmp(text, "receiveVstMidiEvent")) return 1;
@@ -33,34 +121,8 @@ VstInt32 Vst2413::canDo(char *text) {
     return 0;
 }
 
-bool Vst2413::copyProgram(long destination) {
-  // TODO: Copy program to destination
-  return false;
-}
-
-VstInt32 Vst2413::getCurrentMidiProgram(VstInt32 channel, MidiProgramName *mpn) {
-    return 0;
-}
-
-bool Vst2413::getEffectName(char* name) {
-    strncpy(name, "VST2413", kVstMaxProductStrLen);
-    return true;
-}
-
-bool Vst2413::getMidiKeyName(VstInt32 channel, MidiKeyName *key) {
-	key->keyName[0] = 0;
-	key->reserved = 0;
-	key->flags = 0;
-	return false;
-}
-
-VstInt32 Vst2413::getMidiProgramCategory(VstInt32 channel, MidiProgramCategory *category) {
-    return 0;
-}
-
-VstInt32 Vst2413::getMidiProgramName(VstInt32 channel, MidiProgramName *mpn) {
-    return 0;
-}
+#pragma mark
+#pragma mark MIDI channels I/O
 
 VstInt32 Vst2413::getNumMidiInputChannels() {
     return 9;
@@ -70,83 +132,28 @@ VstInt32 Vst2413::getNumMidiOutputChannels() {
     return 0;
 }
 
-bool Vst2413::getOutputProperties(VstInt32 index, VstPinProperties *properties) {
-    if (index == 0) {
-        strncpy(properties->label, "1 Out", kVstMaxLabelLen);
-        properties->flags = kVstPinIsActive;
-        return true;
-    }
-    return false;
+#pragma mark
+#pragma mark MIDI program
+
+VstInt32 Vst2413::getMidiProgramName(VstInt32 channel, MidiProgramName *mpn) {
+    return 0;
 }
 
-float Vst2413::getParameter(VstInt32 index) {
-    return driver_.GetParameter(static_cast<Driver::ParameterID>(index));
+VstInt32 Vst2413::getCurrentMidiProgram(VstInt32 channel, MidiProgramName *mpn) {
+    return 0;
 }
 
-void Vst2413::getParameterDisplay(VstInt32 index, char *text) {
-    driver_.GetParameterText(static_cast<Driver::ParameterID>(index)).copy(text, kVstMaxParamStrLen, 0);
-}
-
-void Vst2413::getParameterLabel(VstInt32 index, char *text) {
-    driver_.GetParameterLabel(static_cast<Driver::ParameterID>(index)).copy(text, kVstMaxParamStrLen, 0);
-}
-
-void Vst2413::getParameterName(VstInt32 index, char *text) {
-    driver_.GetParameterName(static_cast<Driver::ParameterID>(index)).copy(text, kVstMaxParamStrLen, 0);
-}
-
-void Vst2413::setParameter(VstInt32 index, float value) {
-    driver_.SetParameter(static_cast<Driver::ParameterID>(index), value);
-}
-
-VstPlugCategory Vst2413::getPlugCategory() {
-    return kPlugCategSynth;
-}
-
-bool Vst2413::getProductString(char* text) {
-    strncpy(text, "VST2413", kVstMaxProductStrLen);
-    return true;
-}
-
-void Vst2413::getProgramName(char *name) {
-    driver_.GetProgramName(driver_.GetProgram()).copy(name, kVstMaxProgNameLen, 0);
-}
-
-bool Vst2413::getProgramNameIndexed(VstInt32 category, VstInt32 index, char *text) {
-    if (index < Driver::kProgramMax) {
-        driver_.GetProgramName(static_cast<Driver::ProgramID>(index)).copy(text, kVstMaxProgNameLen, 0);
-        return true;
-    } else {
-        return false;
-    }
-}
-
-bool Vst2413::getVendorString(char* text) {
-    strncpy(text, "RadiumSoftware", kVstMaxVendorStrLen);
-    return true;
-}
-
-VstInt32 Vst2413::getVendorVersion() {
-    return 1000;
+VstInt32 Vst2413::getMidiProgramCategory(VstInt32 channel, MidiProgramCategory *category) {
+    return 0;
 }
 
 bool Vst2413::hasMidiProgramsChanged(VstInt32 channel) {
     return false;
 }
 
-void Vst2413::setBlockSize(VstInt32 blockSize) {
-    AudioEffectX::setBlockSize(blockSize);
-}
-
-void Vst2413::setProgram(VstInt32 index) {
-    driver_.SetProgram(static_cast<Driver::ProgramID>(index));
-}
-
-void Vst2413::setProgramName(char *name) {
-    // TODO: Set program name
-}
-
-void Vst2413::setSampleRate(float sampleRate) {
-	AudioEffectX::setSampleRate(sampleRate);
-    driver_.SetSampleRate(sampleRate);
+bool Vst2413::getMidiKeyName(VstInt32 channel, MidiKeyName *key) {
+	key->keyName[0] = 0;
+	key->reserved = 0;
+	key->flags = 0;
+	return false;
 }
