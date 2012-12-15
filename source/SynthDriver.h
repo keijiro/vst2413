@@ -7,7 +7,7 @@ extern "C" {
     struct __OPLL;
 }
 
-class Driver {
+class SynthDriver {
 public:
     typedef std::string String;
     
@@ -40,8 +40,8 @@ public:
         kParameters
     };
     
-    Driver(unsigned int sampleRate);
-    ~Driver();
+    SynthDriver(unsigned int sampleRate);
+    ~SynthDriver();
     
     void SetSampleRate(unsigned int sampleRate);
     

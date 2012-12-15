@@ -2,7 +2,7 @@
 #define __vst2413__
 
 #include "audioeffectx.h"
-#include "driver.h"
+#include "SynthDriver.h"
 
 class Vst2413 : public AudioEffectX {
 public:
@@ -46,7 +46,7 @@ public:
 	virtual bool getMidiKeyName (VstInt32 channel, MidiKeyName* keyName);
 
 private:
-    Driver driver_;
+    SynthDriver driver_;
 };
 
 #endif

@@ -1,5 +1,9 @@
 #include "vst2413.h"
 
+namespace {
+    typedef std::string String;
+}
+
 #pragma mark Creation and destruction
 
 AudioEffect* createEffectInstance(audioMasterCallback audioMaster) {
@@ -7,7 +11,7 @@ AudioEffect* createEffectInstance(audioMasterCallback audioMaster) {
 }
 
 Vst2413::Vst2413(audioMasterCallback audioMaster)
-:   AudioEffectX(audioMaster, Driver::kPrograms, Driver::kParameters),
+:   AudioEffectX(audioMaster, SynthDriver::kPrograms, SynthDriver::kParameters),
     driver_(44100)
 {
     if(audioMaster != NULL) {
@@ -66,7 +70,7 @@ void Vst2413::processReplacing(float** inputs, float** outputs, VstInt32 sampleF
 #pragma mark Program
 
 void Vst2413::setProgram(VstInt32 index) {
-    driver_.SetProgram(static_cast<Driver::ProgramID>(index));
+    driver_.SetProgram(static_cast<SynthDriver::ProgramID>(index));
 }
 
 void Vst2413::setProgramName(char* name) {
@@ -78,8 +82,8 @@ void Vst2413::getProgramName(char* name) {
 }
 
 bool Vst2413::getProgramNameIndexed(VstInt32 category, VstInt32 index, char* text) {
-    if (index < Driver::kPrograms) {
-        driver_.GetProgramName(static_cast<Driver::ProgramID>(index)).copy(text, kVstMaxProgNameLen);
+    if (index < SynthDriver::kPrograms) {
+        driver_.GetProgramName(static_cast<SynthDriver::ProgramID>(index)).copy(text, kVstMaxProgNameLen);
         return true;
     } else {
         return false;
@@ -90,23 +94,23 @@ bool Vst2413::getProgramNameIndexed(VstInt32 category, VstInt32 index, char* tex
 #pragma mark Parameter
 
 void Vst2413::setParameter(VstInt32 index, float value) {
-    driver_.SetParameter(static_cast<Driver::ParameterID>(index), value);
+    driver_.SetParameter(static_cast<SynthDriver::ParameterID>(index), value);
 }
 
 float Vst2413::getParameter(VstInt32 index) {
-    return driver_.GetParameter(static_cast<Driver::ParameterID>(index));
+    return driver_.GetParameter(static_cast<SynthDriver::ParameterID>(index));
 }
 
 void Vst2413::getParameterLabel(VstInt32 index, char* text) {
-    driver_.GetParameterLabel(static_cast<Driver::ParameterID>(index)).copy(text, kVstMaxParamStrLen);
+    driver_.GetParameterLabel(static_cast<SynthDriver::ParameterID>(index)).copy(text, kVstMaxParamStrLen);
 }
 
 void Vst2413::getParameterDisplay(VstInt32 index, char* text) {
-    driver_.GetParameterText(static_cast<Driver::ParameterID>(index)).copy(text, kVstMaxParamStrLen);
+    driver_.GetParameterText(static_cast<SynthDriver::ParameterID>(index)).copy(text, kVstMaxParamStrLen);
 }
 
 void Vst2413::getParameterName(VstInt32 index, char* text) {
-    driver_.GetParameterName(static_cast<Driver::ParameterID>(index)).copy(text, kVstMaxParamStrLen);
+    driver_.GetParameterName(static_cast<SynthDriver::ParameterID>(index)).copy(text, kVstMaxParamStrLen);
 }
 
 #pragma mark
@@ -123,7 +127,7 @@ void Vst2413::setBlockSize(VstInt32 blockSize) {
 
 bool Vst2413::getOutputProperties(VstInt32 index, VstPinProperties* properties) {
     if (index == 0) {
-        Driver::String("1 Out").copy(properties->label, kVstMaxLabelLen);
+        String("1 Out").copy(properties->label, kVstMaxLabelLen);
         properties->flags = kVstPinIsActive;
         return true;
     }
@@ -134,17 +138,17 @@ bool Vst2413::getOutputProperties(VstInt32 index, VstPinProperties* properties) 
 #pragma mark Plug-in properties
 
 bool Vst2413::getEffectName(char* name) {
-    Driver::String("VST2413").copy(name, kVstMaxEffectNameLen);
+    String("VST2413").copy(name, kVstMaxEffectNameLen);
     return true;
 }
 
 bool Vst2413::getVendorString(char* text) {
-    Driver::String("RadiumSoftware").copy(text, kVstMaxVendorStrLen);
+    String("RadiumSoftware").copy(text, kVstMaxVendorStrLen);
     return true;
 }
 
 bool Vst2413::getProductString(char* text) {
-    Driver::String("VST2413").copy(text, kVstMaxProductStrLen);
+    String("VST2413").copy(text, kVstMaxProductStrLen);
     return true;
 }
 
@@ -153,7 +157,7 @@ VstInt32 Vst2413::getVendorVersion() {
 }
 
 VstInt32 Vst2413::canDo(char* text) {
-    Driver::String str = text;
+    String str = text;
     if (str == "receiveVstEvents") return 1;
     if (str == "receiveVstMidiEvent") return 1;
     if (str == "midiProgramNames") return 1;

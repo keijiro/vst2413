@@ -1,4 +1,4 @@
-#include "driver.h"
+#include "SynthDriver.h"
 #include "emu2413.h"
 #include <cmath>
 
@@ -46,33 +46,33 @@ namespace {
         }
         
         void SendARDR(OPLL* opll, const float* parameters, int op) {
-            int ar = (1.0f - parameters[Driver::kParameterAR0 + op]) * 15;
-            int dr = (1.0f - parameters[Driver::kParameterDR0 + op]) * 15;
+            int ar = (1.0f - parameters[SynthDriver::kParameterAR0 + op]) * 15;
+            int dr = (1.0f - parameters[SynthDriver::kParameterDR0 + op]) * 15;
             OPLL_writeReg(opll, 4 + op, (ar << 4) + dr);
         }
 
         void SendSLRR(OPLL* opll, const float* parameters, int op) {
-            int sl = (1.0f - parameters[Driver::kParameterSL0 + op]) * 15;
-            int rr = (1.0f - parameters[Driver::kParameterRR0 + op]) * 15;
+            int sl = (1.0f - parameters[SynthDriver::kParameterSL0 + op]) * 15;
+            int rr = (1.0f - parameters[SynthDriver::kParameterRR0 + op]) * 15;
             OPLL_writeReg(opll, 6 + op, (sl << 4) + rr);
         }
 
         void SendMUL(OPLL* opll, const float* parameters, int op) {
-            int am  = parameters[Driver::kParameterAM0  + op] < 0.5f ? 0 : 0x80;
-            int vib = parameters[Driver::kParameterVIB0 + op] < 0.5f ? 0 : 0x40;
-            int mul = parameters[Driver::kParameterMUL0 + op] * 15;
+            int am  = parameters[SynthDriver::kParameterAM0  + op] < 0.5f ? 0 : 0x80;
+            int vib = parameters[SynthDriver::kParameterVIB0 + op] < 0.5f ? 0 : 0x40;
+            int mul = parameters[SynthDriver::kParameterMUL0 + op] * 15;
             OPLL_writeReg(opll, op, am + vib + 0x20 + mul);
         }
 
         void SendFB(OPLL* opll, const float* parameters) {
-            int dc = parameters[Driver::kParameterDC] < 0.5f ? 0 : 0x10;
-            int dm = parameters[Driver::kParameterDM] < 0.5f ? 0 : 0x08;
-            int fb = parameters[Driver::kParameterFB] * 7;
+            int dc = parameters[SynthDriver::kParameterDC] < 0.5f ? 0 : 0x10;
+            int dm = parameters[SynthDriver::kParameterDM] < 0.5f ? 0 : 0x08;
+            int fb = parameters[SynthDriver::kParameterFB] * 7;
             OPLL_writeReg(opll, 3, dc + dm + fb);
         }
 
         void SendTL(OPLL* opll, const float* parameters) {
-            int tl = (1.0f - parameters[Driver::kParameterTL]) * 63;
+            int tl = (1.0f - parameters[SynthDriver::kParameterTL]) * 63;
             OPLL_writeReg(opll, 2, tl);
         }
     }
@@ -81,7 +81,7 @@ namespace {
 #pragma mark
 #pragma mark Creation and destruction
 
-Driver::Driver(unsigned int sampleRate)
+SynthDriver::SynthDriver(unsigned int sampleRate)
 :   opll_(0),
     program_(kProgramUser),
     wheel_(0)
@@ -106,21 +106,21 @@ Driver::Driver(unsigned int sampleRate)
     OPLLC::SendTL(opll_, parameters_);
 }
 
-Driver::~Driver() {
+SynthDriver::~SynthDriver() {
     OPLL_delete(opll_);
 }
 
 #pragma mark
 #pragma mark Output setting
 
-void Driver::SetSampleRate(unsigned int sampleRate) {
+void SynthDriver::SetSampleRate(unsigned int sampleRate) {
     OPLL_set_rate(opll_, sampleRate);
 }
 
 #pragma mark
 #pragma mark Program
 
-Driver::String Driver::GetProgramName(ProgramID id) {
+SynthDriver::String SynthDriver::GetProgramName(ProgramID id) {
     static const char* names[] = {
         "User Program",
         "Violin",
@@ -145,7 +145,7 @@ Driver::String Driver::GetProgramName(ProgramID id) {
 #pragma mark
 #pragma mark Key on and off
 
-void Driver::KeyOn(int note, float velocity) {
+void SynthDriver::KeyOn(int note, float velocity) {
     for (int i = 0; i < kChannels; i++) {
         ChannelInfo& info = channels_[i];
         if (!info.active_) {
@@ -158,7 +158,7 @@ void Driver::KeyOn(int note, float velocity) {
     }
 }
 
-void Driver::KeyOff(int note) {
+void SynthDriver::KeyOff(int note) {
     for (int i = 0; i < kChannels; i++) {
         ChannelInfo& info = channels_[i];
         if (info.active_ && info.note_ == note) {
@@ -169,7 +169,7 @@ void Driver::KeyOff(int note) {
     }
 }
 
-void Driver::KeyOffAll() {
+void SynthDriver::KeyOffAll() {
     for (int i = 0; i < kChannels; i++) {
         ChannelInfo& info = channels_[i];
         if (info.active_) {
@@ -182,7 +182,7 @@ void Driver::KeyOffAll() {
 #pragma mark
 #pragma mark Modifiers
 
-void Driver::SetPitchWheel(float value) {
+void SynthDriver::SetPitchWheel(float value) {
     wheel_ = value;
     for (int i = 0; i < kChannels; i++) {
         ChannelInfo& info = channels_[i];
@@ -193,7 +193,7 @@ void Driver::SetPitchWheel(float value) {
 #pragma mark
 #pragma mark Parameters
 
-void Driver::SetParameter(ParameterID id, float value) {
+void SynthDriver::SetParameter(ParameterID id, float value) {
     parameters_[id] = value;
     switch (id) {
         case kParameterAR0:
@@ -235,11 +235,11 @@ void Driver::SetParameter(ParameterID id, float value) {
     }
 }
 
-float Driver::GetParameter(ParameterID id) {
+float SynthDriver::GetParameter(ParameterID id) {
     return parameters_[id];
 }
 
-Driver::String Driver::GetParameterName(ParameterID id) {
+SynthDriver::String SynthDriver::GetParameterName(ParameterID id) {
     static const char* names[kParameters] = {
         "AR 0",
         "AR 1",
@@ -263,7 +263,7 @@ Driver::String Driver::GetParameterName(ParameterID id) {
     return names[id];
 }
 
-Driver::String Driver::GetParameterLabel(ParameterID id) {
+SynthDriver::String SynthDriver::GetParameterLabel(ParameterID id) {
     switch (id) {
         case kParameterAR0:
         case kParameterAR1:
@@ -281,7 +281,7 @@ Driver::String Driver::GetParameterLabel(ParameterID id) {
     }
 }
 
-Driver::String Driver::GetParameterText(ParameterID id) {
+SynthDriver::String SynthDriver::GetParameterText(ParameterID id) {
     // Attack rates
     if (id == kParameterAR0 || id == kParameterAR1) {
         static const char* texts[16] = {
@@ -332,6 +332,6 @@ Driver::String Driver::GetParameterText(ParameterID id) {
 #pragma mark
 #pragma mark Output processing
 
-float Driver::Step() {
+float SynthDriver::Step() {
     return (4.0f / 32767) * OPLL_calc(opll_);
 }
