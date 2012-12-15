@@ -1,19 +1,17 @@
 #include "vst2413.h"
 #include <cstdio>
 
-namespace {
-    const int kNumPrograms = 16;
-    const unsigned long kUniqueId = 'dAzy';
-}
-
 AudioEffect* createEffectInstance(audioMasterCallback audioMaster) {
 	return new Vst2413(audioMaster);
 }
 
+namespace {
+    const unsigned long kUniqueId = 'dAzy';
+}
+
 Vst2413::Vst2413(audioMasterCallback audioMaster)
-:   AudioEffectX(audioMaster, kNumPrograms, Driver::kParamMax),
-    driver_(44100),
-    program_(0)
+:   AudioEffectX(audioMaster, Driver::kProgramMax, Driver::kParamMax),
+    driver_(44100)
 {
     if(audioMaster != NULL) {
         setNumInputs(0);
@@ -23,7 +21,6 @@ Vst2413::Vst2413(audioMasterCallback audioMaster)
         isSynth();
     }
     suspend();
-    driver_.SetProgram(program_);
 }
 
 Vst2413::~Vst2413() {
@@ -112,12 +109,12 @@ bool Vst2413::getProductString(char* text) {
 }
 
 void Vst2413::getProgramName(char *name) {
-    driver_.GetProgramName(program_).copy(name, kVstMaxProgNameLen, 0);
+    driver_.GetProgramName(driver_.GetProgram()).copy(name, kVstMaxProgNameLen, 0);
 }
 
 bool Vst2413::getProgramNameIndexed(VstInt32 category, VstInt32 index, char *text) {
-    if (index < kNumPrograms) {
-        driver_.GetProgramName(index).copy(text, kVstMaxProgNameLen, 0);
+    if (index < Driver::kProgramMax) {
+        driver_.GetProgramName(static_cast<Driver::ProgramID>(index)).copy(text, kVstMaxProgNameLen, 0);
         return true;
     } else {
         return false;
@@ -142,8 +139,7 @@ void Vst2413::setBlockSize(VstInt32 blockSize) {
 }
 
 void Vst2413::setProgram(VstInt32 index) {
-    program_ = index;
-    driver_.SetProgram(index);
+    driver_.SetProgram(static_cast<Driver::ProgramID>(index));
 }
 
 void Vst2413::setProgramName(char *name) {

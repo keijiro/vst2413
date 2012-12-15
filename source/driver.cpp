@@ -80,7 +80,7 @@ namespace {
 Driver::Driver(unsigned int sampleRate)
 :   sampleRate_(sampleRate),
     opll_(0),
-    program_(0),
+    program_(kProgramUser),
     pitchWheel_(0)
 {
     opll_ = OPLL_new(kMsxClock, sampleRate_);
@@ -113,11 +113,11 @@ void Driver::SetSampleRate(unsigned int sampleRate) {
     OPLL_set_rate(opll_, sampleRate_);
 }
 
-void Driver::SetProgram(int number) {
-    program_ = number;
+void Driver::SetProgram(ProgramID id) {
+    program_ = id;
 }
 
-Driver::String Driver::GetProgramName(int number) {
+Driver::String Driver::GetProgramName(ProgramID id) {
     static const char* names[] = {
         "User Program",
         "Violin",
@@ -136,7 +136,7 @@ Driver::String Driver::GetProgramName(int number) {
         "Acoustic Bass",
         "Electric Guitar"
     };
-    return names[number & 0xf];
+    return names[id];
 }
 
 void Driver::KeyOn(int noteNumber, float velocity) {

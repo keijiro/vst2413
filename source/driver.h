@@ -11,6 +11,11 @@ class Driver {
 public:
     typedef std::string String;
     
+    enum ProgramID {
+        kProgramUser,
+        kProgramMax = 16
+    };
+    
     enum ParameterID {
         kParamAR0,
         kParamAR1,
@@ -37,8 +42,9 @@ public:
     ~Driver();
     
     void SetSampleRate(unsigned int sampleRate);
-    void SetProgram(int number);
-    String GetProgramName(int number);
+    void SetProgram(ProgramID id);
+    ProgramID GetProgram() { return program_; }
+    String GetProgramName(ProgramID id);
     
     void KeyOn(int noteNumber, float velocity);
     void KeyOff(int noteNumber);
@@ -65,7 +71,7 @@ private:
     unsigned int sampleRate_;
     NoteInfo notes_[9];
     struct __OPLL* opll_;
-    int program_;
+    ProgramID program_;
     float pitchWheel_;
     float parameters_[kParamMax];
 };
