@@ -24,6 +24,45 @@ Vst2413::~Vst2413() {
 }
 
 #pragma mark
+#pragma mark Processing functions
+
+VstInt32 Vst2413::processEvents(VstEvents* events) {
+	for (VstInt32 i = 0; i < events->numEvents; i++) {
+		if (events->events[i]->type != kVstMidiType) continue;
+
+		const char* data = reinterpret_cast<VstMidiEvent*>(events->events[i])->midiData;
+        
+        switch (data[0] & 0xf0) {
+            // key off
+            case 0x80:
+                driver_.KeyOff(data[1] & 0x7f);
+                break;
+            // key On
+            case 0x90:
+                driver_.KeyOn(data[1] & 0x7f, 1.0f / 128 * (data[2] & 0x7f));
+                break;
+            // all keys off
+            case 0xb0:
+                if (data[1] == 0x7e || data[1] == 0x7b) driver_.KeyOffAll();
+                break;
+            // pitch wheel
+            case 0xe0: {
+                int position = ((data[2] & 0x7f) << 7) + (data[1] & 0x7f);
+                driver_.SetPitchWheel((1.0f / 0x2000) * (position - 0x2000));
+                break;
+            }
+            default:
+                break;
+        }
+	}
+	return 1;
+}
+
+void Vst2413::processReplacing(float** inputs, float** outputs, VstInt32 sampleFrames) {
+    for (VstInt32 i = 0; i < sampleFrames; i++) outputs[0][i] = driver_.Step();
+}
+
+#pragma mark
 #pragma mark Program
 
 void Vst2413::setProgram(VstInt32 index) {

@@ -24,7 +24,6 @@
 		0F6348B9166A066D00379899 /* vstplugmain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348B3166A066D00379899 /* vstplugmain.cpp */; };
 		2407DEB9089929BA00EB68BF /* vst2413.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407DEB6089929BA00EB68BF /* vst2413.cpp */; };
 		2407DEBA089929BA00EB68BF /* vst2413.h in Headers */ = {isa = PBXBuildFile; fileRef = 2407DEB7089929BA00EB68BF /* vst2413.h */; };
-		2454624909915C1400464AD3 /* vst2413Proc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2454624809915C1400464AD3 /* vst2413Proc.cpp */; };
 		24A483930926E8F400DC794C /* PkgInfo in Resources */ = {isa = PBXBuildFile; fileRef = 24A483910926E8F400DC794C /* PkgInfo */; };
 		24D8290609A91ECA0093AEF8 /* xcode_vst_prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D8290509A91ECA0093AEF8 /* xcode_vst_prefix.h */; };
 		8D01CCCE0486CAD60068D4B7 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EA7FFBFE8413EDC02AAC07 /* Carbon.framework */; };
@@ -50,7 +49,6 @@
 		2407DE920899296600EB68BF /* vst2413.vst */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = vst2413.vst; sourceTree = BUILT_PRODUCTS_DIR; };
 		2407DEB6089929BA00EB68BF /* vst2413.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = vst2413.cpp; path = source/vst2413.cpp; sourceTree = "<group>"; };
 		2407DEB7089929BA00EB68BF /* vst2413.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = vst2413.h; path = source/vst2413.h; sourceTree = "<group>"; };
-		2454624809915C1400464AD3 /* vst2413Proc.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = vst2413Proc.cpp; path = source/vst2413Proc.cpp; sourceTree = "<group>"; };
 		24A483900926E8F400DC794C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = Info.plist; path = mac/Info.plist; sourceTree = SOURCE_ROOT; };
 		24A483910926E8F400DC794C /* PkgInfo */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = PkgInfo; path = mac/PkgInfo; sourceTree = SOURCE_ROOT; };
 		24D8290509A91ECA0093AEF8 /* xcode_vst_prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = xcode_vst_prefix.h; path = mac/xcode_vst_prefix.h; sourceTree = SOURCE_ROOT; };
@@ -103,7 +101,6 @@
 			children = (
 				0F49B2FC166B7C7B008ABB08 /* emu2413 */,
 				2407DEB6089929BA00EB68BF /* vst2413.cpp */,
-				2454624809915C1400464AD3 /* vst2413Proc.cpp */,
 				2407DEB7089929BA00EB68BF /* vst2413.h */,
 				0F2FA10B166AE6F900EEA696 /* driver.cpp */,
 				0F2FA10C166AE6F900EEA696 /* driver.h */,
@@ -277,7 +274,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2407DEB9089929BA00EB68BF /* vst2413.cpp in Sources */,
-				2454624909915C1400464AD3 /* vst2413Proc.cpp in Sources */,
 				0F6348B5166A066D00379899 /* audioeffect.cpp in Sources */,
 				0F6348B7166A066D00379899 /* audioeffectx.cpp in Sources */,
 				0F6348B9166A066D00379899 /* vstplugmain.cpp in Sources */,
