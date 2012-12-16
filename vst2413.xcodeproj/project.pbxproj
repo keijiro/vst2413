@@ -19,7 +19,6 @@
 		0F0E73C4167C7C07002D1E79 /* emutypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F49B301166B7C7B008ABB08 /* emutypes.h */; };
 		0F0E73C5167C7C07002D1E79 /* vrc7tone.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F49B303166B7C7B008ABB08 /* vrc7tone.h */; };
 		0F0E73C7167C7C07002D1E79 /* PkgInfo in Resources */ = {isa = PBXBuildFile; fileRef = 24A483910926E8F400DC794C /* PkgInfo */; };
-		0F0E73C8167C7C07002D1E79 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0F49B302166B7C7B008ABB08 /* readme.txt */; };
 		0F0E73CB167C7C07002D1E79 /* audioeffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348AF166A066D00379899 /* audioeffect.cpp */; };
 		0F0E73CC167C7C07002D1E79 /* audioeffectx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348B1166A066D00379899 /* audioeffectx.cpp */; };
 		0F0E73CD167C7C07002D1E79 /* vstplugmain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348B3166A066D00379899 /* vstplugmain.cpp */; };
@@ -33,7 +32,6 @@
 		0F49B306166B7C7B008ABB08 /* emu2413.c in Sources */ = {isa = PBXBuildFile; fileRef = 0F49B2FF166B7C7B008ABB08 /* emu2413.c */; };
 		0F49B307166B7C7B008ABB08 /* emu2413.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F49B300166B7C7B008ABB08 /* emu2413.h */; };
 		0F49B308166B7C7B008ABB08 /* emutypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F49B301166B7C7B008ABB08 /* emutypes.h */; };
-		0F49B309166B7C7B008ABB08 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0F49B302166B7C7B008ABB08 /* readme.txt */; };
 		0F49B30A166B7C7B008ABB08 /* vrc7tone.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F49B303166B7C7B008ABB08 /* vrc7tone.h */; };
 		0F6348B4166A066D00379899 /* aeffeditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F6348AE166A066D00379899 /* aeffeditor.h */; };
 		0F6348B5166A066D00379899 /* audioeffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348AF166A066D00379899 /* audioeffect.cpp */; };
@@ -304,7 +302,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F0E73C7167C7C07002D1E79 /* PkgInfo in Resources */,
-				0F0E73C8167C7C07002D1E79 /* readme.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,7 +310,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				24A483930926E8F400DC794C /* PkgInfo in Resources */,
-				0F49B309166B7C7B008ABB08 /* readme.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
