@@ -80,7 +80,10 @@ private:
     float parameters_[kParameters];
     
     ChannelInfo channels_[kChannels];
+    int lastChannel_;
     float wheel_;
+    
+    int ChooseChannelIndex();
 };
 
 #endif

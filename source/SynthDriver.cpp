@@ -89,6 +89,7 @@ namespace {
 SynthDriver::SynthDriver(unsigned int sampleRate)
 :   opll_(0),
     program_(kProgramUser),
+    lastChannel_(0),
     wheel_(0)
 {
     opll_ = OPLL_new(kMasterClock, sampleRate);
@@ -153,16 +154,13 @@ SynthDriver::String SynthDriver::GetProgramName(ProgramID id) {
 #pragma mark Key on and off
 
 void SynthDriver::KeyOn(int note, float velocity) {
-    for (int i = 0; i < kChannels; i++) {
-        ChannelInfo& info = channels_[i];
-        if (!info.active_) {
-            OPLLC::SendKeyOn(opll_, parameters_, i, program_, note, wheel_, velocity);
-            info.note_ = note;
-            info.velocity_ = velocity;
-            info.active_ = true;
-            break;
-        }
-    }
+    int index = ChooseChannelIndex();
+    ChannelInfo& info = channels_[index];
+    OPLLC::SendKeyOn(opll_, parameters_, index, program_, note, wheel_, velocity);
+    info.note_ = note;
+    info.velocity_ = velocity;
+    info.active_ = true;
+    lastChannel_ = index;
 }
 
 void SynthDriver::KeyOff(int note) {
@@ -362,4 +360,16 @@ SynthDriver::String SynthDriver::GetParameterText(ParameterID id) {
 
 float SynthDriver::Step() {
     return (4.0f / 32767) * OPLL_calc(opll_);
+}
+
+#pragma mark
+#pragma mark Internal functions
+
+int SynthDriver::ChooseChannelIndex() {
+    int index = lastChannel_;
+    for (int offs = 0; offs < kChannels - 1; offs++) {
+        if (++index == kChannels) index = 0;
+        if (!channels_[index].active_) return index;
+    }
+    return lastChannel_ + 1;
 }
