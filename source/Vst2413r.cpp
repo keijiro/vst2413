@@ -61,57 +61,11 @@ void Vst2413r::processReplacing(float** inputs, float** outputs, VstInt32 sample
 }
 
 #pragma mark
-#pragma mark Program
-
-void Vst2413r::setProgram(VstInt32 index) {
-    // not supported
-}
-
-void Vst2413r::setProgramName(char* name) {
-    // not supported
-}
-
-void Vst2413r::getProgramName(char* name) {
-    // not supported
-}
-
-bool Vst2413r::getProgramNameIndexed(VstInt32 category, VstInt32 index, char* text) {
-    return false;
-}
-
-#pragma mark
-#pragma mark Parameter
-
-void Vst2413r::setParameter(VstInt32 index, float value) {
-    // not supported
-}
-
-float Vst2413r::getParameter(VstInt32 index) {
-    return 0.0f;
-}
-
-void Vst2413r::getParameterLabel(VstInt32 index, char* text) {
-    // not supported
-}
-
-void Vst2413r::getParameterDisplay(VstInt32 index, char* text) {
-    // not supported
-}
-
-void Vst2413r::getParameterName(VstInt32 index, char* text) {
-    // not supported
-}
-
-#pragma mark
 #pragma mark Output settings
 
 void Vst2413r::setSampleRate(float sampleRate) {
 	AudioEffectX::setSampleRate(sampleRate);
     driver_.SetSampleRate(sampleRate);
-}
-
-void Vst2413r::setBlockSize(VstInt32 blockSize) {
-    AudioEffectX::setBlockSize(blockSize);
 }
 
 bool Vst2413r::getOutputProperties(VstInt32 index, VstPinProperties* properties) {
@@ -149,7 +103,6 @@ VstInt32 Vst2413r::canDo(char* text) {
     String str = text;
     if (str == "receiveVstEvents") return 1;
     if (str == "receiveVstMidiEvent") return 1;
-    if (str == "midiProgramNames") return 1;
     return 0;
 }
 
@@ -162,30 +115,4 @@ VstInt32 Vst2413r::getNumMidiInputChannels() {
 
 VstInt32 Vst2413r::getNumMidiOutputChannels() {
     return 0;
-}
-
-#pragma mark
-#pragma mark MIDI program
-
-VstInt32 Vst2413r::getMidiProgramName(VstInt32 channel, MidiProgramName* mpn) {
-    return 0;
-}
-
-VstInt32 Vst2413r::getCurrentMidiProgram(VstInt32 channel, MidiProgramName* mpn) {
-    return 0;
-}
-
-VstInt32 Vst2413r::getMidiProgramCategory(VstInt32 channel, MidiProgramCategory* category) {
-    return 0;
-}
-
-bool Vst2413r::hasMidiProgramsChanged(VstInt32 channel) {
-    return false;
-}
-
-bool Vst2413r::getMidiKeyName(VstInt32 channel, MidiKeyName* key) {
-	key->keyName[0] = 0;
-	key->reserved = 0;
-	key->flags = 0;
-	return false;
 }
