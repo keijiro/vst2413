@@ -15,6 +15,7 @@ public:
     
     enum ProgramID {
         kProgramUser,
+        kProgramFirstPreset,
         kPrograms = 16
     };
     

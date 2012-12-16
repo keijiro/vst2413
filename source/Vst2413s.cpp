@@ -11,7 +11,7 @@ AudioEffect* createEffectInstance(audioMasterCallback audioMaster) {
 }
 
 Vst2413s::Vst2413s(audioMasterCallback audioMaster)
-:   AudioEffectX(audioMaster, SynthDriver::kPrograms, SynthDriver::kParameters),
+:   AudioEffectX(audioMaster, 0, SynthDriver::kParameters),
     driver_(44100)
 {
     if(audioMaster != NULL) {
@@ -61,30 +61,6 @@ VstInt32 Vst2413s::processEvents(VstEvents* events) {
 
 void Vst2413s::processReplacing(float** inputs, float** outputs, VstInt32 sampleFrames) {
     for (VstInt32 i = 0; i < sampleFrames; i++) outputs[0][i] = driver_.Step();
-}
-
-#pragma mark
-#pragma mark Program
-
-void Vst2413s::setProgram(VstInt32 index) {
-    driver_.SetProgram(static_cast<SynthDriver::ProgramID>(index));
-}
-
-void Vst2413s::setProgramName(char* name) {
-    // not supported
-}
-
-void Vst2413s::getProgramName(char* name) {
-    driver_.GetProgramName(driver_.GetProgram()).copy(name, kVstMaxProgNameLen);
-}
-
-bool Vst2413s::getProgramNameIndexed(VstInt32 category, VstInt32 index, char* text) {
-    if (index < SynthDriver::kPrograms) {
-        driver_.GetProgramName(static_cast<SynthDriver::ProgramID>(index)).copy(text, kVstMaxProgNameLen);
-        return true;
-    } else {
-        return false;
-    }
 }
 
 #pragma mark

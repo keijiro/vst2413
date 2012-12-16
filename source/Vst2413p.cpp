@@ -2,6 +2,17 @@
 
 namespace {
     typedef std::string String;
+    
+    // Converts a float value to a SynthDriver program ID.
+    SynthDriver::ProgramID ValueToProgramID(float value) {
+        int range = SynthDriver::kPrograms - SynthDriver::kProgramFirstPreset - 1;
+        return static_cast<SynthDriver::ProgramID>(value * range + SynthDriver::kProgramFirstPreset);
+    }
+
+    // Converts a VST parameter index to a SynthDriver parameter ID.
+    SynthDriver::ParameterID IndexToParameterID(int parameterIndex) {
+        return (parameterIndex == 1) ? SynthDriver::kParameterWheelRange : SynthDriver::kParameterFineTune;
+    }
 }
 
 #pragma mark Creation and destruction
@@ -11,8 +22,9 @@ AudioEffect* createEffectInstance(audioMasterCallback audioMaster) {
 }
 
 Vst2413p::Vst2413p(audioMasterCallback audioMaster)
-:   AudioEffectX(audioMaster, SynthDriver::kPrograms, SynthDriver::kParameters),
-    driver_(44100)
+:   AudioEffectX(audioMaster, 0, 3), // only 3 parameters are supported
+    driver_(44100),
+    instrumentParameter_(0)
 {
     if(audioMaster != NULL) {
         setNumInputs(0);
@@ -21,6 +33,7 @@ Vst2413p::Vst2413p(audioMasterCallback audioMaster)
         canProcessReplacing();
         isSynth();
     }
+    driver_.SetProgram(ValueToProgramID(instrumentParameter_));
     suspend();
 }
 
@@ -64,50 +77,45 @@ void Vst2413p::processReplacing(float** inputs, float** outputs, VstInt32 sample
 }
 
 #pragma mark
-#pragma mark Program
-
-void Vst2413p::setProgram(VstInt32 index) {
-    driver_.SetProgram(static_cast<SynthDriver::ProgramID>(index));
-}
-
-void Vst2413p::setProgramName(char* name) {
-    // not supported
-}
-
-void Vst2413p::getProgramName(char* name) {
-    driver_.GetProgramName(driver_.GetProgram()).copy(name, kVstMaxProgNameLen);
-}
-
-bool Vst2413p::getProgramNameIndexed(VstInt32 category, VstInt32 index, char* text) {
-    if (index < SynthDriver::kPrograms) {
-        driver_.GetProgramName(static_cast<SynthDriver::ProgramID>(index)).copy(text, kVstMaxProgNameLen);
-        return true;
-    } else {
-        return false;
-    }
-}
-
-#pragma mark
 #pragma mark Parameter
 
 void Vst2413p::setParameter(VstInt32 index, float value) {
-    driver_.SetParameter(static_cast<SynthDriver::ParameterID>(index), value);
+    if (index == 0) {
+        instrumentParameter_ = value;
+        driver_.SetProgram(ValueToProgramID(value));
+    } else {
+        driver_.SetParameter(IndexToParameterID(index), value);
+    }
 }
 
 float Vst2413p::getParameter(VstInt32 index) {
-    return driver_.GetParameter(static_cast<SynthDriver::ParameterID>(index));
+    if (index == 0) {
+        return instrumentParameter_;
+    } else {
+        return driver_.GetParameter(IndexToParameterID(index));
+    }
 }
 
 void Vst2413p::getParameterLabel(VstInt32 index, char* text) {
-    driver_.GetParameterLabel(static_cast<SynthDriver::ParameterID>(index)).copy(text, kVstMaxParamStrLen);
+    if (index != 0) {
+        driver_.GetParameterLabel(IndexToParameterID(index)).copy(text, kVstMaxParamStrLen);
+    }
 }
 
 void Vst2413p::getParameterDisplay(VstInt32 index, char* text) {
-    driver_.GetParameterText(static_cast<SynthDriver::ParameterID>(index)).copy(text, kVstMaxParamStrLen);
+    if (index == 0) {
+        driver_.GetProgramName(ValueToProgramID(instrumentParameter_)).copy(text, kVstMaxParamStrLen);
+    } else {
+        driver_.GetParameterText(IndexToParameterID(index)).copy(text, kVstMaxParamStrLen);
+    }
 }
 
 void Vst2413p::getParameterName(VstInt32 index, char* text) {
-    driver_.GetParameterName(static_cast<SynthDriver::ParameterID>(index)).copy(text, kVstMaxParamStrLen);
+    if (index == 0) {
+        String("Instrument").copy(text, kVstMaxParamStrLen);
+    } else {
+        driver_.GetParameterName(IndexToParameterID(index)).copy(text, kVstMaxParamStrLen);
+    }
 }
 
 #pragma mark
