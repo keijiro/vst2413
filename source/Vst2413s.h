@@ -26,7 +26,6 @@ public:
 	virtual void getParameterName(VstInt32 index, char* text);
 	
 	virtual void setSampleRate(float sampleRate);
-	
 	virtual bool getOutputProperties(VstInt32 index, VstPinProperties* properties);
     
 	virtual bool getEffectName(char* name);
