@@ -7,8 +7,8 @@ Sega Master System and FM-PAC sound expansion cartridge for MSX.
 VST2413 can resemble that warm texture of sound and may be well
 suited for use in "16-bit style" chiptune music.
 
-Develoment Status
------------------
+Development Status
+------------------
 
 VST2413 is currently under development and has many limitations.
 
