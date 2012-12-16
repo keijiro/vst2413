@@ -16,31 +16,36 @@ namespace {
 #pragma mark OPLL controller functions
 
     namespace OPLLC {
-        int CalculateFNumber(int note, float wheel) {
+        int CalculateFNumber(int note, float tune) {
             int intervalFromA = (note - 9) % 12;
-            return 144.1792f * powf(2.0f, (1.0f / 12) * (intervalFromA + wheel * 6));
+            return 144.1792f * powf(2.0f, (1.0f / 12) * (intervalFromA + tune));
         }
         
         int NoteToBlock(int note) {
             return Clamp((note - 9) / 12, 0, 7);
         }
         
-        int CalculateBlockAndFNumber(int note, float wheel) {
-            return (NoteToBlock(note) << 9) + CalculateFNumber(note, wheel);
+        int CalculateBlockAndFNumber(int note, const float* parameters, float wheel) {
+            int range = parameters[SynthDriver::kParameterWheelRange] * 12;
+            float tune = parameters[SynthDriver::kParameterFineTune] - 0.5f;
+            return (NoteToBlock(note) << 9) + CalculateFNumber(note, wheel * range + tune);
         }
 
-        void SendKey(OPLL* opll, int channel, int program, int note, float wheel, float velocity, bool keyOn) {
-            int bf = CalculateBlockAndFNumber(note, wheel);
+        void SendKeyOn(OPLL* opll, const float* parameters, int channel, int program, int note, float wheel, float velocity) {
+            int bf = CalculateBlockAndFNumber(note, parameters, wheel);
             int vl = 15.0f - velocity * 15;
-            OPLL_writeReg(opll, 0x20 + channel, (keyOn ? 0x10 : 0) + (bf >> 8));
-            if (keyOn) {
-                OPLL_writeReg(opll, 0x10 + channel, bf & 0xff);
-                OPLL_writeReg(opll, 0x30 + channel, (program << 4) + vl);
-            }
+            OPLL_writeReg(opll, 0x10 + channel, bf & 0xff);
+            OPLL_writeReg(opll, 0x20 + channel, 0x10 + (bf >> 8));
+            OPLL_writeReg(opll, 0x30 + channel, (program << 4) + vl);
         }
-        
-        void AdjustPitch(OPLL* opll, int channel, int note, float wheel, bool keyOn) {
-            int bf = CalculateBlockAndFNumber(note, wheel);
+
+        void SendKeyOff(OPLL* opll, const float* parameters, int channel, int program, int note, float wheel) {
+            int bf = CalculateBlockAndFNumber(note, parameters, wheel);
+            OPLL_writeReg(opll, 0x20 + channel, bf >> 8);
+        }
+
+        void AdjustPitch(OPLL* opll, const float* parameters, int channel, int note, float wheel, bool keyOn) {
+            int bf = CalculateBlockAndFNumber(note, parameters, wheel);
             OPLL_writeReg(opll, 0x10 + channel, bf & 0xff);
             OPLL_writeReg(opll, 0x20 + channel, (keyOn ? 0x10 : 0) + (bf >> 8));
         }
@@ -95,6 +100,8 @@ SynthDriver::SynthDriver(unsigned int sampleRate)
     parameters_[kParameterSL1] = 1.0f;
     parameters_[kParameterMUL0] = 1.1f / 15;
     parameters_[kParameterMUL1] = 1.1f / 15;
+    parameters_[kParameterWheelRange] = 3.0f / 12;
+    parameters_[kParameterFineTune] = 0.5f;
     // Initialize the program on the OPLL.
     OPLLC::SendARDR(opll_, parameters_, 0);
     OPLLC::SendARDR(opll_, parameters_, 1);
@@ -149,7 +156,7 @@ void SynthDriver::KeyOn(int note, float velocity) {
     for (int i = 0; i < kChannels; i++) {
         ChannelInfo& info = channels_[i];
         if (!info.active_) {
-            OPLLC::SendKey(opll_, i, program_, note, wheel_, velocity, true);
+            OPLLC::SendKeyOn(opll_, parameters_, i, program_, note, wheel_, velocity);
             info.note_ = note;
             info.velocity_ = velocity;
             info.active_ = true;
@@ -162,7 +169,7 @@ void SynthDriver::KeyOff(int note) {
     for (int i = 0; i < kChannels; i++) {
         ChannelInfo& info = channels_[i];
         if (info.active_ && info.note_ == note) {
-            OPLLC::SendKey(opll_, i, program_, note, wheel_, 0, false);
+            OPLLC::SendKeyOff(opll_, parameters_, i, program_, note, wheel_);
             info.active_ = false;
             break;
         }
@@ -173,7 +180,7 @@ void SynthDriver::KeyOffAll() {
     for (int i = 0; i < kChannels; i++) {
         ChannelInfo& info = channels_[i];
         if (info.active_) {
-            OPLLC::SendKey(opll_, i, program_, info.note_, wheel_, 0, false);
+            OPLLC::SendKeyOff(opll_, parameters_, i, program_, info.note_, wheel_);
             info.active_ = false;
         }
     }
@@ -186,7 +193,7 @@ void SynthDriver::SetPitchWheel(float value) {
     wheel_ = value;
     for (int i = 0; i < kChannels; i++) {
         ChannelInfo& info = channels_[i];
-        OPLLC::AdjustPitch(opll_, i, info.note_, wheel_, info.active_);
+        OPLLC::AdjustPitch(opll_, parameters_, i, info.note_, wheel_, info.active_);
     }
 }
 
@@ -230,6 +237,9 @@ void SynthDriver::SetParameter(ParameterID id, float value) {
         case kParameterTL:
             OPLLC::SendTL(opll_, parameters_);
             break;
+        case kParameterWheelRange:
+        case kParameterFineTune:
+            SetPitchWheel(wheel_);
         case kParameters:
             break;
     }
@@ -258,7 +268,9 @@ SynthDriver::String SynthDriver::GetParameterName(ParameterID id) {
         "AM0",
         "AM1",
         "VIB0",
-        "VIB1"
+        "VIB1",
+        "P.Wheel Range",
+        "Fine Tune"
     };
     return names[id];
 }
@@ -276,6 +288,10 @@ SynthDriver::String SynthDriver::GetParameterLabel(ParameterID id) {
         case kParameterSL1:
         case kParameterTL:
             return "db";
+        case kParameterWheelRange:
+            return "st";
+        case kParameterFineTune:
+            return "cent";
         default:
             return "";
     }
@@ -324,6 +340,18 @@ SynthDriver::String SynthDriver::GetParameterText(ParameterID id) {
             "0", "n/16", "n/8", "n/4", "n/2", "n", "2n", "4n"
         };
         return texts[static_cast<int>(parameters_[id] * 7)];
+    }
+    // Wheel range
+    if (id == kParameterWheelRange) {
+        char buffer[32];
+        snprintf(buffer, sizeof buffer, "%d", static_cast<int>(parameters_[id] * 12));
+        return buffer;
+    }
+    // Fine tune
+    if (id == kParameterFineTune) {
+        char buffer[32];
+        snprintf(buffer, sizeof buffer, "%.2f", (parameters_[id] - 0.5f) * 100);
+        return buffer;
     }
     // Switches
     return parameters_[id] < 0.5f ? "off" : "on";

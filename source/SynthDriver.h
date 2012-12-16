@@ -37,6 +37,8 @@ public:
         kParameterAM1,
         kParameterVIB0,
         kParameterVIB1,
+        kParameterWheelRange,
+        kParameterFineTune,
         kParameters
     };
     
