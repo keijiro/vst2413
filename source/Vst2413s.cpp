@@ -160,7 +160,6 @@ VstInt32 Vst2413s::canDo(char* text) {
     String str = text;
     if (str == "receiveVstEvents") return 1;
     if (str == "receiveVstMidiEvent") return 1;
-    if (str == "midiProgramNames") return 1;
     return 0;
 }
 
@@ -173,30 +172,4 @@ VstInt32 Vst2413s::getNumMidiInputChannels() {
 
 VstInt32 Vst2413s::getNumMidiOutputChannels() {
     return 0;
-}
-
-#pragma mark
-#pragma mark MIDI program
-
-VstInt32 Vst2413s::getMidiProgramName(VstInt32 channel, MidiProgramName* mpn) {
-    return 0;
-}
-
-VstInt32 Vst2413s::getCurrentMidiProgram(VstInt32 channel, MidiProgramName* mpn) {
-    return 0;
-}
-
-VstInt32 Vst2413s::getMidiProgramCategory(VstInt32 channel, MidiProgramCategory* category) {
-    return 0;
-}
-
-bool Vst2413s::hasMidiProgramsChanged(VstInt32 channel) {
-    return false;
-}
-
-bool Vst2413s::getMidiKeyName(VstInt32 channel, MidiKeyName* key) {
-	key->keyName[0] = 0;
-	key->reserved = 0;
-	key->flags = 0;
-	return false;
 }

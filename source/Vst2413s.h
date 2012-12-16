@@ -38,12 +38,6 @@ public:
     
 	virtual VstInt32 getNumMidiInputChannels ();
 	virtual VstInt32 getNumMidiOutputChannels ();
-    
-	virtual VstInt32 getMidiProgramName (VstInt32 channel, MidiProgramName* midiProgramName);
-	virtual VstInt32 getCurrentMidiProgram (VstInt32 channel, MidiProgramName* currentProgram);
-	virtual VstInt32 getMidiProgramCategory (VstInt32 channel, MidiProgramCategory* category);
-	virtual bool hasMidiProgramsChanged (VstInt32 channel);
-	virtual bool getMidiKeyName (VstInt32 channel, MidiKeyName* keyName);
 
 private:
     SynthDriver driver_;
