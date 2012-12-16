@@ -7,6 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F01DB8C167DED030059FC3D /* Vst2413s.h in Headers */ = {isa = PBXBuildFile; fileRef = 2407DEB7089929BA00EB68BF /* Vst2413s.h */; };
+		0F01DB8D167DED030059FC3D /* xcode_vst_prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D8290509A91ECA0093AEF8 /* xcode_vst_prefix.h */; };
+		0F01DB8E167DED030059FC3D /* aeffeditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F6348AE166A066D00379899 /* aeffeditor.h */; };
+		0F01DB8F167DED030059FC3D /* audioeffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F6348B0166A066D00379899 /* audioeffect.h */; };
+		0F01DB90167DED030059FC3D /* audioeffectx.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F6348B2166A066D00379899 /* audioeffectx.h */; };
+		0F01DB91167DED030059FC3D /* SynthDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F2FA10C166AE6F900EEA696 /* SynthDriver.h */; };
+		0F01DB92167DED030059FC3D /* 2413tone.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F49B2FD166B7C7B008ABB08 /* 2413tone.h */; };
+		0F01DB93167DED030059FC3D /* 281btone.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F49B2FE166B7C7B008ABB08 /* 281btone.h */; };
+		0F01DB94167DED030059FC3D /* emu2413.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F49B300166B7C7B008ABB08 /* emu2413.h */; };
+		0F01DB95167DED030059FC3D /* emutypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F49B301166B7C7B008ABB08 /* emutypes.h */; };
+		0F01DB96167DED030059FC3D /* vrc7tone.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F49B303166B7C7B008ABB08 /* vrc7tone.h */; };
+		0F01DB98167DED030059FC3D /* PkgInfo in Resources */ = {isa = PBXBuildFile; fileRef = 24A483910926E8F400DC794C /* PkgInfo */; };
+		0F01DB9B167DED030059FC3D /* audioeffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348AF166A066D00379899 /* audioeffect.cpp */; };
+		0F01DB9C167DED030059FC3D /* audioeffectx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348B1166A066D00379899 /* audioeffectx.cpp */; };
+		0F01DB9D167DED030059FC3D /* vstplugmain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6348B3166A066D00379899 /* vstplugmain.cpp */; };
+		0F01DB9E167DED030059FC3D /* SynthDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F2FA10B166AE6F900EEA696 /* SynthDriver.cpp */; };
+		0F01DB9F167DED030059FC3D /* emu2413.c in Sources */ = {isa = PBXBuildFile; fileRef = 0F49B2FF166B7C7B008ABB08 /* emu2413.c */; };
+		0F01DBA1167DED030059FC3D /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EA7FFBFE8413EDC02AAC07 /* Carbon.framework */; };
+		0F01DBAD167DEE320059FC3D /* Vst2413p.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F01DBAB167DEE320059FC3D /* Vst2413p.cpp */; };
+		0F01DBAE167DEE320059FC3D /* Vst2413p.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F01DBAC167DEE320059FC3D /* Vst2413p.h */; };
 		0F0E73BB167C7C07002D1E79 /* Vst2413s.h in Headers */ = {isa = PBXBuildFile; fileRef = 2407DEB7089929BA00EB68BF /* Vst2413s.h */; };
 		0F0E73BC167C7C07002D1E79 /* xcode_vst_prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D8290509A91ECA0093AEF8 /* xcode_vst_prefix.h */; };
 		0F0E73BD167C7C07002D1E79 /* aeffeditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F6348AE166A066D00379899 /* aeffeditor.h */; };
@@ -50,6 +70,10 @@
 
 /* Begin PBXFileReference section */
 		08EA7FFBFE8413EDC02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		0F01DBA8167DED030059FC3D /* vst2413p.vst */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = vst2413p.vst; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F01DBAA167DED030059FC3D /* vst2413p-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "vst2413p-Info.plist"; path = "mac/vst2413p-Info.plist"; sourceTree = SOURCE_ROOT; };
+		0F01DBAB167DEE320059FC3D /* Vst2413p.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vst2413p.cpp; path = source/Vst2413p.cpp; sourceTree = "<group>"; };
+		0F01DBAC167DEE320059FC3D /* Vst2413p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vst2413p.h; path = source/Vst2413p.h; sourceTree = "<group>"; };
 		0F0E73B6167C7BC0002D1E79 /* Vst2413r.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Vst2413r.cpp; path = source/Vst2413r.cpp; sourceTree = "<group>"; };
 		0F0E73B7167C7BC0002D1E79 /* Vst2413r.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Vst2413r.h; path = source/Vst2413r.h; sourceTree = "<group>"; };
 		0F0E73D8167C7C08002D1E79 /* vst2413r.vst */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = vst2413r.vst; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,6 +104,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0F01DBA0167DED030059FC3D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0F01DBA1167DED030059FC3D /* Carbon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0F0E73D0167C7C07002D1E79 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,6 +156,7 @@
 			children = (
 				24D8290509A91ECA0093AEF8 /* xcode_vst_prefix.h */,
 				24A483910926E8F400DC794C /* PkgInfo */,
+				0F01DBAA167DED030059FC3D /* vst2413p-Info.plist */,
 				0F0E73D9167C7C08002D1E79 /* vst2413r-Info.plist */,
 				24A483900926E8F400DC794C /* vst2413s-Info.plist */,
 			);
@@ -138,6 +171,8 @@
 				0FF9A45B167C7F9500423440 /* RhythmDriver.h */,
 				0F2FA10B166AE6F900EEA696 /* SynthDriver.cpp */,
 				0F2FA10C166AE6F900EEA696 /* SynthDriver.h */,
+				0F01DBAB167DEE320059FC3D /* Vst2413p.cpp */,
+				0F01DBAC167DEE320059FC3D /* Vst2413p.h */,
 				0F0E73B6167C7BC0002D1E79 /* Vst2413r.cpp */,
 				0F0E73B7167C7BC0002D1E79 /* Vst2413r.h */,
 				2407DEB6089929BA00EB68BF /* Vst2413s.cpp */,
@@ -180,6 +215,7 @@
 			children = (
 				2407DE920899296600EB68BF /* vst2413s.vst */,
 				0F0E73D8167C7C08002D1E79 /* vst2413r.vst */,
+				0F01DBA8167DED030059FC3D /* vst2413p.vst */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -187,6 +223,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		0F01DB8B167DED030059FC3D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0F01DB8C167DED030059FC3D /* Vst2413s.h in Headers */,
+				0F01DB8D167DED030059FC3D /* xcode_vst_prefix.h in Headers */,
+				0F01DB8E167DED030059FC3D /* aeffeditor.h in Headers */,
+				0F01DB8F167DED030059FC3D /* audioeffect.h in Headers */,
+				0F01DB90167DED030059FC3D /* audioeffectx.h in Headers */,
+				0F01DB91167DED030059FC3D /* SynthDriver.h in Headers */,
+				0F01DB92167DED030059FC3D /* 2413tone.h in Headers */,
+				0F01DB93167DED030059FC3D /* 281btone.h in Headers */,
+				0F01DB94167DED030059FC3D /* emu2413.h in Headers */,
+				0F01DB95167DED030059FC3D /* emutypes.h in Headers */,
+				0F01DB96167DED030059FC3D /* vrc7tone.h in Headers */,
+				0F01DBAE167DEE320059FC3D /* Vst2413p.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0F0E73BA167C7C07002D1E79 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -227,6 +282,28 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		0F01DB8A167DED030059FC3D /* vst2413p */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0F01DBA5167DED030059FC3D /* Build configuration list for PBXNativeTarget "vst2413p" */;
+			buildPhases = (
+				0F01DB8B167DED030059FC3D /* Headers */,
+				0F01DB97167DED030059FC3D /* Resources */,
+				0F01DB99167DED030059FC3D /* Sources */,
+				0F01DBA0167DED030059FC3D /* Frameworks */,
+				0F01DBA2167DED030059FC3D /* Rez */,
+				0F01DBA3167DED030059FC3D /* Copy PkgInfo */,
+				0F01DBA4167DED030059FC3D /* Copy to VST Folder */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = vst2413p;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = "FM-Chopper";
+			productReference = 0F01DBA8167DED030059FC3D /* vst2413p.vst */;
+			productType = "com.apple.product-type.bundle";
+		};
 		0F0E73B9167C7C07002D1E79 /* vst2413r */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0F0E73D5167C7C07002D1E79 /* Build configuration list for PBXNativeTarget "vst2413r" */;
@@ -292,11 +369,20 @@
 			targets = (
 				8D01CCC60486CAD60068D4B7 /* vst2413s */,
 				0F0E73B9167C7C07002D1E79 /* vst2413r */,
+				0F01DB8A167DED030059FC3D /* vst2413p */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0F01DB97167DED030059FC3D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0F01DB98167DED030059FC3D /* PkgInfo in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0F0E73C6167C7C07002D1E79 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -316,6 +402,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXRezBuildPhase section */
+		0F01DBA2167DED030059FC3D /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0F0E73D2167C7C07002D1E79 /* Rez */ = {
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
@@ -333,6 +426,34 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0F01DBA3167DED030059FC3D /* Copy PkgInfo */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy PkgInfo";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "cp mac/PkgInfo \"$BUILT_PRODUCTS_DIR/$TARGET_NAME.vst/Contents/\"";
+		};
+		0F01DBA4167DED030059FC3D /* Copy to VST Folder */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy to VST Folder";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "rm -rf $HOME/Library/Audio/Plug-Ins/VST/$PRODUCT_NAME-*.vst\nbuild_num=`date +\"%m%d-%H%M%S\"`\ncp -r \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.vst\" \"$HOME/Library/Audio/Plug-Ins/VST/$PRODUCT_NAME-$build_num.vst\"";
+		};
 		0F0E73D3167C7C07002D1E79 /* Copy PkgInfo */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -392,6 +513,19 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0F01DB99167DED030059FC3D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0F01DB9B167DED030059FC3D /* audioeffect.cpp in Sources */,
+				0F01DB9C167DED030059FC3D /* audioeffectx.cpp in Sources */,
+				0F01DB9D167DED030059FC3D /* vstplugmain.cpp in Sources */,
+				0F01DB9E167DED030059FC3D /* SynthDriver.cpp in Sources */,
+				0F01DB9F167DED030059FC3D /* emu2413.c in Sources */,
+				0F01DBAD167DEE320059FC3D /* Vst2413p.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0F0E73C9167C7C07002D1E79 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -421,6 +555,65 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		0F01DBA6167DED030059FC3D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ./mac/xcode_vst_prefix.h;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "../vstsdk2.4/**";
+				INFOPLIST_FILE = "mac/vst2413p-Info.plist";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = vst2413p;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = vst;
+			};
+			name = Debug;
+		};
+		0F01DBA7167DED030059FC3D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ./mac/xcode_vst_prefix.h;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "../vstsdk2.4/**";
+				INFOPLIST_FILE = "mac/vst2413p-Info.plist";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = vst2413p;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = vst;
+			};
+			name = Release;
+		};
 		0F0E73D6167C7C07002D1E79 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -558,6 +751,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0F01DBA5167DED030059FC3D /* Build configuration list for PBXNativeTarget "vst2413p" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0F01DBA6167DED030059FC3D /* Debug */,
+				0F01DBA7167DED030059FC3D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		0F0E73D5167C7C07002D1E79 /* Build configuration list for PBXNativeTarget "vst2413r" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
