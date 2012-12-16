@@ -168,7 +168,7 @@ VstInt32 Vst2413s::canDo(char* text) {
 #pragma mark MIDI channels I/O
 
 VstInt32 Vst2413s::getNumMidiInputChannels() {
-    return 9;
+    return 1;
 }
 
 VstInt32 Vst2413s::getNumMidiOutputChannels() {
