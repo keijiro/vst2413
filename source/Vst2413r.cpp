@@ -132,7 +132,7 @@ bool Vst2413r::getEffectName(char* name) {
 }
 
 bool Vst2413r::getVendorString(char* text) {
-    String("RadiumSoftware").copy(text, kVstMaxVendorStrLen);
+    String("Radium Software").copy(text, kVstMaxVendorStrLen);
     return true;
 }
 
