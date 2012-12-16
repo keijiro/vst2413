@@ -1,4 +1,4 @@
-#include "vst2413s.h"
+#include "Vst2413s.h"
 
 namespace {
     typedef std::string String;
