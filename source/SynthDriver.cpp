@@ -129,7 +129,7 @@ void SynthDriver::SetSampleRate(unsigned int sampleRate) {
 
 SynthDriver::String SynthDriver::GetProgramName(ProgramID id) {
     static const char* names[] = {
-        "User Program",
+        "User",
         "Violin",
         "Guitar",
         "Piano",
@@ -142,9 +142,9 @@ SynthDriver::String SynthDriver::GetProgramName(ProgramID id) {
         "Synthesizer",
         "Harpsichord",
         "Vibraphone",
-        "Synthesizer Bass",
-        "Acoustic Bass",
-        "Electric Guitar"
+        "S.Bass",
+        "A.Bass",
+        "E.Guitar"
     };
     return names[id];
 }
