@@ -1,5 +1,5 @@
-#ifndef __Vst2413s__
-#define __Vst2413s__
+#ifndef __Vst2413p__
+#define __Vst2413p__
 
 #include "audioeffectx.h"
 #include "SynthDriver.h"
