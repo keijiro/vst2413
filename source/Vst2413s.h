@@ -26,7 +26,6 @@ public:
 	virtual void getParameterName(VstInt32 index, char* text);
 	
 	virtual void setSampleRate(float sampleRate);
-	virtual void setBlockSize(VstInt32 blockSize);
 	
 	virtual bool getOutputProperties(VstInt32 index, VstPinProperties* properties);
     

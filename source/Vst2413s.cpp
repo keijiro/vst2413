@@ -121,10 +121,6 @@ void Vst2413s::setSampleRate(float sampleRate) {
     driver_.SetSampleRate(sampleRate);
 }
 
-void Vst2413s::setBlockSize(VstInt32 blockSize) {
-    AudioEffectX::setBlockSize(blockSize);
-}
-
 bool Vst2413s::getOutputProperties(VstInt32 index, VstPinProperties* properties) {
     if (index == 0) {
         String("1 Out").copy(properties->label, kVstMaxLabelLen);
