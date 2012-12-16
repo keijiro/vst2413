@@ -24,9 +24,6 @@ Vst2413s::Vst2413s(audioMasterCallback audioMaster)
     suspend();
 }
 
-Vst2413s::~Vst2413s() {
-}
-
 #pragma mark
 #pragma mark Processing functions
 

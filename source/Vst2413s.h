@@ -9,7 +9,6 @@ public:
     static const unsigned long kUniqueId = 'dAzy';
 
     Vst2413s(audioMasterCallback audioMaster);
-    ~Vst2413s();
 
 	virtual void processReplacing(float** inputs, float** outputs, VstInt32 sampleFrames);
 	virtual VstInt32 processEvents(VstEvents* events);
