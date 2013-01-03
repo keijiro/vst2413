@@ -1,56 +1,106 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>VST2413 by keijiro</title>
+    <meta charset='utf-8'>
+    <link href='http://fonts.googleapis.com/css?family=Terminal+Dosis:200' rel='stylesheet' type='text/css'>
+    <style type="text/css">
+      body {
+        background-image:url('images/BG.png');
+        font-family: 'Terminal Dosis', sans-serif;
+        color: white;
+      }
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+      img {
+        border: none;
+        margin: 0px 1em;
+      }
+
+      h2 {
+        margin-top: 66px;
+        font-size: 26pt;
+        font-weight: normal;
+      }
+
+      p {
+        font-size: 16pt;
+        margin: 2em 0px;
+      }
+
+      li {
+        font-size: 16pt;
+        margin: 0.5em 0px;
+      }
+
+      a {
+        color: #ccf;
+        text-decoration: none;
+      }
+
+      div.title {
+        text-align: center;
+        margin-top: 80px;
+        margin-bottom: 60px;
+      }
+
+      div.imgset {
+        text-align: center;
+        margin-top: 30px;
+      }
+
+      div.imgset p {
+        font-size: 10pt;
+        margin-top: 8px;
+      }
+
+      div.body {
+        width: 500px;
+        margin: 0pt auto;
+      }
+
+      div.footer {
+        margin: 80px auto;
+        text-align: center;
+      }
+
+      div.footer a {
+        color: white;
+      }
+    </style>
+    <title>VST2413 - FM Synthesizer Plug-in</title>
   </head>
   <body>
-    <div class="wrapper">
-      <header>
-        <h1 class="header">VST2413</h1>
-        <p class="header">FM synthesizer based on YM2413 (OPLL) sound chip emulator</p>
-
-        <ul>
-          <li class="download"><a class="buttons" href="build/vst2413-1216b-osx.zip">Download (Mac)</a></li>
-          <li><a class="buttons github" href="https://github.com/keijiro/vst2413">View On GitHub</a></li>
-        </ul>
-
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/keijiro">keijiro</a></p>
-
-
-      </header>
-      <section>
-        <h1>VST2413 FM Synthesizer</h1>
-
-<p>VST2413 is a software FM synthesizer based on YM2413 (OPLL) emulator.
-YM2413 is well known as low-cost FM sound chip, and was used on
-Sega Master System and FM-PAC sound expansion cartridge for MSX.
-VST2413 can resemble that warm texture of sound and may be well
-suited for use in "16-bit style" chiptune music.</p>
-
-<h2>Development Status</h2>
-
-<p>VST2413 is currently under development and has many limitations.</p>
-
-<ul>
-<li>Only for OS X. Windows support is in the plan for the future.</li>
-<li>VST plug-in only. No Audio Units support, and I don't know whether it should.</li>
-</ul><h2>Acknowledgement</h2>
-
-<p>An implementation of YM2413 emulator (emu2413.c) used in this software
-is created by Mitsutaka Okazaki. A BIG THANKS goes to him.</p>
-      </section>
+    <div class="title">
+      <img src="images/Logo.png" />
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		
+    <div class="imgset">
+<iframe width="480" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F73355701&amp;color=ff6600&amp;auto_play=false&amp;show_artwork=false"></iframe>
+    </div>
+    <div class="body">
+      <p><b>VST2413</b> is a software FM synthesizer based on YM2413 (OPLL) emulator.
+      YM2413 is well known as low-cost FM sound chip, and was used on
+      <b>Sega Master System</b> and <b>FM-PAC</b> sound expansion cartridge for MSX.</p>
+      <div class="imgset">
+        <img src="images/YM2413.png" />
+        <p>Photo courtesy of <a href="http://en.wikipedia.org/wiki/Yamaha_YM2413">Wikipedia</a></p>
+      </div>
+      <p>VST2413 can resemble that warm texture of sound and may be well
+      suited for use in "post 8-bit era style" chiptune music.</p>
+      <h2>Downloads</h2>
+      <p><a href="build/vst2413-1216b-osx.zip">Download VST2413 (1216b) for OS X </a></p>
+      <h2>Development Status</h2>
+      <p>VST2413 is currently under development and has some limitations.</p>
+      <ul>
+      <li>Only for OS X. Windows support is in the plan for the future.</li>
+      <li>VST plug-in only. No Audio Units support, and I don't know whether it should.</li>
+      </ul>
+      <h2>Acknowledgement</h2>
+      <p>An implementation of YM2413 emulator (emu2413.c) used in this software
+      is created by Mitsutaka Okazaki. A BIG THANKS goes to him.</p>
+      <h2>Source code</h2>
+      <p><a href="https://github.com/keijiro/vst2413">Fork me on GitHub!</a></p>
+    </div>
+    <div class="footer">
+      © 2013 <a href="https://github.com/keijiro">Keijiro Takahashi</a> / <a href="http://www.radiumsoftware.com">Radium Software</a>
+    </div>
   </body>
 </html>
