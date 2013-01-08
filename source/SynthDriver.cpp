@@ -1,5 +1,5 @@
 #include "SynthDriver.h"
-#include "emu2413.h"
+#include "emu2413/emu2413.h"
 #include <cmath>
 
 namespace {
@@ -319,7 +319,7 @@ SynthDriver::String SynthDriver::GetParameterText(ParameterID id) {
     // Levels
     if (id == kParameterSL0 || id == kParameterSL1 || id == kParameterTL) {
         char buffer[32];
-        snprintf(buffer, sizeof buffer, "%d", static_cast<int>((1.0f - parameters_[id]) * 45));
+        printf_s(buffer, sizeof buffer, "%d", static_cast<int>((1.0f - parameters_[id]) * 45));
         return buffer;
     }
     // Multipliers
@@ -342,13 +342,13 @@ SynthDriver::String SynthDriver::GetParameterText(ParameterID id) {
     // Wheel range
     if (id == kParameterWheelRange) {
         char buffer[32];
-        snprintf(buffer, sizeof buffer, "%d", static_cast<int>(parameters_[id] * 12));
+        printf_s(buffer, sizeof buffer, "%d", static_cast<int>(parameters_[id] * 12));
         return buffer;
     }
     // Fine tune
     if (id == kParameterFineTune) {
         char buffer[32];
-        snprintf(buffer, sizeof buffer, "%.2f", (parameters_[id] - 0.5f) * 100);
+        printf_s(buffer, sizeof buffer, "%.2f", (parameters_[id] - 0.5f) * 100);
         return buffer;
     }
     // Switches
