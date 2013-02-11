@@ -16,3 +16,11 @@ profile
 *.moved-aside
 DerivedData
 .idea/
+
+# Visual Studio
+*.suo
+*.sdf
+*.vcxproj.user
+windows/Debug
+windows/Release
+windows/ipch

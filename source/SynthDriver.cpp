@@ -1,6 +1,10 @@
 #include "SynthDriver.h"
-#include "emu2413.h"
+#include "emu2413/emu2413.h"
 #include <cmath>
+
+#ifdef _WIN32
+#define snprintf _snprintf
+#endif
 
 namespace {
     // OPLL master clock = 3.579545 MHz
