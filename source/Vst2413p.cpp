@@ -6,7 +6,7 @@ namespace {
     // Converts a float value to a SynthDriver program ID.
     SynthDriver::ProgramID ValueToProgramID(float value) {
         int range = SynthDriver::kPrograms - SynthDriver::kProgramFirstPreset - 1;
-        return static_cast<SynthDriver::ProgramID>(value * range + SynthDriver::kProgramFirstPreset);
+        return static_cast<SynthDriver::ProgramID>(static_cast<int>(value * range + SynthDriver::kProgramFirstPreset));
     }
 
     // Converts a VST parameter index to a SynthDriver parameter ID.
