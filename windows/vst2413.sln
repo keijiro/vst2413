@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C++ Express 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vst2413", "vst2413.vcxproj", "{863D9E7E-5322-49C8-89BA-A761DC0EE438}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vst2413s", "vst2413s.vcxproj", "{863D9E7E-5322-49C8-89BA-A761DC0EE438}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vst2413p", "vst2413p.vcxproj", "{2C6EF410-DF75-4A31-9E1E-0B390AF55D62}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vst2413r", "vst2413r.vcxproj", "{FC8ACA53-74E3-403D-BBC6-3DC2F76AA47A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +17,14 @@ Global
 		{863D9E7E-5322-49C8-89BA-A761DC0EE438}.Debug|Win32.Build.0 = Debug|Win32
 		{863D9E7E-5322-49C8-89BA-A761DC0EE438}.Release|Win32.ActiveCfg = Release|Win32
 		{863D9E7E-5322-49C8-89BA-A761DC0EE438}.Release|Win32.Build.0 = Release|Win32
+		{2C6EF410-DF75-4A31-9E1E-0B390AF55D62}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2C6EF410-DF75-4A31-9E1E-0B390AF55D62}.Debug|Win32.Build.0 = Debug|Win32
+		{2C6EF410-DF75-4A31-9E1E-0B390AF55D62}.Release|Win32.ActiveCfg = Release|Win32
+		{2C6EF410-DF75-4A31-9E1E-0B390AF55D62}.Release|Win32.Build.0 = Release|Win32
+		{FC8ACA53-74E3-403D-BBC6-3DC2F76AA47A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FC8ACA53-74E3-403D-BBC6-3DC2F76AA47A}.Debug|Win32.Build.0 = Debug|Win32
+		{FC8ACA53-74E3-403D-BBC6-3DC2F76AA47A}.Release|Win32.ActiveCfg = Release|Win32
+		{FC8ACA53-74E3-403D-BBC6-3DC2F76AA47A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

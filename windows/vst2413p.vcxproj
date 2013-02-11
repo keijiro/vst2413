@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{863D9E7E-5322-49C8-89BA-A761DC0EE438}</ProjectGuid>
-    <RootNamespace>vst2413</RootNamespace>
+    <ProjectGuid>{2C6EF410-DF75-4A31-9E1E-0B390AF55D62}</ProjectGuid>
+    <RootNamespace>vst2413p</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -90,7 +90,7 @@
     <ClInclude Include="..\source\emu2413\emutypes.h" />
     <ClInclude Include="..\source\emu2413\vrc7tone.h" />
     <ClInclude Include="..\source\SynthDriver.h" />
-    <ClInclude Include="..\source\Vst2413s.h" />
+    <ClInclude Include="..\source\Vst2413p.h" />
     <ClInclude Include="..\..\vstsdk2.4\public.sdk\source\vst2.x\aeffeditor.h" />
     <ClInclude Include="..\..\vstsdk2.4\public.sdk\source\vst2.x\audioeffect.h" />
     <ClInclude Include="..\..\vstsdk2.4\public.sdk\source\vst2.x\audioeffectx.h" />
@@ -101,7 +101,7 @@
   <ItemGroup>
     <ClCompile Include="..\source\emu2413\emu2413.c" />
     <ClCompile Include="..\source\SynthDriver.cpp" />
-    <ClCompile Include="..\source\Vst2413s.cpp" />
+    <ClCompile Include="..\source\Vst2413p.cpp" />
     <ClCompile Include="..\..\vstsdk2.4\public.sdk\source\vst2.x\audioeffect.cpp" />
     <ClCompile Include="..\..\vstsdk2.4\public.sdk\source\vst2.x\audioeffectx.cpp" />
     <ClCompile Include="..\..\vstsdk2.4\public.sdk\source\vst2.x\vstplugmain.cpp">
