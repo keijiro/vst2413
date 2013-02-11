@@ -19,3 +19,8 @@ DerivedData
 
 # Visual Studio
 *.suo
+*.sdf
+*.vcxproj.user
+windows/Debug
+windows/Release
+windows/ipch
