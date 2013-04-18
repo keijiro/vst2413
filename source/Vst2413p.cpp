@@ -98,23 +98,23 @@ float Vst2413p::getParameter(VstInt32 index) {
 
 void Vst2413p::getParameterLabel(VstInt32 index, char* text) {
     if (index != 0) {
-        driver_.GetParameterLabel(IndexToParameterID(index)).copy(text, kVstMaxParamStrLen);
+        vst_strncpy(text, driver_.GetParameterLabel(IndexToParameterID(index)).c_str(), kVstMaxParamStrLen);
     }
 }
 
 void Vst2413p::getParameterDisplay(VstInt32 index, char* text) {
     if (index == 0) {
-        driver_.GetProgramName(ValueToProgramID(instrumentParameter_)).copy(text, kVstMaxParamStrLen);
+        vst_strncpy(text, driver_.GetProgramName(ValueToProgramID(instrumentParameter_)).c_str(), kVstMaxParamStrLen);
     } else {
-        driver_.GetParameterText(IndexToParameterID(index)).copy(text, kVstMaxParamStrLen);
+        vst_strncpy(text, driver_.GetParameterText(IndexToParameterID(index)).c_str(), kVstMaxParamStrLen);
     }
 }
 
 void Vst2413p::getParameterName(VstInt32 index, char* text) {
     if (index == 0) {
-        String("Instrument").copy(text, kVstMaxParamStrLen);
+        vst_strncpy(text, "Instrument", kVstMaxParamStrLen);
     } else {
-        driver_.GetParameterName(IndexToParameterID(index)).copy(text, kVstMaxParamStrLen);
+        vst_strncpy(text, driver_.GetParameterName(IndexToParameterID(index)).c_str(), kVstMaxParamStrLen);
     }
 }
 
@@ -128,7 +128,7 @@ void Vst2413p::setSampleRate(float sampleRate) {
 
 bool Vst2413p::getOutputProperties(VstInt32 index, VstPinProperties* properties) {
     if (index == 0) {
-        String("1 Out").copy(properties->label, kVstMaxLabelLen);
+        vst_strncpy(properties->label, "1 Out", kVstMaxLabelLen);
         properties->flags = kVstPinIsActive;
         return true;
     }
@@ -139,17 +139,17 @@ bool Vst2413p::getOutputProperties(VstInt32 index, VstPinProperties* properties)
 #pragma mark Plug-in properties
 
 bool Vst2413p::getEffectName(char* name) {
-    String("VST2413P").copy(name, kVstMaxEffectNameLen);
+    vst_strncpy(name, "VST2413P", kVstMaxEffectNameLen);
     return true;
 }
 
 bool Vst2413p::getVendorString(char* text) {
-    String("Radium Software").copy(text, kVstMaxVendorStrLen);
+    vst_strncpy(text, "Radium Software", kVstMaxVendorStrLen);
     return true;
 }
 
 bool Vst2413p::getProductString(char* text) {
-    String("VST2413P").copy(text, kVstMaxProductStrLen);
+    vst_strncpy(text, "VST2413P", kVstMaxProductStrLen);
     return true;
 }
 

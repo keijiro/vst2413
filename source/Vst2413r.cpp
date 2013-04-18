@@ -67,7 +67,7 @@ void Vst2413r::setSampleRate(float sampleRate) {
 
 bool Vst2413r::getOutputProperties(VstInt32 index, VstPinProperties* properties) {
     if (index == 0) {
-        String("1 Out").copy(properties->label, kVstMaxLabelLen);
+        vst_strncpy(properties->label, "1 Out", kVstMaxLabelLen);
         properties->flags = kVstPinIsActive;
         return true;
     }
@@ -78,17 +78,17 @@ bool Vst2413r::getOutputProperties(VstInt32 index, VstPinProperties* properties)
 #pragma mark Plug-in properties
 
 bool Vst2413r::getEffectName(char* name) {
-    String("VST2413R").copy(name, kVstMaxEffectNameLen);
+    vst_strncpy(name, "VST2413R", kVstMaxEffectNameLen);
     return true;
 }
 
 bool Vst2413r::getVendorString(char* text) {
-    String("Radium Software").copy(text, kVstMaxVendorStrLen);
+    vst_strncpy(text, "Radium Software", kVstMaxVendorStrLen);
     return true;
 }
 
 bool Vst2413r::getProductString(char* text) {
-    String("VST2413R").copy(text, kVstMaxProductStrLen);
+    vst_strncpy(text, "VST2413R", kVstMaxProductStrLen);
     return true;
 }
 
