@@ -271,8 +271,8 @@ SynthDriver::String SynthDriver::GetParameterName(ParameterID id) {
         "AM1",
         "VIB0",
         "VIB1",
-        "P.Wheel Range",
-        "Fine Tune"
+        "P.Wheel",
+        "FineTune"
     };
     return names[id];
 }
