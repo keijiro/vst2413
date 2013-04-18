@@ -75,15 +75,15 @@ float Vst2413s::getParameter(VstInt32 index) {
 }
 
 void Vst2413s::getParameterLabel(VstInt32 index, char* text) {
-    driver_.GetParameterLabel(static_cast<SynthDriver::ParameterID>(index)).copy(text, kVstMaxParamStrLen);
+    vst_strncpy(text, driver_.GetParameterLabel(static_cast<SynthDriver::ParameterID>(index)).c_str(), kVstMaxParamStrLen);
 }
 
 void Vst2413s::getParameterDisplay(VstInt32 index, char* text) {
-    driver_.GetParameterText(static_cast<SynthDriver::ParameterID>(index)).copy(text, kVstMaxParamStrLen);
+    vst_strncpy(text, driver_.GetParameterText(static_cast<SynthDriver::ParameterID>(index)).c_str(), kVstMaxParamStrLen);
 }
 
 void Vst2413s::getParameterName(VstInt32 index, char* text) {
-    driver_.GetParameterName(static_cast<SynthDriver::ParameterID>(index)).copy(text, kVstMaxParamStrLen);
+    vst_strncpy(text, driver_.GetParameterName(static_cast<SynthDriver::ParameterID>(index)).c_str(), kVstMaxParamStrLen);
 }
 
 #pragma mark
@@ -96,7 +96,7 @@ void Vst2413s::setSampleRate(float sampleRate) {
 
 bool Vst2413s::getOutputProperties(VstInt32 index, VstPinProperties* properties) {
     if (index == 0) {
-        String("1 Out").copy(properties->label, kVstMaxLabelLen);
+        vst_strncpy(properties->label, "1 Out", kVstMaxLabelLen);
         properties->flags = kVstPinIsActive;
         return true;
     }
@@ -107,17 +107,17 @@ bool Vst2413s::getOutputProperties(VstInt32 index, VstPinProperties* properties)
 #pragma mark Plug-in properties
 
 bool Vst2413s::getEffectName(char* name) {
-    String("VST2413S").copy(name, kVstMaxEffectNameLen);
+    vst_strncpy(name, "VST2413S", kVstMaxEffectNameLen);
     return true;
 }
 
 bool Vst2413s::getVendorString(char* text) {
-    String("Radium Software").copy(text, kVstMaxVendorStrLen);
+    vst_strncpy(text, "Radium Software", kVstMaxVendorStrLen);
     return true;
 }
 
 bool Vst2413s::getProductString(char* text) {
-    String("VST2413S").copy(text, kVstMaxProductStrLen);
+    vst_strncpy(text, "VST2413S", kVstMaxProductStrLen);
     return true;
 }
 
