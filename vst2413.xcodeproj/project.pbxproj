@@ -735,6 +735,7 @@
 		24BEAAF208919AE700E695F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				SDKROOT = macosx;
 			};
@@ -743,6 +744,7 @@
 		24BEAAF308919AE700E695F9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_OPTIMIZATION_LEVEL = 3;
 				SDKROOT = macosx;
 			};
