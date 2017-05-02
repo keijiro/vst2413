@@ -31,6 +31,9 @@ add_library(vst2413p SHARED
     Vst2413p.h
     vst2.x/audioeffectx.cpp
     vst2.x/audioeffectx.h
+    vst2.x/audioeffect.cpp
+    vst2.x/audioeffect.h
+    vst2.x/vstplugmain.cpp
 )
 
 add_library(vst2413r SHARED
@@ -40,6 +43,11 @@ add_library(vst2413r SHARED
     SynthDriver.h
     Vst2413r.cpp
     Vst2413r.h
+    vst2.x/audioeffectx.cpp
+    vst2.x/audioeffectx.h
+    vst2.x/audioeffect.cpp
+    vst2.x/audioeffect.h
+    vst2.x/vstplugmain.cpp
 )
 
 add_library(vst2413s SHARED
@@ -49,6 +57,11 @@ add_library(vst2413s SHARED
     SynthDriver.h
     Vst2413s.cpp
     Vst2413s.h
+    vst2.x/audioeffectx.cpp
+    vst2.x/audioeffectx.h
+    vst2.x/audioeffect.cpp
+    vst2.x/audioeffect.h
+    vst2.x/vstplugmain.cpp
 )
 
 target_link_libraries(vst2413p emu2413)
