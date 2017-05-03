@@ -1,6 +1,7 @@
 #include "SynthDriver.h"
 #include "emu2413/emu2413.h"
 #include <cmath>
+#include <stdio.h>
 
 #ifdef _WIN32
 #define snprintf _snprintf
